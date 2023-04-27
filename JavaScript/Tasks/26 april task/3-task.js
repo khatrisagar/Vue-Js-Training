@@ -3,15 +3,8 @@
 
 const inputArr = [false,1,0,1,2,0,1,3,"a"]
 
-let z = []
-const outputArr = inputArr.filter((ele,index,array)=>{
-    if(ele !== 0){
-        return array
-    }
-    if(ele ===0){
-        z.push(0)
-    }
-})
-let filterOutput = outputArr.concat(z)
+const outputArr = (inputArr.filter((ele)=> ele !== 0)).concat(inputArr.filter((ele)=> ele === 0))
 
-console.log(filterOutput)
+const outputArr2 = [...(inputArr.filter((ele)=> ele !== 0)),...(inputArr.filter((ele)=> ele === 0))]
+
+console.log(outputArr2)

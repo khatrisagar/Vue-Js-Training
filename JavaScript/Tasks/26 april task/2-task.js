@@ -4,7 +4,7 @@
 
 let alphabetsArray = ['a','b','c','u']
 let numberArr =  alphabetsArray.map((alphabet)=>
-    (alphabet.charCodeAt()-97)+1
+    `${alphabet.charCodeAt()-96}`
 )
 console.log(numberArr)
 
