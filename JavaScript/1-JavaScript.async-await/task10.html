@@ -8,9 +8,31 @@
 </head>
 <body>
     
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
+        #imgContainer{
+            display: flex;
+            gap: 30px;
+            padding: auto;
+            flex-wrap: wrap;
+        }
+        #imgContainer > img{
+            width: 30%;
+            height: 200px;
+        }
+    </style>
+
+
+
     <button onclick="loadSingleImage()">load Single Image</button>
     <button onclick="loadAllImage()">load All Image</button>
     
+
+
     <div id="imgContainer"></div>
 
     <script src="./10-async-await-task.js"></script>
