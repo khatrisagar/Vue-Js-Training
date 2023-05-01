@@ -36,6 +36,7 @@ const mainAxios = () =>{
 
         catch(err){
             console.log("getErr",err)
+            throw new Error("Can't get Data")
         }
 
     }
@@ -47,14 +48,20 @@ const mainAxios = () =>{
                 headers: options.headers,
                 body: options.body
             })
+            const status =  response.status
+            if(status >=200 && status<=300){
+                const postResponse = await response.json()
+                return postResponse
+            }
+            else{
+                throw new Error(response.statusText)
+            }
     
-            const postResponse = await response.json()
-    
-            return postResponse
 
         }   
         catch(err){
-            console.log("postErr",err)
+            console.log("postErr1",err)
+            throw new Error("Failed To fetch API")
         }
     }
     return{
@@ -72,30 +79,25 @@ const axios = mainAxios()
 
 //task 3 --> call this 7 apis and just log the data https://jsonplaceholder.typicode.com/todos/1 to 7
 
-const fetchData = async (n) =>{
+const fetchData = async () =>{
     try{
-        const data = await axios.get(`https://jsonplaceholder.typicode.com/todos/${n}`)
-        console.log(data)
+        const resonse = await Promise.all([
+            axios.get(`https://jsonplaceholder.typicode.com/todos/1`),
+            axios.get(`https://jsonplaceholder.typicode.com/todos/2`),
+            axios.get(`https://jsonplaceholder.typicode.com/todos/3`),
+            axios.get(`https://jsonplaceholder.typicode.com/todos/4`),
+            axios.get(`https://jsonplaceholder.typicode.com/todos/5`),
+            axios.get(`https://jsonplaceholder.typicode.com/todos/6`),
+            axios.get(`https://jsonplaceholder.typicode.com/todos/7`)
+        ])
+        console.log("resonse from fetchdata",resonse)
+        
     }
     catch(err){
         console.log("fetchDataErr",err)
     }
 }
-// fetchData(5)
-
-
-const logApiData =async (range) =>{
-    try{
-        for(let i = 1; i<=range; i++){
-            await fetchData(i)
-            await setTimeoutPromisify(2)
-        }
-    }
-    catch(err){
-        console.log("logApiDataErr",err)
-    }
-    
-}
+fetchData()
 
 // logApiData(7)
 
@@ -137,7 +139,7 @@ const postData = async ()=>{
         console.log("responseeeee",response)
     }
     catch(err){
-        console.log("postErr",err)
+        console.log("postErr2",err)
     }
 }
 
