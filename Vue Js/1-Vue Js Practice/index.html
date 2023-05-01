@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+</head>
+
+<body>
+    <p>Hello1 <a href="/https://vuejs.org">Click me</a></p>
+    <div id="app">
+        <input v-on:keyup.enter="addTask" type="text" v-model="inputValue" @keydown="updateOnKeyDown">
+        <p>{{inputValueOnKeyDown}}</p>
+        <button v-on:click="addTask">ADD Task</button>
+        <div>
+            <p>{{ Math.random() < 0.5 ? "Hello" : "Hi" }} </p>
+                    <!-- <p>Hello <a :href="link">Click me</a></p> -->
+
+                    <ul>
+                        <li v-for="task in tasks">{{task}}</li>
+
+                    </ul>
+                    <p v-html="renderHTMl()">
+        </div>
+        <p>{{computedFunction}}</p>
+
+        <p v-once>Starting Counter: {{counter}}</p>
+        <p>Current Counter: {{counter}}</p>
+        <button @click="updateCounter">Add Count</button>
+        <li v-for="(index) in {name:" Sagar",age:20}">{{ index }}</li>
+        </p>
+    </div>
+ 
+
+    <div id="secondApp">
+        <p>Second Counter: {{secondCounter}}</p>
+        <button @click="secondUpdate">Update</button>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module" src="./app.js"></script>
+</body>
+
+</html>

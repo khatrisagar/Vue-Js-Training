@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS | core Concepts</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body> 
+    <h3>Component 1</h3>
+    <div id="app">
+        <!-- <h1>{{firstObj.fName}}</h1>
+        <a :href="testLink" target="_blank">TestLink</a> -->
+
+        <!-- <p>Counter :- {{counter}}</p>
+        <p v-once>Fixed Counter :- {{counter}}</p>
+        <button @click="updateCounter(+1)">Add</button>
+        <button @click="updateCounter(-1)">Remove</button>
+        <p>Random number: {{randomNumber()}}</p>
+        <p>Computed output: {{computedFunction}}</p> -->
+
+
+            <form action="" @submit="formSubmit">
+                <input type="text">
+                <input type="submit" value="Submit">
+            </form>
+
+
+
+        <!-- <input type="text" @input="getName"> -->
+        <!-- <p>{{ name }}</p> -->
+    </div>
+
+<hr>
+<h3>Component 2</h3>
+    <div id="app2">
+        <p :load="randomNumber()">{{number}}</p>
+
+    </div>
+
+
+    <script src="./script.js"></script>
+</body>
+</html>

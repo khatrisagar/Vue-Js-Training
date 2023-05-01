@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <style>
+        .content-wrapper {
+            max-width: 100%;
+            overflow: hidden;
+            border: 2px solid black;
+            padding: 16px;
+            width: 29%;
+            height: 50px;
+        }
+        .inner-container{
+            margin-top: 40px;
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+        .flex-row {
+            flex-direction: row;
+        }
+        button{
+            display: inline;
+            width: 100px;
+        }
+        .btns{
+            column-gap: 10px;
+            margin-bottom: 10px;
+        }
+        .main-container{
+            background-color: #f9f9f9;
+            min-height: 100vh;
+        }
+        p{
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <!-- <div id="app">
+
+        <div class="main-container">
+            <button @click="addText">Add</button>
+
+            <div class="inner-container">
+                <div class="content-wrapper flex flex-col" v-for="(input, index) in inputText">
+                   <div class="btns flex flex-row">
+                    <button @click="editText(index)">{{!showInput[index] ? 'Edit': 'Save'}}</button>
+                    <button @click="deleteText(index)">Delete</button>
+                   </div> 
+                   <p v-if="!showInput[index]">{{input}}</p>
+                    <div v-if="showInput[index]">
+                        <input type="text" v-model="inputText[index]">
+                    </div>
+                </div>
+            </div>
+
+          
+        <div>
+        </div>
+
+    </div>
+    </div> -->
+   
+    <div id="form">
+        <h1>FORM</h1>
+        <form action="" @submit.prevent="">
+            <p v-once>{{getData()}}</p>
+            <div v-for="(textObj,index) in textbox1">
+                <label for="">Text1</label>
+                <input type="text" v-model="textbox1[index]" />
+                <label for="">Text2</label>
+                <input type="text" v-model="textbox2[index]" />
+                <label for="">Text3</label>
+                <input type="text" v-model="textbox3[index]" />
+                <label for="">Text4</label>
+                <input type="text" v-model="textbox4[index]" />
+                <button @click="deleteData(index)">Delete</button>
+            </div>
+
+            <br>
+            <button @click="addMore()">Add More</button>
+            <button @click="saveData()">Save Data</button>
+        </form>
+
+    </div>
+
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
