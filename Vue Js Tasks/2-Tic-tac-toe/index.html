@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2 | Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+
+    <div id="tic-tac-toe">
+        
+        <div class="ttt-container">
+            <div v-for="(playerValue,index) in playerValues" class="ttt-elements" @click="playerMoves(index)">{{playerValue}}</div>
+        </div>
+
+        <h1>{{winMessage}}</h1>
+        <button @click="resetGame">Reset</button>
+    </div>
+    
+
+
+    <script src="./script.js"></script>
+</body>
+</html>

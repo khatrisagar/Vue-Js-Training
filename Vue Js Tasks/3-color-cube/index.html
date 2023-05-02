@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 3 | Color Cube</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="colorCube">
+        <h1>{{timer}}</h1>
+        <table>
+            <tr v-for="(row,x) in rowNumber">
+                <td v-for="(col,y) in columnNumber" @click="clickColor(x,y)" :style="{opacity: x === randomX && y === randomY ? '0.9' : '1',backgroundColor:randomColor}"></td>
+            </tr>
+
+        </table>
+        <p>{{score}}</p>
+        <!-- <button>Start</button> -->
+    </div>
+
+
+    <script src="/script.js"></script>
+</body>
+</html>

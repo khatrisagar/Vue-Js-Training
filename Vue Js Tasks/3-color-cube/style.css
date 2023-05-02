@@ -1,0 +1,18 @@
+#colorCube{
+    display:flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+table{
+    width: 400px;
+    height: 400px;
+
+}
+
+
+td{
+    /* border: 1px solid black; */
+    border-radius: 8px;
+}
