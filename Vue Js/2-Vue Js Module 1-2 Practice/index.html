@@ -83,7 +83,7 @@
         <h1>FORM</h1>
         <form action="" @submit.prevent="">
             <p v-once>{{getData()}}</p>
-            <div v-for="(textObj,index) in textbox1">
+            <div v-for="(textObj,index) in textbox1" :key="index">
                 <label for="">Text1</label>
                 <input type="text" v-model="textbox1[index]" />
                 <label for="">Text2</label>
