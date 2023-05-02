@@ -1,0 +1,124 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.flex{
+    display: flex;
+}
+
+.flex-col{
+    flex-direction: column;
+}
+
+.flex-row{
+    flex-direction: row;
+}
+.justify-center{
+    justify-content: center;
+}
+.align-center{
+    align-items: center;
+}
+
+.main-container{
+    min-height: 100vh;
+    background-color: rgb(255, 227, 192);
+}
+.score-counter{
+    column-gap: 20px;
+}
+.health-container{
+    margin-top: 20px;
+    row-gap: 40px;
+}
+
+.moster-health-bar{
+    border: 1px solid black;
+    width: 700px;
+    height: 40px;
+}
+.player-health-bar{
+    border: 1px solid black;
+    width: 700px;
+    height: 40px;
+}
+
+.monster-health{
+    background-color: green;
+    height: 100%
+}
+.player-health{
+    background-color: green;
+    height: 100%
+}
+
+
+/* game conrollers */
+
+.game-controllers{
+    margin-top: 50px;
+    column-gap: 33.33px;
+}
+
+.game-buttons{
+    width: 150px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: large;
+    box-shadow: 0px 0px 1px black;
+}
+
+.game-log-container{
+    margin-top: 50px;
+    border: 1px solid black;
+    padding: 20px;
+    width: 700px;
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    background-color: black;
+}
+.game-log-header{
+    color: white;
+}
+
+.button-attack{
+    background-color: rgb(80, 255, 80);
+}
+.button-special-attack{
+    background-color: rgb(33, 148, 255);
+}
+.button-heal{
+    background-color: rgb(223, 255, 80);
+}
+.button-surrender{
+    background-color: rgb(255, 80, 80);
+}
+
+.game-buttons:active{
+    border: 2px solid black
+}
+
+hr{
+    margin-top: 8px;
+    width: 90px;
+    height: 3px;
+    border: none;
+    background-color: black;
+}
+.yellow{
+    color: yellow;
+}
+.green{
+    color: green;
+}
+.blue{
+    color: blue;
+}
+.red{
+    color: red;
+}
