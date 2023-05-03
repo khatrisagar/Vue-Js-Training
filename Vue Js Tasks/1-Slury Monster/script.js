@@ -5,7 +5,7 @@ const sluryMonster =  Vue.createApp({
                 monsterHealth: 100,
                 playerHealth: 100
             },
-            turnFlag:0,
+            turnFlag:"playerTurn",
             winner: null,
             powers:{
                 specialPower: 0,
@@ -24,24 +24,27 @@ const sluryMonster =  Vue.createApp({
             this.healthData.monsterHealth -= attackValue
             this.powers.specialPower++;
             this.powers.healPower++;
-            this.turnFlag = 1
-            this.battleLogs.push(`<p class="green">You Attacked on monster with ${attackValue} damage</p>`)
+            this.turnFlag = "monsterTurn"
+            this.battleLogs.push({log:`You Attacked on monster with ${attackValue} damage`, logColor:"green"})
+            
+
+            console.log(this.powers.specialPower <7  && this.turnFlag !== 0)
         },
 
         playerSpecialAttack(){
             const attackValue =  Math.floor(Math.random()* 24)+1
             this.healthData.monsterHealth -= attackValue
-            this.turnFlag = 1
+            this.turnFlag = "monsterTurn"
             this.powers.specialPower = 0
-            this.battleLogs.push(`<p class="blue">You Attacked on monster with ${attackValue} damage</p>`)
+            this.battleLogs.push({log:` You Attacked on monster with ${attackValue} damage`,logColor: "blue"})
         },
 
         playerHeal(){
             const healValue =  Math.floor(Math.random()* 14)+1
             this.healthData.playerHealth += healValue
-            this.turnFlag = 1
+            this.turnFlag = "monsterTurn"
             this.powers.healPower = 0
-            this.battleLogs.push(`<p class="yellow"> ${healValue} Health Restored</p>`)
+            this.battleLogs.push({log:`${healValue} Health Restored`, logColor:"yellow"})
         },
 
         playerSurrender(){
@@ -50,8 +53,9 @@ const sluryMonster =  Vue.createApp({
         monsterAttack(){
             const attackValue = Math.floor(Math.random()* 14)+1
             this.healthData.playerHealth -= attackValue
-            this.turnFlag = 0
-            this.battleLogs.push(`<p class="red">Monster attack on you with ${attackValue} damage</p>`)
+            this.turnFlag = "playerTurn"
+            this.battleLogs.push({log:`Monster attack on you with ${attackValue} damage`, logColor: "red"})
+
         },
         getScore(){
           const savedScoreData = JSON.parse(sessionStorage.getItem("scoreData"))
@@ -66,48 +70,34 @@ const sluryMonster =  Vue.createApp({
         resetState(){
                 this.healthData.monsterHealth =100
                 this.healthData.playerHealth =100
-                this.turnFlag = 0
+                this.turnFlag = "playerTurn"
                 this.winner = null,
                 this.battleLogs.splice(0,this.battleLogs.length)
         }
     },
     computed:{
         isAbletoAttack(){
-            if(this.turnFlag === 1){
-                return true
-            }
-            else{
-                return false
-            }
+            return this.turnFlag === "monsterTurn"
         },
         isSpecialPower(){
-           if(this.powers.specialPower >= 7 && this.turnFlag === 0){
-                return false
-            }
-            else{
-                return true
-            }
+           return this.powers.specialPower <7  || this.turnFlag === "monsterTurn"
         },
         isHealPower(){
-            if(this.healthData.playerHealth<=30 && this.powers.healPower >=2 && this.turnFlag === 0){
-                return false
-            }
-            else{
-                return true
-            }
+            return this.healthData.playerHealth >= 30 || this.powers.healPower <2 || this.turnFlag === "monsterTurn"
         },
         isAbletoSurrender(){
-            if(this.healthData.monsterHealth < 100 && this.turnFlag === 0){
-                return false
-            }
-            else{
-                return true
-            }
+            return this.healthData.monsterHealth >= 100 || this.turnFlag ===  "monsterTurn"
+        },
+        monsterHealthBar(){
+            return {healthWidth: this.healthData.monsterHealth+'%', backgroundColor: this.healthData.monsterHealth < 30 ? 'red': 'green'}
+        },
+        playerHealthBar(){
+            return {healthWidth: this.healthData.playerHealth+'%', backgroundColor: this.healthData.playerHealth < 30 ? 'red': 'green'}
         }
     },
     watch:{
          turnFlag(){
-            if(this.turnFlag==1 && this.winner == null){
+            if(this.turnFlag==="monsterTurn" && this.winner == null){
                 setTimeout(()=>{
                         this.monsterAttack()
                 },2000)
@@ -124,7 +114,7 @@ const sluryMonster =  Vue.createApp({
             }
         },
 
-        winner(value){
+        winner(){
             if(this.winner != null){
                 if(this.winner == "monster"){
                     this.score.monster++;

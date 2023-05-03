@@ -20,14 +20,14 @@
                 <div class="monster-health-container flex flex-col align-center">
                     <h1>Moster's Health</h1>
                     <div class="moster-health-bar">
-                        <div class="monster-health" :style="{width: healthData.monsterHealth+'%',  backgroundColor: healthData.monsterHealth < 30 ? 'red': 'green'}">
+                        <div class="monster-health" :style="{width: monsterHealthBar.healthWidth,  backgroundColor: monsterHealthBar.backgroundColor}">
                         </div>
                     </div>
                 </div>
                 <div class="player-health-container flex flex-col align-center">
                     <h1>Your Health</h1>
                     <div class="player-health-bar">
-                        <div class="player-health" :style="{width: healthData.playerHealth+'%', backgroundColor: healthData.playerHealth < 30 ? 'red': 'green'}"  ></div>
+                        <div class="player-health" :style="{width: playerHealthBar.healthWidth,  backgroundColor: playerHealthBar.backgroundColor}"  ></div>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <hr />
                 <div v-for="(battleLog,index) in battleLogs" :key="index" id="log">
                     
-                    <div v-html="battleLog"></div>
+                    <div :class="battleLog.logColor">{{battleLog.log}}</div>
                     
                 </div>
             </div>
