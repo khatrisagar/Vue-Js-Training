@@ -38,7 +38,7 @@
                 <button @click="playerHeal" class="game-buttons button-heal" :disabled="isHealPower">Heal</button>
                 <button @click="playerSurrender" class="game-buttons button-surrender" :disabled="isAbletoSurrender">Surrender</button>
             </div>
-
+            {{checkWinner}}
 
             <div class="game-log-container flex flex-col align-center">
                 <h2 class="game-log-header">Game Log</h2>
