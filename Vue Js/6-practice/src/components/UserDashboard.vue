@@ -1,27 +1,32 @@
 <template>
+    <AddUser @add-user = addUser />
+     <div 
+        v-for="user in users" 
+        :key="user.id"
+       
+        >
+            <p>{{user.name}}</p>
+            <p>{{user.age}}</p>
+            <p>{{user.state}}</p>
+
+        </div>
    <h1>Helllo</h1>
 
-    <div 
-    v-for="user in users" 
-    :key="user.id"
-    @add-user = addUser
-    >
-        <p>{{user.name}}</p>
-        <p>{{user.age}}</p>
-        <p>{{user.state}}</p>
-
-    </div>
+    
     
 </template>
 
 
 <script>
+import AddUser from './AddUser.vue'
 
 export default ({
+    components:{
+        AddUser
+    },
     data(){
         return{
-            users:[
-            ]
+            users:[]
         }
     },
     methods:{
