@@ -47,7 +47,12 @@
 <script>
 export default {
     data() {
-        return {};
+        return {
+            userData: [],
+        };
+    },
+    created() {
+        this.userData = JSON.parse(localStorage.getItem("userData")) ?? [];
     },
     methods: {
         addUser() {
@@ -58,14 +63,23 @@ export default {
             const enteredDob = this.$refs.userDateofBirth.value;
             const enteredGender = this.$refs.userGender.value;
 
-            this.$emit("addUser", {
-                id,
-                enteredName,
-                enteredSurname,
-                enteredAge,
-                enteredDob,
-                enteredGender,
-            });
+            this.userData.push({
+                id: id,
+                name: enteredName,
+                surname: enteredSurname,
+                age: enteredAge,
+                dob: enteredDob,
+                gender: enteredGender,
+            })
+
+            localStorage.setItem("userData", JSON.stringify(this.userData));
+
+            this.$refs.userName.value = '';
+            this.$refs.userSurname.value  = '' ;
+            this.$refs.userAge.value = '';
+            this.$refs.userDateofBirth.value = '';
+            this.$refs.userGender.value = '';
+
         },
     },
 };
@@ -74,7 +88,8 @@ export default {
 <style scoped>
 .add-user-wrapper {
     display: flex;
-    min-height: 100vh;
+    min-height: 90vh;
+    overflow-y: hidden;
     justify-content: center;
     align-items: center;
 }

@@ -1,13 +1,13 @@
 <template>
-    <ViewUsers />
+    <viewManager />
 </template>
 
 <script>
-import ViewUsers from "./components/Task CRUD/ViewUsers.vue";
+import viewManager from './components/Task CRUD/ViewManager.vue'
 export default {
     name: "App",
     components: {
-        ViewUsers,
+        viewManager,
     },
 };
 </script>
