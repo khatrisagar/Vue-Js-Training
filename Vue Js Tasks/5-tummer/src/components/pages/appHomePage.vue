@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    <appFooter />
+    <appFooter :footerCardData="footerCardData" />
 </template>
 
 <script>
@@ -238,6 +238,32 @@ export default {
             productSubCategoryView: null,
             SubcategoryItemsView: null,
             itemDetails: null,
+            footerCardData: [
+                {
+                    id: "1",
+                    footerLabel: "Service",
+                    footerLinks: {
+                        1: "Klantenservice",
+                        2: "Reparatie of storing melden",
+                        3: "Cadeaukaartsaldo opvragen",
+                        4: "Over Tummers",
+                        5: "Cadeaukaartsaldo opvragen",
+                        6: "Over Tummers",
+                    },
+                },
+                {
+                    id: "2",
+                    footerLabel: "Service",
+                    footerLinks: {
+                        1: "Klantenservice",
+                        2: "Reparatie of storing melden",
+                        3: "Cadeaukaartsaldo opvragen",
+                        4: "Over Tummers",
+                        5: "Cadeaukaartsaldo opvragen",
+                        6: "Over Tummers",
+                    },
+                },
+            ],
         };
     },
     methods: {
