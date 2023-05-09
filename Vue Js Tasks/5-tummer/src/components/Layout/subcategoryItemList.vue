@@ -1,21 +1,21 @@
 <template>
-    <div class="subcategory-product-card-container">
-        <subcategoryCard
+    <div class="product-list-container">
+        <productCard
             v-for="item in SubcategoryItemsData"
             :key="item.id"
             :subcategoryImage="item.image"
             :subcategoryName="item.name"
             :price="item.price"
-            @click="viewItem(item.id)"
+            @click="productDetail(item.id)"
         />
     </div>
 </template>
 
 <script>
-import subcategoryCard from "../UI/subcategoryCard.vue";
+import productCard from "../UI/productCard.vue";
 export default {
     components: {
-        subcategoryCard,
+        productCard,
     },
     props: {
         SubcategoryItemsData: {
@@ -23,15 +23,15 @@ export default {
         },
     },
     methods: {
-        viewItem(itemId) {
-            this.$emit("viewItem", itemId);
+        productDetail(itemId) {
+            this.$emit("productDetail", itemId);
         },
     },
 };
 </script>
 
 <style scoped>
-.subcategory-product-card-container {
+.product-list-container {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;

@@ -29,7 +29,7 @@
             >
                 <subcategoryItemList
                     :SubcategoryItemsData="SubcategoryItemsView"
-                    @viewItem="viewItem"
+                    @productDetail="productDetail"
                 />
             </div>
             <div
@@ -37,7 +37,7 @@
                     display: currenView === 'item' ? 'block' : 'none',
                 }"
             >
-                <viewItem :itemDetails="itemDetails" />
+                <productDetail :itemDetails="itemDetails" />
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@ import appHeader from "../Layout/appHeader.vue";
 import appSidebar from "../Layout/appSidebar.vue";
 import productSubcategory from "../Layout/productSubcategory.vue";
 import subcategoryItemList from "../Layout/subcategoryItemList.vue";
-import viewItem from "../Layout/viewItem.vue";
+import productDetail from "../Layout/productDetail.vue";
 import appFooter from "../Layout/appFooter.vue";
 
 import productcategoryOne from "../../assets/asset 7.png";
@@ -65,7 +65,7 @@ export default {
         appSidebar,
         productSubcategory,
         subcategoryItemList,
-        viewItem,
+        productDetail,
         appFooter,
     },
     data() {
@@ -115,35 +115,35 @@ export default {
                     productSubCategoryId: "2",
                     productCategoryId: "1",
                     productCategoryImage: productcategoryTwo,
-                    productCategoryName: "Computers and Tablets",
+                    productCategoryName: "Televisie accessoires",
                 },
                 {
                     productSubCategoryId: "3",
                     productCategoryId: "1",
                     productCategoryImage: productcategoryThree,
-                    productCategoryName: "Home Appliences",
+                    productCategoryName: "Home cinema",
                 },
                 {
                     productSubCategoryId: "4",
-                    productCategoryId: "2",
+                    productCategoryId: "1",
                     productCategoryImage: productcategoryFour,
-                    productCategoryName: "Refrigrator",
+                    productCategoryName: "Speakers",
                 },
                 {
                     productSubCategoryId: "5",
-                    productCategoryId: "2",
+                    productCategoryId: "1",
                     productCategoryImage: productcategoryFive,
-                    productCategoryName: "Wearables",
+                    productCategoryName: "Hifi & Personal audio",
                 },
                 {
                     productSubCategoryId: "6",
-                    productCategoryId: "3",
+                    productCategoryId: "2",
                     productCategoryImage: productcategorySix,
                     productCategoryName: "Other Categories",
                 },
                 {
                     productSubCategoryId: "7",
-                    productCategoryId: "1",
+                    productCategoryId: "2",
                     productCategoryImage: productcategorySix,
                     productCategoryName: "Other Categories",
                 },
@@ -155,9 +155,15 @@ export default {
                 },
                 {
                     productSubCategoryId: "9",
-                    productCategoryId: "1",
+                    productCategoryId: "3",
                     productCategoryImage: productcategoryFour,
                     productCategoryName: "Refrigrator",
+                },
+                {
+                    productSubCategoryId: "10",
+                    productCategoryId: "3",
+                    productCategoryImage: productcategoryFour,
+                    productCategoryName: "Speakers",
                 },
             ],
 
@@ -253,14 +259,14 @@ export default {
                 },
                 {
                     id: "2",
-                    footerLabel: "Service",
+                    footerLabel: "Service2",
                     footerLinks: {
-                        1: "Klantenservice",
-                        2: "Reparatie of storing melden",
-                        3: "Cadeaukaartsaldo opvragen",
-                        4: "Over Tummers",
-                        5: "Cadeaukaartsaldo opvragen",
-                        6: "Over Tummers",
+                        1: "fsd",
+                        2: "fsd of storfsding fsd",
+                        3: "fsd opvragen",
+                        4: "Over Tummefsdrs",
+                        5: "fsdf fds",
+                        6: "Ovfds   er fsd",
                     },
                 },
             ],
@@ -279,7 +285,7 @@ export default {
                 (item) => item.productSubCategoryId === productSubCategoryId
             );
         },
-        viewItem(itemId) {
+        productDetail(itemId) {
             this.currenView = "item";
             this.itemDetails = this.SubcategoryItemsData.filter(
                 (item) => item.id === itemId

@@ -1,6 +1,6 @@
 <template>
     <div class="subcategory-card-container">
-        <subcategoryCard
+        <productCard
             v-for="productSubCategory in productSubCategoryData"
             :key="productSubCategory.productSubCategoryId"
             :subcategoryImage="productSubCategory.productCategoryImage"
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import subcategoryCard from "../UI/subcategoryCard.vue";
+import productCard from "../UI/productCard.vue";
 
 export default {
     components: {
-        subcategoryCard,
+        productCard,
     },
     props: {
         productSubCategoryData: {
