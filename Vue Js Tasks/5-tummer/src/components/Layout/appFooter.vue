@@ -1,13 +1,15 @@
 <template>
-    <footer class="container">
-        <div class="footer-container">
-            <footerCard
-                v-for="footerServicesCard in footerCardData"
-                :key="footerServicesCard.id"
-                :footerServicesCard="footerServicesCard"
-            />
-        </div>
-    </footer>
+    <div>
+        <footer class="container">
+            <div class="footer-container">
+                <footerCard
+                    v-for="footerServicesCard in footerCardData"
+                    :key="footerServicesCard.id"
+                    :footerServicesCard="footerServicesCard"
+                />
+            </div>
+        </footer>
+    </div>
 </template>
 
 <script>
@@ -26,6 +28,9 @@ export default {
 </script>
 
 <style scoped>
+div {
+    background-color: rgb(146, 146, 146);
+}
 footer {
     display: flex;
 }

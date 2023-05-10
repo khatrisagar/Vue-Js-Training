@@ -26,6 +26,10 @@
             </div>
         </div>
     </header>
+    <div class="extra-links">
+        <p class="link-btns" @click="homeView('products')">Products</p>
+        <p class="link-btns" @click="homeView('services')">Services</p>
+    </div>
 </template>
 
 <script>
@@ -40,14 +44,21 @@ export default {
             cartImg,
         };
     },
+    methods: {
+        homeView(view) {
+            this.$emit("homeView", view);
+        },
+    },
 };
 </script>
 
 <style scoped>
 header {
-    background-color: black;
+    background-color: rgb(58, 58, 58);
 }
-
+ul {
+    list-style: none;
+}
 .header-section {
     display: flex;
     align-items: center;
@@ -63,5 +74,17 @@ header {
 .nav-link-list {
     display: flex;
     column-gap: 2rem;
+}
+.extra-links {
+    background: green;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 1rem;
+}
+.link-btns {
+    color: white;
+    margin: 0.4rem;
+    cursor: pointer;
 }
 </style>

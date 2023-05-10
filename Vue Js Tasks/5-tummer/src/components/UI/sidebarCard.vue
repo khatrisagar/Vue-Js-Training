@@ -38,7 +38,9 @@ export default {
     column-gap: 1rem;
     color: rgb(54, 54, 54);
 }
-
+.home-product-category-card:active {
+    border: 1px solid black;
+}
 .product-img {
     width: 50px;
 }

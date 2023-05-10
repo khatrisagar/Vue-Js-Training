@@ -1,5 +1,4 @@
 <template>
-    <appHeader class="appHeader" />
     <div class="app-data-container container">
         <appSidebar
             class="appSidebar"
@@ -8,6 +7,7 @@
         />
 
         <div class="app-content-right">
+            <!-- layer 1 -->
             <div
                 :style="{
                     display:
@@ -20,7 +20,7 @@
                     @openSubcategoryProducts="openSubcategoryProducts"
                 />
             </div>
-
+            <!-- layer 2 -->
             <div
                 :style="{
                     display:
@@ -30,27 +30,29 @@
                 <subcategoryItemList
                     :SubcategoryItemsData="SubcategoryItemsView"
                     @productDetail="productDetail"
+                    @goToSubcategory="goToSubcategory"
                 />
             </div>
+            <!-- layer 3 -->
             <div
                 :style="{
                     display: currenView === 'item' ? 'block' : 'none',
                 }"
             >
-                <productDetail :itemDetails="itemDetails" />
+                <productDetail
+                    :itemDetails="itemDetails"
+                    @gotToProductCategory="gotToProductCategory"
+                />
             </div>
         </div>
     </div>
-    <appFooter :footerCardData="footerCardData" />
 </template>
 
 <script>
-import appHeader from "../Layout/appHeader.vue";
 import appSidebar from "../Layout/appSidebar.vue";
 import productSubcategory from "../Layout/productSubcategory.vue";
 import subcategoryItemList from "../Layout/subcategoryItemList.vue";
 import productDetail from "../Layout/productDetail.vue";
-import appFooter from "../Layout/appFooter.vue";
 
 import productcategoryOne from "../../assets/asset 7.png";
 import productcategoryTwo from "../../assets/asset 8.png";
@@ -61,16 +63,16 @@ import productcategorySix from "../../assets/asset 12.png";
 
 export default {
     components: {
-        appHeader,
         appSidebar,
         productSubcategory,
         subcategoryItemList,
         productDetail,
-        appFooter,
     },
     data() {
         return {
             currenView: null,
+            // sidebar
+
             productCategoryData: [
                 {
                     productCategoryId: "1",
@@ -103,6 +105,7 @@ export default {
                     productCategoryName: "Other Categories",
                 },
             ],
+            // layer 1
 
             productSubCategoryData: [
                 {
@@ -166,7 +169,7 @@ export default {
                     productCategoryName: "Speakers",
                 },
             ],
-
+            // layer 2&3
             SubcategoryItemsData: [
                 {
                     id: "1",
@@ -174,6 +177,8 @@ export default {
                     image: productcategoryOne,
                     name: "Television",
                     price: "100$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "hfsdjkfh dhf fih sdjf sdhf ",
                 },
                 {
@@ -182,6 +187,8 @@ export default {
                     image: productcategoryTwo,
                     name: "Computers and Tablets",
                     price: "10$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "hfsdjgrwegkfh dhf fih sdjf sdhf ",
                 },
                 {
@@ -190,6 +197,8 @@ export default {
                     image: productcategoryThree,
                     name: "Home Appliences",
                     price: "200$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "hrwfed dhf fih das sdhf ",
                 },
                 {
@@ -198,6 +207,8 @@ export default {
                     image: productcategoryFour,
                     name: "Refrigrator",
                     price: "1020$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "fsgert dhf fih sdjf sdhf ",
                 },
                 {
@@ -206,6 +217,8 @@ export default {
                     image: productcategoryFive,
                     name: "Wearables",
                     price: "900$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "rwe dhf fih gfsdsdjf sdhf ",
                 },
                 {
@@ -214,6 +227,8 @@ export default {
                     image: productcategorySix,
                     name: "Other Categories",
                     price: "200$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "fsdf dhf fihfsd sdjf sdhf ",
                 },
                 {
@@ -222,6 +237,8 @@ export default {
                     image: productcategorySix,
                     name: "Other Categories",
                     price: "100$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "hfsdjfsdfsdkfh fsddhf fih sdjf sdhf ",
                 },
                 {
@@ -230,6 +247,8 @@ export default {
                     image: productcategorySix,
                     name: "Other Categories",
                     price: "1001$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "fsdg dhf fihfsdfsdjfrgt sdhf ",
                 },
                 {
@@ -238,77 +257,67 @@ export default {
                     image: productcategoryFour,
                     name: "Refrigrator",
                     price: "123$",
+                    rating: 4.9,
+                    origin: "india",
                     description: "fsd dhf fih sdjf sdhf ",
                 },
             ],
+            // layer 1
             productSubCategoryView: null,
+            // layer 2
             SubcategoryItemsView: null,
+            // layer 3
             itemDetails: null,
-            footerCardData: [
-                {
-                    id: "1",
-                    footerLabel: "Service",
-                    footerLinks: {
-                        1: "Klantenservice",
-                        2: "Reparatie of storing melden",
-                        3: "Cadeaukaartsaldo opvragen",
-                        4: "Over Tummers",
-                        5: "Cadeaukaartsaldo opvragen",
-                        6: "Over Tummers",
-                    },
-                },
-                {
-                    id: "2",
-                    footerLabel: "Service2",
-                    footerLinks: {
-                        1: "fsd",
-                        2: "fsd of storfsding fsd",
-                        3: "fsd opvragen",
-                        4: "Over Tummefsdrs",
-                        5: "fsdf fds",
-                        6: "Ovfds   er fsd",
-                    },
-                },
-            ],
+
+            lastSubcategoryId: null,
+            lastProductSubcategoryId: null,
         };
     },
+    mounted() {
+        this.openSubcategory("1");
+    },
     methods: {
+        // for rendering diffrent sections
+
+        // 1st layer
+
         openSubcategory(categoryId) {
             this.currenView = "productSubcategory";
             this.productSubCategoryView = this.productSubCategoryData.filter(
                 (product) => product.productCategoryId === categoryId
             );
+            this.lastSubcategoryId = categoryId;
         },
+        // 2nd layer
+
         openSubcategoryProducts(productSubCategoryId) {
             this.currenView = "subcategoryItemList";
             this.SubcategoryItemsView = this.SubcategoryItemsData.filter(
                 (item) => item.productSubCategoryId === productSubCategoryId
             );
+            this.lastProductSubcategoryId = productSubCategoryId;
         },
+
+        //3rd layer
+
         productDetail(itemId) {
             this.currenView = "item";
             this.itemDetails = this.SubcategoryItemsData.filter(
                 (item) => item.id === itemId
             );
-            console.log(this.itemDetails);
+        },
+
+        // for back buttons in diffrent sections
+
+        goToSubcategory() {
+            this.openSubcategory(this.lastSubcategoryId);
+        },
+        gotToProductCategory() {
+            this.openSubcategoryProducts(this.lastProductSubcategoryId);
         },
     },
 };
 </script>
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.container {
-    width: 1170px;
-    margin: 0 auto;
-    padding: 1rem 0;
-}
-</style>
 
 <style scoped>
 .appHeader {

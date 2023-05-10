@@ -1,4 +1,5 @@
 <template>
+    <p @click="goToSubcategory">Back</p>
     <div class="product-list-container">
         <productCard
             v-for="item in SubcategoryItemsData"
@@ -25,6 +26,9 @@ export default {
     methods: {
         productDetail(itemId) {
             this.$emit("productDetail", itemId);
+        },
+        goToSubcategory() {
+            this.$emit("goToSubcategory");
         },
     },
 };
