@@ -1,5 +1,5 @@
 <template>
-    <appHeader class="appHeader" @homeView="homeView" />
+    <appHeader class="appHeader" @currentTab="currentTab" />
     <div
         :style="{
             display: currentView === 'products' ? 'block' : 'none',
@@ -74,7 +74,7 @@ export default {
         };
     },
     methods: {
-        homeView(view) {
+        currentTab(view) {
             this.currentView = view;
         },
     },

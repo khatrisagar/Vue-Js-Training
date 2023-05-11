@@ -283,10 +283,10 @@ export default {
 
         openSubcategory(categoryId) {
             this.currenView = "productSubcategory";
+            this.lastSubcategoryId = categoryId;
             this.productSubCategoryView = this.productSubCategoryData.filter(
                 (product) => product.productCategoryId === categoryId
             );
-            this.lastSubcategoryId = categoryId;
         },
         // 2nd layer
 
@@ -316,6 +316,7 @@ export default {
             this.openSubcategoryProducts(this.lastProductSubcategoryId);
         },
     },
+    computed: {},
 };
 </script>
 

@@ -27,8 +27,8 @@
         </div>
     </header>
     <div class="extra-links">
-        <p class="link-btns" @click="homeView('products')">Products</p>
-        <p class="link-btns" @click="homeView('services')">Services</p>
+        <p class="link-btns" @click="currentTab('products')">Products</p>
+        <p class="link-btns" @click="currentTab('services')">Services</p>
     </div>
 </template>
 
@@ -45,8 +45,8 @@ export default {
         };
     },
     methods: {
-        homeView(view) {
-            this.$emit("homeView", view);
+        currentTab(view) {
+            this.$emit("currentTab", view);
         },
     },
 };

@@ -32,30 +32,30 @@ export default {
                         {
                             id: "1",
                             name: "Ruilen & Retourneren",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                         {
                             id: "2",
                             name: "Reparatie & Garantie",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                         {
                             id: "3",
                             name: "Bezorging & Afhalen",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                         {
                             id: "4",
                             name: "Betalen",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                     ],
                 },
@@ -65,29 +65,29 @@ export default {
                     serviceCategory: [
                         {
                             id: "1",
-                            name: "Hoe verzend ik mijn te retourneren producten? ↵",
+                            name: "Hoe verzend ik mijn te retourneren producten? ",
                             detail: `Producten die je wilt retourneren kunt je, samen met een aankoopbewijs en een zo volledig mogelijk ingevuld retourformulier , via PostNL, DHL of een`,
                         },
                         {
                             id: "2",
                             name: "Kan ik alle producten retourneren? ↵",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                         {
                             id: "3",
-                            name: "Ik wil graag een product retourneren, kan dit? ↵",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            name: "Ik wil graag een product retourneren, kan dit? ",
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                         {
                             id: "4",
                             name: "Betalen",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                     ],
                 },
@@ -97,29 +97,29 @@ export default {
                     serviceCategory: [
                         {
                             id: "1",
-                            name: "fdsf verzend fsd mijn fds retourneren producten? ↵",
+                            name: "fdsf verzend fsd mijn fds retourneren producten? ",
                             detail: `Producten die je wilt retourneren kunt je, samen met een aankoopbewijs en een zo volledig mogelijk ingevuld retourformulier , via PostNL, DHL of een`,
                         },
                         {
                             id: "2",
-                            name: "Kan ik alle producten retourneren? ↵",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            name: "Kan ik alle producten retourneren? ",
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                         {
                             id: "3",
-                            name: "Ik wil graag een product retourneren, kan dit? ↵",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            name: "Ik wil graag een product retourneren, kan dit? ",
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                         {
                             id: "4",
                             name: "Betalen",
-                            detail: `Hoe verzend ik mijn te retourneren producten? ↵
-                                 Kan ik alle producten retourneren? ↵
-                                 Ik wil graag een product retourneren, kan dit? ↵`,
+                            detail: `Hoe verzend ik mijn te retourneren producten? 
+                                 Kan ik alle producten retourneren? 
+                                 Ik wil graag een product retourneren, kan dit? `,
                         },
                     ],
                 },
@@ -129,11 +129,10 @@ export default {
     },
     methods: {
         exploreService(serviceId) {
-            const [service] = this.serviceData.filter(
+            const service = this.serviceData.find(
                 (service) => service.id === serviceId
             );
             this.serviceCategorydata = service.serviceCategory;
-            // console.log(this.serviceCategorydata);
         },
     },
     mounted() {
