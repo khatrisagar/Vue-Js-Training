@@ -8,31 +8,43 @@
                 <div class="input-container">
                     <div>
                         <label for="user-name">Name</label>
-                        <input type="text" id="user-name" ref="userName" />
+                        <input
+                            type="text"
+                            id="user-name"
+                            v-model="userInputData.name"
+                        />
                     </div>
                     <div>
                         <label for="user-surname">Suname</label>
                         <input
                             type="text"
                             id="user-surname"
-                            ref="userSurname"
+                            v-model="userInputData.surname"
                         />
                     </div>
                     <div>
                         <label for="user-age">Age</label>
-                        <input type="text" id="user-age" ref="userAge" />
+                        <input
+                            type="text"
+                            id="user-age"
+                            v-model="userInputData.age"
+                        />
                     </div>
                     <div>
                         <label for="user-dob">Date of Birth</label>
                         <input
                             type="text"
                             id="user-dob"
-                            ref="userDateofBirth"
+                            v-model="userInputData.dob"
                         />
                     </div>
                     <div>
                         <label for="user-gender">Gender</label>
-                        <input type="text" id="user-gender" ref="userGender" />
+                        <input
+                            type="text"
+                            id="user-gender"
+                            v-model="userInputData.gender"
+                        />
                     </div>
 
                     <div>
@@ -48,6 +60,20 @@
 export default {
     data() {
         return {
+            initialPhase: {
+                name: null,
+                surname: null,
+                age: null,
+                dob: null,
+                gender: null,
+            },
+            userInputData: {
+                name: null,
+                surname: null,
+                age: null,
+                dob: null,
+                gender: null,
+            },
             userData: [],
         };
     },
@@ -56,30 +82,13 @@ export default {
     },
     methods: {
         addUser() {
-            const id = new Date().toISOString();
-            const enteredName = this.$refs.userName.value;
-            const enteredSurname = this.$refs.userSurname.value;
-            const enteredAge = this.$refs.userAge.value;
-            const enteredDob = this.$refs.userDateofBirth.value;
-            const enteredGender = this.$refs.userGender.value;
-
             this.userData.push({
-                id: id,
-                name: enteredName,
-                surname: enteredSurname,
-                age: enteredAge,
-                dob: enteredDob,
-                gender: enteredGender,
-            })
+                id: new Date().toISOString(),
+                ...this.userInputData,
+            });
 
+            this.userInputData = this.initialPhase;
             localStorage.setItem("userData", JSON.stringify(this.userData));
-
-            this.$refs.userName.value = '';
-            this.$refs.userSurname.value  = '' ;
-            this.$refs.userAge.value = '';
-            this.$refs.userDateofBirth.value = '';
-            this.$refs.userGender.value = '';
-
         },
     },
 };

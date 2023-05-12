@@ -1,43 +1,38 @@
 <template>
-    <TheHeader 
-    @addUser="addUser" 
-    @viewData="viewData" 
-    :addUserBtn="currentView === 'AddUser' ? 'active': '' " 
-    :viewDataBtn="currentView === 'ViewUsers' ? 'active': '' " 
+    <TheHeader
+        @addUser="addUser"
+        @viewData="viewData"
+        :addUserBtn="currentView === 'AddUser' ? 'active' : ''"
+        :viewDataBtn="currentView === 'ViewUsers' ? 'active' : ''"
     />
-   <component :is="currentView"></component>
+    <component :is="currentView"></component>
 </template>
 
-
-
 <script>
-import TheHeader from '../Layout/TheHeader.vue';
-import ViewUsers from './ViewUsers.vue'
-import AddUser from './AddUser.vue';
+import TheHeader from "../Layout/TheHeader.vue";
+import ViewUsers from "./ViewUsers.vue";
+import AddUser from "./AddUser.vue";
 
-export default({
-    components:{
+export default {
+    components: {
         TheHeader,
         ViewUsers,
-        AddUser
+        AddUser,
     },
-    data(){
-        return{
+    data() {
+        return {
             currentView: "ViewUsers",
-        }
+        };
     },
-    methods:{
-        addUser(){
-            this.currentView = "AddUser"
+    methods: {
+        addUser() {
+            this.currentView = "AddUser";
         },
-        viewData(){
-            this.currentView = "ViewUsers"
-        }
-    }
-})
-
+        viewData() {
+            this.currentView = "ViewUsers";
+        },
+    },
+};
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

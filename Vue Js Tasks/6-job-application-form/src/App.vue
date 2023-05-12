@@ -169,7 +169,6 @@ export default {
                 );
                 this.formsData[formIndex] = formData;
             } else {
-                console.log("else");
                 this.formsData.push({
                     formId: new Date().toISOString(),
                     ...formData,
