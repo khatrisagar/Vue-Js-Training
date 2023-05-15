@@ -1,6 +1,5 @@
 <template>
     <div class="from-wrapper">
-        {{ formData.technologiesInfo }}
         <form action="" @submit.prevent="submitForm">
             <div class="form-container">
                 <!-- basic -->
@@ -230,15 +229,16 @@
                         <h2 class="section-heading">Education Details</h2>
                         <button
                             class="primary-btn"
-                            @click="addFormField('educationInfo')"
+                            @click="
+                                addFormField('educationInfo', 'educationObject')
+                            "
                             type="button"
                         >
                             +
                         </button>
                     </tr>
                     <tr
-                        v-for="(course, index) in formData.educationInfo
-                            .courseName"
+                        v-for="(education, index) in formData.educationInfo"
                         :key="index"
                     >
                         <td class="row-4">
@@ -250,7 +250,7 @@
                                 type="text"
                                 id="course-name"
                                 v-model="
-                                    formData.educationInfo.courseName[index]
+                                    formData.educationInfo[index].courseName
                                 "
                             />
                         </td>
@@ -263,7 +263,7 @@
                                 type="text"
                                 id="university-name"
                                 v-model="
-                                    formData.educationInfo.universityName[index]
+                                    formData.educationInfo[index].universityName
                                 "
                             />
                         </td>
@@ -276,7 +276,7 @@
                                 type="text"
                                 id="passing-year"
                                 v-model="
-                                    formData.educationInfo.passingYear[index]
+                                    formData.educationInfo[index].passingYear
                                 "
                             />
                         </td>
@@ -286,7 +286,7 @@
                                 class="form-input"
                                 type="text"
                                 id="score"
-                                v-model="formData.educationInfo.score[index]"
+                                v-model="formData.educationInfo[index].score"
                             />
                         </td>
                         <td>
@@ -306,15 +306,19 @@
                         <h2 class="section-heading">Experience Details</h2>
                         <button
                             class="primary-btn"
-                            @click="addFormField('experienceInfo')"
+                            @click="
+                                addFormField(
+                                    'experienceInfo',
+                                    'experienceObject'
+                                )
+                            "
                             type="button"
                         >
                             +
                         </button>
                     </tr>
                     <tr
-                        v-for="(company, index) in formData.experienceInfo
-                            .companyName"
+                        v-for="(company, index) in formData.experienceInfo"
                         :key="index"
                     >
                         <td class="row-4">
@@ -326,7 +330,7 @@
                                 type="text"
                                 id="company-name"
                                 v-model="
-                                    formData.experienceInfo.companyName[index]
+                                    formData.experienceInfo[index].companyName
                                 "
                             />
                         </td>
@@ -339,7 +343,7 @@
                                 type="text"
                                 id="company-desination"
                                 v-model="
-                                    formData.experienceInfo.designation[index]
+                                    formData.experienceInfo[index].designation
                                 "
                             />
                         </td>
@@ -352,7 +356,7 @@
                                 type="date"
                                 id="start-date"
                                 v-model="
-                                    formData.experienceInfo.startDate[index]
+                                    formData.experienceInfo[index].startDate
                                 "
                             />
                         </td>
@@ -364,7 +368,7 @@
                                 class="form-input"
                                 type="date"
                                 id="end-date"
-                                v-model="formData.experienceInfo.endDate[index]"
+                                v-model="formData.experienceInfo[index].endDate"
                             />
                         </td>
                         <td>
@@ -528,15 +532,19 @@
                         <h2 class="section-heading">References</h2>
                         <button
                             class="primary-btn"
-                            @click="addFormField('referencesInfo')"
+                            @click="
+                                addFormField(
+                                    'referencesInfo',
+                                    'referencesObject'
+                                )
+                            "
                             type="button"
                         >
                             +
                         </button>
                     </tr>
                     <tr
-                        v-for="(ref, index) in formData.referencesInfo
-                            .referenceName"
+                        v-for="(reference, index) in formData.referencesInfo"
                         :key="index"
                     >
                         <td class="row-4">
@@ -548,7 +556,7 @@
                                 type="text"
                                 id="reference-name"
                                 v-model="
-                                    formData.referencesInfo.referenceName[index]
+                                    formData.referencesInfo[index].referenceName
                                 "
                             />
                         </td>
@@ -561,9 +569,8 @@
                                 type="text"
                                 id="reference-contact"
                                 v-model="
-                                    formData.referencesInfo.referenceContact[
-                                        index
-                                    ]
+                                    formData.referencesInfo[index]
+                                        .referenceContact
                                 "
                             />
                         </td>
@@ -576,9 +583,8 @@
                                 type="text"
                                 id="reference-relation"
                                 v-model="
-                                    formData.referencesInfo.referenceRelation[
-                                        index
-                                    ]
+                                    formData.referencesInfo[index]
+                                        .referenceRelation
                                 "
                             />
                         </td>
@@ -710,6 +716,23 @@ export default {
                 },
             ],
             formData: null,
+            educationObject: {
+                courseName: null,
+                universityName: null,
+                passingYear: null,
+                score: null,
+            },
+            experienceObject: {
+                companyName: null,
+                designation: null,
+                startDate: null,
+                endDate: null,
+            },
+            referencesObject: {
+                referenceName: null,
+                referenceContact: null,
+                referenceRelation: null,
+            },
         };
     },
     props: {
@@ -724,15 +747,13 @@ export default {
         this.formData = this.formDataObject;
     },
     methods: {
-        addFormField(fieldName) {
-            for (let field in this.formData[fieldName]) {
-                this.formData[fieldName][field].push(null);
-            }
+        addFormField(fieldName, fieldObject) {
+            this.formData[fieldName].push(
+                JSON.parse(JSON.stringify(this[fieldObject]))
+            );
         },
         removeFormField(fieldName, index) {
-            for (let field in this.formData[fieldName]) {
-                this.formData[fieldName][field].splice(index, 1);
-            }
+            this.formData[fieldName].splice(index, 1);
         },
         submitForm() {
             this.$emit("submitForm", this.formData);
@@ -741,14 +762,14 @@ export default {
     computed: {
         cityData() {
             let cities = "";
-            const cityData = this.stateData.find((state) => {
+            const selectedStateObject = this.stateData.find((state) => {
                 if (state.name === this.formData.basicInfo.state) {
                     return state;
                 }
             });
-            if (cityData) {
-                cities = cityData.cities;
-            }
+
+            cities = selectedStateObject?.cities;
+
             return cities;
         },
     },
