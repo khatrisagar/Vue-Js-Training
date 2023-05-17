@@ -44,7 +44,8 @@ const router = createRouter({
                 if (loggedInUser.friends.includes(parseInt(to.params.id))) {
                     next();
                 } else {
-                    return next(false);
+                    console.log();
+                    return next({ name: "users" });
                 }
             },
         },
