@@ -1,0 +1,75 @@
+<template>
+    <div class="form-element">
+        <label class="form-label" for="first-name">First Name</label>
+        <input
+            type="text"
+            id="first-name"
+            class="form-input"
+            v-model="userObject.firstName"
+        />
+    </div>
+    <div class="form-element">
+        <label class="form-label" for="last-name">Last Name</label>
+        <input
+            type="text"
+            id="last-name"
+            class="form-input"
+            v-model="userObject.lastName"
+        />
+    </div>
+    <div class="form-element">
+        <label class="form-label" for="contact-number">Contact Number</label>
+        <input
+            type="text"
+            id="contact-number"
+            class="form-input"
+            v-model="userObject.contactNumber"
+        />
+    </div>
+    <div class="form-element">
+        <label class="form-label" for="state">State</label>
+        <input
+            type="text"
+            id="state"
+            class="form-input"
+            v-model="userObject.state"
+        />
+    </div>
+    <div class="form-element">
+        <label class="form-label" for="city">City</label>
+        <input
+            type="text"
+            id="city"
+            class="form-input"
+            v-model="userObject.city"
+        />
+    </div>
+    <div class="form-element">
+        <button @click="addUser">ADD USER</button>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            userObject: {
+                firstName: null,
+                lastName: null,
+                contactNumber: null,
+                state: null,
+                city: null,
+            },
+        };
+    },
+    methods: {
+        addUser() {
+            this.$emit("addUser", {
+                id: new Date().getTime(),
+                friends: [],
+                ...this.userObject,
+            });
+        },
+    },
+};
+</script>

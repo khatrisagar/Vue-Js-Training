@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.flex{
+    display: flex;
+}
+.flex-col{
+    flex-direction: column;
+}
+.flex-row{
+    flex-direction: row;
+}
+:root{
+    --white: #ffffff;
+    --black:#000000;
+    --primary-text-color: #009c1a;
+}
+
+a{
+    text-decoration: none;
+}
