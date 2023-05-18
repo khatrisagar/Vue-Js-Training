@@ -20,6 +20,10 @@
         >
             Add Friend
         </button>
+        <router-link
+            :to="{ name: 'chatRoom', params: { id: userProfileData.id } }"
+            >Chat</router-link
+        >
     </div>
 </template>
 

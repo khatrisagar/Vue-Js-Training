@@ -2,10 +2,11 @@
     <div class="chatroom-wrappper">
         <div class="read-chat-container" ref="chatContainer">
             <div
-                v-for="chat in userChats"
+                v-for="chat in withFriendChat"
                 :key="chat.id"
                 :style="{
-                    alignSelf: chat.id == userId ? 'flex-end' : 'flex-start',
+                    alignSelf:
+                        chat.id == loggedInUserId ? 'flex-end' : 'flex-start',
                 }"
             >
                 <chatCard :userMsg="chat.userMsg" />
@@ -31,18 +32,34 @@ export default {
             // single message through v-model
             userMessage: null,
             // from localstorage as a token to identify user
-            userId: null,
+            loggedInUserId: null,
             // all chat data object
             userChats: null,
+            withFriendChat: null,
         };
     },
     created() {
         this.userChats = JSON.parse(localStorage.getItem("userChats")) || [];
-        this.userId = JSON.parse(localStorage.getItem("user_at")).id || "1";
+        this.loggedInUserId =
+            JSON.parse(localStorage.getItem("user_at")).id || null;
+        this.withFriendChat = this.userChats.filter(
+            (chat) =>
+                (chat.id == this.loggedInUserId ||
+                    chat.id == parseInt(this.$route.params.id)) &&
+                (chat.friendID == parseInt(this.$route.params.id) ||
+                    chat.friendID == this.loggedInUserId)
+        );
     },
     methods: {
         setMessage() {
             localStorage.setItem("userChats", JSON.stringify(this.userChats));
+            this.withFriendChat = this.userChats.filter(
+                (chat) =>
+                    (chat.id == this.loggedInUserId ||
+                        chat.id == parseInt(this.$route.params.id)) &&
+                    (chat.friendID == parseInt(this.$route.params.id) ||
+                        chat.friendID == this.loggedInUserId)
+            );
             this.$refs.chatContainer.scrollTo(
                 0,
                 this.$refs.chatContainer.scrollHeight
@@ -53,7 +70,8 @@ export default {
                 return;
             }
             this.userChats.push({
-                id: this.userId,
+                id: this.loggedInUserId,
+                friendID: parseInt(this.$route.params.id),
                 userMsg: this.userMessage,
             });
 
@@ -62,17 +80,27 @@ export default {
             this.setMessage();
         },
         autoReply() {
+            const listOfReplies = [
+                "Hello",
+                "Have a Good day",
+                "Bye Bye",
+                "ABC",
+                "XYZ",
+            ];
             setTimeout(() => {
                 this.userChats.push({
-                    userID: "2",
-                    userMsg: "fjksda dfhds dfhsjk",
+                    id: parseInt(this.$route.params.id),
+                    friendID: this.loggedInUserId,
+                    userMsg:
+                        listOfReplies[
+                            Math.floor(Math.random() * listOfReplies.length)
+                        ],
                 });
 
                 this.setMessage();
             }, 3000);
         },
     },
-    computed: {},
 };
 </script>
 

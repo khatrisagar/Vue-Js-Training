@@ -10,9 +10,11 @@
             @addFriend="addFriend"
         />
     </div>
-    <div v-if="isShowRegistrationForm">
-        <userRegisteration @addUser="addUser" />
-    </div>
+    <transition name="registrationForm">
+        <div class="form-container" v-if="isShowRegistrationForm">
+            <userRegisteration @addUser="addUser" @closeForm="closeForm" />
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -74,19 +76,25 @@ export default {
         this.userData =
             JSON.parse(localStorage.getItem("userData")) || this.test;
         this.loggedInUserId =
-            JSON.parse(localStorage.getItem("user_at")).id || [];
+            JSON.parse(localStorage.getItem("user_at"))?.id || null;
         this.loggedInUserData = this.userData.find(
             (user) => user.id === this.loggedInUserId
         );
     },
     methods: {
         addFriend(userID) {
-            const findUser = this.userData.find((user) => user.id === userID);
-            console.log(findUser);
-            findUser.friends.push(this.loggedInUserId);
-            this.loggedInUserData.friends.push(userID);
+            if (this.loggedInUserId) {
+                const findUser = this.userData.find(
+                    (user) => user.id === userID
+                );
+                console.log(findUser);
+                findUser.friends.push(this.loggedInUserId);
+                this.loggedInUserData.friends.push(userID);
 
-            localStorage.setItem("userData", JSON.stringify(this.userData));
+                localStorage.setItem("userData", JSON.stringify(this.userData));
+            } else {
+                this.$router.push("/login");
+            }
         },
         registerUser() {
             this.isShowRegistrationForm = true;
@@ -94,6 +102,10 @@ export default {
         addUser(userObject) {
             this.userData.push(userObject);
             localStorage.setItem("userData", JSON.stringify(this.userData));
+            this.isShowRegistrationForm = false;
+        },
+        closeForm() {
+            this.isShowRegistrationForm = false;
         },
     },
 };
@@ -111,5 +123,55 @@ export default {
     padding: 6px 8px;
     box-shadow: 0px 0px 3px black;
     border-radius: 4px;
+}
+.form-container {
+    position: fixed;
+    z-index: 2;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background-color: rgba(2, 2, 2, 0.562);
+}
+.form-container > div {
+    position: relative;
+    top: 25%;
+    left: 35%;
+    background-color: white;
+}
+.registrationForm-enter-active {
+    transition: 0.3px ease-in;
+    animation: popUp 0.8s;
+}
+.registrationForm-leave-active {
+    transition: 0.3px ease-in;
+    animation: popOut 0.8s;
+}
+
+@keyframes popUp {
+    0% {
+        scale: 0.7;
+        opacity: 0;
+    }
+    50% {
+        scale: 1.2;
+        opacity: 1;
+    }
+    100% {
+        scale: 1;
+    }
+}
+@keyframes popOut {
+    0% {
+        scale: 1;
+    }
+    50% {
+        scale: 1.2;
+        opacity: 1;
+    }
+    100% {
+        scale: 0.7;
+        opacity: 0;
+    }
 }
 </style>
