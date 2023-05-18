@@ -4,7 +4,6 @@
             v-for="user in friendsData"
             :key="user.id"
             :user="user"
-            :userData="friendsData"
             :loggedInUserId="loggedInUserId"
         />
     </div>

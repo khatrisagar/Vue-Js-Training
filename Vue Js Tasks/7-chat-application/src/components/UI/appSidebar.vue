@@ -19,10 +19,6 @@ export default {
         return {
             routes: [
                 {
-                    routingName: "Chat Room",
-                    routingPath: "chat-room",
-                },
-                {
                     routingName: "users",
                     routingPath: "users",
                 },

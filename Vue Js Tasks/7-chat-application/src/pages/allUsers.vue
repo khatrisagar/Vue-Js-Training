@@ -5,7 +5,6 @@
             v-for="user in userData"
             :key="user.id"
             :user="user"
-            :userData="userData"
             :loggedInUserId="loggedInUserId"
             @addFriend="addFriend"
         />

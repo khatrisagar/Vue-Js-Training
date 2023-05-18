@@ -32,6 +32,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+    width: 300px;
+}
 .user-card {
     width: 300px;
     box-shadow: 0px 0px 3px black;
