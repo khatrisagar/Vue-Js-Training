@@ -26,6 +26,7 @@ const authenticateFriendshipStatus = (to, next) => {
     const userData = JSON.parse(localStorage.getItem("userData")) || [];
     const loggedInUserId = JSON.parse(localStorage.getItem("user_at"))?.id;
     const loggedInUser = userData.find((user) => user.id === loggedInUserId);
+    console.log("aaaaaaaa", loggedInUser.friends);
 
     if (loggedInUser.friends.includes(parseInt(to.params.id))) {
         next();
@@ -48,6 +49,14 @@ const router = createRouter({
             },
         },
         {
+            name: "logout",
+            path: "/logout",
+            beforeEnter: (to, from, next) => {
+                localStorage.removeItem("user_at");
+                return next({ name: "login" });
+            },
+        },
+        {
             name: "users",
             path: "/users",
             component: allUsers,
@@ -67,7 +76,6 @@ const router = createRouter({
             beforeEnter: (to, from, next) => {
                 const idLoggedInUserId =
                     JSON.parse(localStorage.getItem("user_at"))?.id || null;
-                console.log("checkkk");
                 if (idLoggedInUserId) {
                     const userData =
                         JSON.parse(localStorage.getItem("userData")) || [];
@@ -83,9 +91,12 @@ const router = createRouter({
                     } else {
                         return next({ name: "users" });
                     }
+                } else {
+                    return next({ name: "login" });
                 }
             },
         },
+
         {
             path: "/users/:id",
             component: userProfile,

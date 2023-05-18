@@ -30,6 +30,10 @@ export default {
                     routingName: "friends",
                     routingPath: "friends",
                 },
+                {
+                    routingName: "Logout",
+                    routingPath: "logout",
+                },
             ],
         };
     },

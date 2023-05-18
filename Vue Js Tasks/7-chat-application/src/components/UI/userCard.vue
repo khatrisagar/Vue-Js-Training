@@ -1,6 +1,6 @@
 <template>
     <router-link :to="`/users/${user.id}`">
-        <div class="user-card">
+        <div class="user-card" v-if="user.id !== loggedInUserId">
             <p>{{ user.firstName }} {{ user.lastName }}</p>
             <button
                 v-if="!user.friends.includes(loggedInUserId)"

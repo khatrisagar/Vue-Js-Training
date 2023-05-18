@@ -2,7 +2,7 @@
     <div class="chatroom-wrappper">
         <div class="read-chat-container" ref="chatContainer">
             <div
-                v-for="chat in withFriendChat"
+                v-for="chat in chats"
                 :key="chat.id"
                 :style="{
                     alignSelf:
@@ -35,36 +35,17 @@ export default {
             loggedInUserId: null,
             // all chat data object
             userChats: null,
-            withFriendChat: null,
+            // filter messages
+            chats: null,
         };
     },
-    created() {
+    mounted() {
         this.userChats = JSON.parse(localStorage.getItem("userChats")) || [];
         this.loggedInUserId =
             JSON.parse(localStorage.getItem("user_at")).id || null;
-        this.withFriendChat = this.userChats.filter(
-            (chat) =>
-                (chat.id == this.loggedInUserId ||
-                    chat.id == parseInt(this.$route.params.id)) &&
-                (chat.friendID == parseInt(this.$route.params.id) ||
-                    chat.friendID == this.loggedInUserId)
-        );
+        this.updateChats();
     },
     methods: {
-        setMessage() {
-            localStorage.setItem("userChats", JSON.stringify(this.userChats));
-            this.withFriendChat = this.userChats.filter(
-                (chat) =>
-                    (chat.id == this.loggedInUserId ||
-                        chat.id == parseInt(this.$route.params.id)) &&
-                    (chat.friendID == parseInt(this.$route.params.id) ||
-                        chat.friendID == this.loggedInUserId)
-            );
-            this.$refs.chatContainer.scrollTo(
-                0,
-                this.$refs.chatContainer.scrollHeight
-            );
-        },
         sendMessage() {
             if (this.userMessage === "" || !this.userMessage) {
                 return;
@@ -99,6 +80,26 @@ export default {
 
                 this.setMessage();
             }, 3000);
+        },
+        setMessage() {
+            this.updateChats();
+            localStorage.setItem("userChats", JSON.stringify(this.userChats));
+        },
+
+        updateChats() {
+            this.chats = this.userChats.filter(
+                (chat) =>
+                    (chat.id == this.loggedInUserId ||
+                        chat.id == parseInt(this.$route.params.id)) &&
+                    (chat.friendID == parseInt(this.$route.params.id) ||
+                        chat.friendID == this.loggedInUserId)
+            );
+            setTimeout(() => {
+                this.$refs.chatContainer.scrollTo(
+                    0,
+                    this.$refs.chatContainer.scrollHeight
+                );
+            }, 0);
         },
     },
 };
