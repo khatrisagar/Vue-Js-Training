@@ -9,7 +9,13 @@
                         chat.id == loggedInUserId ? 'flex-end' : 'flex-start',
                 }"
             >
-                <chatCard :userMsg="chat.userMsg" />
+                {{}}
+                <chatCard
+                    :chat="chat"
+                    :loggedInUserId="loggedInUserId"
+                    @deleteChat="deleteChat"
+                    @editChat="editChat"
+                />
             </div>
         </div>
         <div class="typing-area">
@@ -47,17 +53,30 @@ export default {
     },
     methods: {
         sendMessage() {
+            const userChatObject = {
+                chatId: new Date().getTime(),
+                id: this.loggedInUserId,
+                userMsg: this.userMessage,
+                time: new Date().toLocaleTimeString(),
+            };
+
             if (this.userMessage === "" || !this.userMessage) {
                 return;
             }
-            this.userChats.push({
-                id: this.loggedInUserId,
-                friendID: parseInt(this.$route.params.id),
-                userMsg: this.userMessage,
-            });
+            if (this.$route.params.id) {
+                this.userChats.push({
+                    ...userChatObject,
+                    friendID: parseInt(this.$route.params.id),
+                });
 
+                this.autoReply();
+            } else if (this.$route.params.groupId) {
+                this.userChats.push({
+                    ...userChatObject,
+                    groupId: parseInt(this.$route.params.groupId),
+                });
+            }
             this.userMessage = null;
-            this.autoReply();
             this.setMessage();
         },
         autoReply() {
@@ -70,12 +89,16 @@ export default {
             ];
             setTimeout(() => {
                 this.userChats.push({
+                    chatId: new Date().getTime(),
                     id: parseInt(this.$route.params.id),
                     friendID: this.loggedInUserId,
+
                     userMsg:
                         listOfReplies[
                             Math.floor(Math.random() * listOfReplies.length)
                         ],
+
+                    time: new Date().toLocaleTimeString(),
                 });
 
                 this.setMessage();
@@ -85,15 +108,39 @@ export default {
             this.updateChats();
             localStorage.setItem("userChats", JSON.stringify(this.userChats));
         },
+        deleteChat(chatId) {
+            const chatIndex = this.userChats.findIndex((chat) => {
+                return parseInt(chat.chatId) === parseInt(chatId);
+            });
+            console.log(chatIndex);
+            this.userChats.splice(chatIndex, 1);
+            this.setMessage();
+        },
+        editChat(chatId, userMsg) {
+            const chatIndex = this.userChats.findIndex((chat) => {
+                return parseInt(chat.chatId) === parseInt(chatId);
+            });
+            console.log(chatIndex);
+            this.userChats[chatIndex].userMsg = userMsg;
+            this.userChats[chatIndex].time = new Date().toLocaleTimeString();
+            this.setMessage();
+        },
 
         updateChats() {
-            this.chats = this.userChats.filter(
-                (chat) =>
-                    (chat.id == this.loggedInUserId ||
-                        chat.id == parseInt(this.$route.params.id)) &&
-                    (chat.friendID == parseInt(this.$route.params.id) ||
-                        chat.friendID == this.loggedInUserId)
-            );
+            if (this.$route.params.id) {
+                this.chats = this.userChats.filter(
+                    (chat) =>
+                        (chat.id == this.loggedInUserId ||
+                            chat.id == parseInt(this.$route.params.id)) &&
+                        (chat.friendID == parseInt(this.$route.params.id) ||
+                            chat.friendID == this.loggedInUserId)
+                );
+            } else if (this.$route.params.groupId) {
+                this.chats = this.userChats.filter(
+                    (chat) =>
+                        chat.groupId === parseInt(this.$route.params.groupId)
+                );
+            }
             setTimeout(() => {
                 this.$refs.chatContainer.scrollTo(
                     0,

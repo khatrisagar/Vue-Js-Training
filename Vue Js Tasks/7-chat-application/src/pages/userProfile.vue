@@ -21,8 +21,20 @@
             Add Friend
         </button>
         <router-link
-            :to="{ name: 'chatRoom', params: { id: userProfileData.id } }"
+            :to="{
+                name: 'chatRoom',
+                params: { id: userProfileData.id },
+            }"
             >Chat</router-link
+        >
+        <router-link
+            v-for="group in userProfileData.groups"
+            :key="group"
+            :to="{
+                name: 'groupChatRoom',
+                params: { groupId: group },
+            }"
+            >Group</router-link
         >
     </div>
 </template>
@@ -79,6 +91,7 @@ export default {
                 }
             );
             this.loggedInUserData.friends.splice(userIndex, 1);
+            this.$router.back();
             localStorage.setItem("userData", JSON.stringify(this.userData));
         },
     },

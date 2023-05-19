@@ -42,4 +42,7 @@ export default {
     border: 1px solid black;
     min-height: 100vh;
 }
+.router-link-active {
+    color: blue;
+}
 </style>

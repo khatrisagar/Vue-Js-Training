@@ -44,11 +44,29 @@ export default {
                 this.$router.push({ name: "friends" });
                 localStorage.setItem("user_at", JSON.stringify({ id: 1 }));
             } else if (
-                this.userName === "ravi" &&
+                this.userName === "dhyey" &&
                 this.userPassword === "1234"
             ) {
                 this.$router.push({ name: "friends" });
                 localStorage.setItem("user_at", JSON.stringify({ id: 2 }));
+            } else if (
+                this.userName === "kaushal" &&
+                this.userPassword === "1234"
+            ) {
+                this.$router.push({ name: "friends" });
+                localStorage.setItem("user_at", JSON.stringify({ id: 3 }));
+            } else if (
+                this.userName === "jay" &&
+                this.userPassword === "1234"
+            ) {
+                this.$router.push({ name: "friends" });
+                localStorage.setItem("user_at", JSON.stringify({ id: 4 }));
+            } else if (
+                this.userName === "ravi" &&
+                this.userPassword === "1234"
+            ) {
+                this.$router.push({ name: "friends" });
+                localStorage.setItem("user_at", JSON.stringify({ id: 5 }));
             } else {
                 this.$router.push({ name: "login" });
             }

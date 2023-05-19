@@ -1,6 +1,9 @@
 <template>
     <div class="card-wrapper">
         <button @click="registerUser" class="registerUser">Register</button>
+        <button @click="onCreateGroup" class="registerUser">
+            Create Group
+        </button>
         <userCard
             v-for="user in userData"
             :key="user.id"
@@ -14,20 +17,33 @@
             <userRegisteration @addUser="addUser" @closeForm="closeForm" />
         </div>
     </transition>
+    <transition name="createGroupForm">
+        <div class="form-container" v-if="isShowGroupForm">
+            <createGroup
+                :userData="userData"
+                :loggedInUserId="loggedInUserId"
+                @createGroup="createGroup"
+                @closeForm="closeCreateGroup"
+            />
+        </div>
+    </transition>
 </template>
 
 <script>
 import userCard from "@/components/UI/userCard.vue";
 import userRegisteration from "@/components/UI/userRegistration.vue";
+import createGroup from "@/components/UI/createGroup.vue";
 
 export default {
     components: {
         userCard,
         userRegisteration,
+        createGroup,
     },
     data() {
         return {
             isShowRegistrationForm: false,
+            isShowGroupForm: false,
             userData: null,
             test: [
                 {
@@ -38,6 +54,7 @@ export default {
                     state: "Gujrat",
                     city: "Ahmedabad",
                     friends: [],
+                    groups: [],
                 },
                 {
                     id: 2,
@@ -47,6 +64,7 @@ export default {
                     state: "Gujrat",
                     city: "Ahmedabad",
                     friends: [],
+                    groups: [],
                 },
                 {
                     id: 3,
@@ -56,6 +74,7 @@ export default {
                     state: "Gujrat",
                     city: "Ahmedabad",
                     friends: [],
+                    groups: [],
                 },
                 {
                     id: 4,
@@ -65,6 +84,17 @@ export default {
                     state: "Gujrat",
                     city: "Ahmedabad",
                     friends: [],
+                    groups: [],
+                },
+                {
+                    id: 5,
+                    firstName: "ravi",
+                    lastName: "rathod",
+                    contactNumber: "9999999999",
+                    state: "Gujrat",
+                    city: "Ahmedabad",
+                    friends: [],
+                    groups: [],
                 },
             ],
             loggedInUserId: null,
@@ -106,6 +136,36 @@ export default {
         closeForm() {
             this.isShowRegistrationForm = false;
         },
+        onCreateGroup() {
+            this.isShowGroupForm = true;
+        },
+        createGroup(groupName, groupUsers) {
+            const groupData =
+                JSON.parse(localStorage.getItem("groupData")) ?? [];
+
+            const groupID = new Date().getTime();
+
+            groupData.push({
+                groupID,
+                groupName,
+                groupUsers,
+            });
+            groupUsers.forEach((groupUser) => {
+                this.userData.forEach((user) => {
+                    if (groupUser === user.id) {
+                        user.groups.push(groupID);
+                    }
+                });
+            });
+
+            localStorage.setItem("groupData", JSON.stringify(groupData));
+            localStorage.setItem("userData", JSON.stringify(this.userData));
+            this.closeCreateGroup();
+        },
+
+        closeCreateGroup() {
+            this.isShowGroupForm = false;
+        },
     },
 };
 </script>
@@ -138,11 +198,13 @@ export default {
     left: 35%;
     background-color: white;
 }
-.registrationForm-enter-active {
+.registrationForm-enter-active,
+.createGroupForm-enter-active {
     transition: 0.3px ease-in;
     animation: popUp 0.8s;
 }
-.registrationForm-leave-active {
+.registrationForm-leave-active,
+.createGroupForm-leave-active {
     transition: 0.3px ease-in;
     animation: popOut 0.8s;
 }
