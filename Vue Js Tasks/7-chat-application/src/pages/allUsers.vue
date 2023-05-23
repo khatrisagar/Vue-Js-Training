@@ -122,7 +122,7 @@ export default {
 
                 localStorage.setItem("userData", JSON.stringify(this.userData));
             } else {
-                this.$router.push("/login");
+                this.$router.push({ name: "login" });
             }
         },
         registerUser() {

@@ -48,7 +48,7 @@ export default {
     mounted() {
         this.userChats = JSON.parse(localStorage.getItem("userChats")) || [];
         this.loggedInUserId =
-            JSON.parse(localStorage.getItem("user_at")).id || null;
+            JSON.parse(localStorage.getItem("user_at"))?.id || null;
         this.updateChats();
     },
     methods: {

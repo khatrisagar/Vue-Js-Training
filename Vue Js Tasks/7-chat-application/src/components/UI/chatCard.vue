@@ -87,7 +87,7 @@ export default {
             this.$emit("editChat", chatId, this.userEditedMsg);
 
             this.isShowEdit = false;
-            this.isFeatureVisible = false;
+            this.isFeatureVisible = true;
         },
         // setFeatureVisibility(isVisible) {
         //     this.isFeatureVisible = isVisible;
