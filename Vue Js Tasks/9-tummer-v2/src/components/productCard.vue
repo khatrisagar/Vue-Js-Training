@@ -9,6 +9,9 @@
         </div>
         <div>
             <p>{{ product.name }}</p>
+            <p class="sale-text" v-if="product.isSale">
+                This Product Is on Sale
+            </p>
             <p v-if="product.price">Price-{{ product.price }} $</p>
         </div>
     </div>
@@ -35,9 +38,12 @@ export default {
     justify-content: center;
     align-items: center;
     width: 200px;
-    height: 200px;
+    height: 230px;
 }
 .card-image {
     height: 150px;
+}
+.sale-text {
+    color: var(--primary-color);
 }
 </style>

@@ -160,7 +160,8 @@ export const products = [
         image: require("@/assets/pro-category-1.png"),
         subCategoryId: 1,
         rating: [],
-        price: "5",
+        price: 5,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -170,7 +171,8 @@ export const products = [
         image: require("@/assets/pro-category-2.png"),
         subCategoryId: 1,
         rating: [],
-        price: "50",
+        price: 50,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -180,7 +182,8 @@ export const products = [
         image: require("@/assets/pro-category-3.png"),
         subCategoryId: 1,
         rating: [],
-        price: "34",
+        price: 34,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -190,7 +193,8 @@ export const products = [
         image: require("@/assets/pro-category-4.png"),
         subCategoryId: 2,
         rating: [],
-        price: "17",
+        price: 17,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -200,7 +204,8 @@ export const products = [
         image: require("@/assets/pro-category-5.png"),
         subCategoryId: 2,
         rating: [],
-        price: "102",
+        price: 102,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -210,7 +215,8 @@ export const products = [
         image: require("@/assets/pro-category-6.png"),
         subCategoryId: 2,
         rating: [],
-        price: "12",
+        price: 12,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -220,7 +226,8 @@ export const products = [
         image: require("@/assets/pro-category-3.png"),
         subCategoryId: 3,
         rating: [],
-        price: "100",
+        price: 100,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -230,7 +237,8 @@ export const products = [
         image: require("@/assets/pro-category-4.png"),
         subCategoryId: 3,
         rating: [],
-        price: "100",
+        price: 100,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -240,7 +248,8 @@ export const products = [
         image: require("@/assets/pro-category-5.png"),
         subCategoryId: 4,
         rating: [],
-        price: "100",
+        price: 100,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -250,7 +259,8 @@ export const products = [
         image: require("@/assets/pro-category-6.png"),
         subCategoryId: 4,
         rating: [],
-        price: "100",
+        price: 100,
+        isSale: false,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
