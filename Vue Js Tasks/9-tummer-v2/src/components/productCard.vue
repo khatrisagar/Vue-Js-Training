@@ -9,7 +9,7 @@
         </div>
         <div>
             <p>{{ product.name }}</p>
-            <p v-if="product.price">Price-{{ product.price }}</p>
+            <p v-if="product.price">Price-{{ product.price }} $</p>
         </div>
     </div>
 </template>

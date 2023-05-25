@@ -156,61 +156,61 @@ export const productSubCategories = [
 export const products = [
     {
         id: 1,
-        name: "Image and Sound",
+        name: "Speaker",
         image: require("@/assets/pro-category-1.png"),
         subCategoryId: 1,
         rating: [],
-        price: "100$",
+        price: "5",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 2,
-        name: "Computers and Tablets",
+        name: "Tablet",
         image: require("@/assets/pro-category-2.png"),
         subCategoryId: 1,
         rating: [],
-        price: "100$",
+        price: "50",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 3,
-        name: "Household and living",
+        name: "Washing Machine",
         image: require("@/assets/pro-category-3.png"),
         subCategoryId: 1,
         rating: [],
-        price: "100$",
+        price: "34",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 4,
-        name: "Kitchen",
+        name: "Fridge",
         image: require("@/assets/pro-category-4.png"),
         subCategoryId: 2,
         rating: [],
-        price: "100$",
+        price: "17",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 5,
-        name: "Sports and Care",
+        name: "Bat",
         image: require("@/assets/pro-category-5.png"),
         subCategoryId: 2,
         rating: [],
-        price: "100$",
+        price: "102",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 6,
-        name: "All Categories",
+        name: "Monitor",
         image: require("@/assets/pro-category-6.png"),
         subCategoryId: 2,
         rating: [],
-        price: "100$",
+        price: "12",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -220,37 +220,37 @@ export const products = [
         image: require("@/assets/pro-category-3.png"),
         subCategoryId: 3,
         rating: [],
-        price: "100$",
+        price: "100",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 8,
-        name: "Ereaders",
+        name: "Mouse",
         image: require("@/assets/pro-category-4.png"),
         subCategoryId: 3,
         rating: [],
-        price: "100$",
+        price: "100",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 9,
-        name: "Desktops",
+        name: "Keyboard",
         image: require("@/assets/pro-category-5.png"),
         subCategoryId: 4,
         rating: [],
-        price: "100$",
+        price: "100",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
     {
         id: 10,
-        name: "Printers",
+        name: "CPU",
         image: require("@/assets/pro-category-6.png"),
         subCategoryId: 4,
         rating: [],
-        price: "100$",
+        price: "100",
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -260,8 +260,10 @@ export const products = [
 
 const orderHistory = {
     orderID: 111, // randm order id with uuid package,
-    orderDate: new Date().toISOString,
     productID: 1,
-    productPrice: "100$", // created due to diffrent price in sell
+    userId: 1,
+    orderDate: new Date().toISOString,
+    productPrice: "100", // created due to diffrent price in sell
+    quantity: 1,
 };
 console.log(orderHistory);

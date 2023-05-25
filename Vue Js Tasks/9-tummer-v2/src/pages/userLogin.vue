@@ -42,50 +42,26 @@
 </template>
 
 <script>
+import { users } from "@/constants/users.js";
 export default {
     data() {
         return {
             userEmail: null,
             userPassword: null,
-            users: [
-                {
-                    id: 1,
-                    email: "test@gmail.com",
-                    password: "1234",
-                    cart: [],
-                    purchaseHistory: [],
-                },
-                {
-                    id: 2,
-                    email: "sagar@gmail.com",
-                    password: "1234",
-                    cart: [],
-                    purchaseHistory: [],
-                },
-                {
-                    id: 3,
-                    email: "ravi@gmail.com",
-                    password: "1234",
-                    cart: [],
-                    purchaseHistory: [],
-                },
-            ],
         };
     },
     methods: {
         onLogin() {
-            for (let user of this.users) {
-                if (user.email === this.userEmail) {
-                    if (user.password === this.userPassword) {
-                        localStorage.setItem(
-                            "user_at",
-                            JSON.stringify({ userId: user.id })
-                        );
-                    } else {
-                        return;
-                    }
-                } else {
-                    console.log("bb");
+            for (let user of users) {
+                if (
+                    user.email === this.userEmail &&
+                    this.userPassword === this.userPassword
+                ) {
+                    localStorage.setItem(
+                        "user_at",
+                        JSON.stringify({ userId: user.id })
+                    );
+                    this.$router.push({ name: "home" });
                 }
             }
         },

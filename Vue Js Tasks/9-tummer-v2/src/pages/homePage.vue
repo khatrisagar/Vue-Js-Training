@@ -10,23 +10,22 @@
             />
         </div>
     </div>
+
+    <div>
+        <h3>Trending products</h3>
+        {{ getTrendingProducts }}
+    </div>
 </template>
 
 <script>
 import categoryCard from "@/components/categoryCard.vue";
 import { getCategories } from "@/utils/helpers/getCategories";
 
-// import { productCategories } from "@/constants/products";
-
 export default {
     components: {
         categoryCard,
     },
     mounted() {
-        // localStorage.setItem(
-        //     "productCategories",
-        //     JSON.stringify(productCategories)
-        // );
         this.productCategories = getCategories();
     },
     data() {
@@ -45,6 +44,40 @@ export default {
                 name: "subCategories",
                 params: { category: category.name.replaceAll(" ", "-") },
             });
+        },
+    },
+    computed: {
+        getTrendingProducts() {
+            let products = [];
+            const orders = JSON.parse(localStorage.getItem("orders"));
+            orders.forEach((order) => {
+                order.product.forEach((product) => {
+                    // console.log(product.id, product.quantity);
+                    products.forEach((productObject) => {
+                        // console.log(productObject);
+                        // console.log(product);
+                        if (product.id === productObject.id) {
+                            console.log(
+                                "matched",
+                                product.id,
+                                productObject.id
+                            );
+                            productObject.quantity += product.quantity;
+                        } else {
+                            console.log(
+                                "not matched",
+                                product.id,
+                                productObject.id
+                            );
+                            products.push({
+                                id: product.id,
+                                quantity: product.quantity,
+                            });
+                        }
+                    });
+                });
+            });
+            return products;
         },
     },
 };

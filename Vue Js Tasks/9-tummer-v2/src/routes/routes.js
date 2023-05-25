@@ -7,7 +7,7 @@ import homePage from "@/pages/homePage";
 import subCategory from "@/pages/subCategoryPage";
 import productList from "@/pages/productList";
 import productDetails from "@/pages/productDetails";
-
+import orderHistory from "@/pages/orderHistory";
 // gaurds
 
 export const router = createRouter({
@@ -38,6 +38,11 @@ export const router = createRouter({
             name: "productDetails",
             path: "/:category/:subcategory/:product",
             component: productDetails,
+        },
+        {
+            name: "orderHistory",
+            path: "/order-history",
+            component: orderHistory,
         },
 
         {

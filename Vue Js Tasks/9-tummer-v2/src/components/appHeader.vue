@@ -23,11 +23,14 @@
                     alt="user cart"
                     @click="isCartVisible"
                 />
+                <router-link :to="{ name: 'orderHistory' }">
+                    <i class="fa fa-history"></i
+                ></router-link>
             </div>
         </div>
     </header>
     <div class="cart" v-if="isCartPopUp">
-        <cartPopUp />
+        <cartPopUp @closePopUp="closePopUp" />
     </div>
 </template>
 
@@ -46,7 +49,9 @@ export default {
     methods: {
         isCartVisible() {
             this.isCartPopUp = !this.isCartPopUp;
-            // this.$store.dispatch("isCart");
+        },
+        closePopUp() {
+            this.isCartVisible();
         },
     },
 };
