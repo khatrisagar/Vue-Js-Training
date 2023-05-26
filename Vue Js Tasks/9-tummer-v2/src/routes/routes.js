@@ -9,7 +9,7 @@ import productList from "@/pages/productList";
 import productDetails from "@/pages/productDetails";
 import orderHistory from "@/pages/orderHistory";
 // gaurds
-
+import { authGaurd } from "./routing-gaurds/auth.gaurd";
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -22,33 +22,60 @@ export const router = createRouter({
             name: "home",
             path: "/",
             component: homePage,
+            beforeEnter: (to, from, next) => {
+                authGaurd();
+                next();
+            },
         },
         {
             name: "subCategories",
             path: "/:category",
             component: subCategory,
+            beforeEnter: (to, from, next) => {
+                authGaurd();
+                next();
+            },
         },
 
         {
             name: "productList",
             path: "/:category/:subcategory",
             component: productList,
+            beforeEnter: (to, from, next) => {
+                authGaurd();
+                next();
+            },
         },
         {
             name: "productDetails",
             path: "/:category/:subcategory/:product",
             component: productDetails,
+            beforeEnter: (to, from, next) => {
+                authGaurd();
+                next();
+            },
         },
         {
             name: "orderHistory",
             path: "/order-history",
             component: orderHistory,
+            beforeEnter: (to, from, next) => {
+                if (authGaurd()) {
+                    next();
+                } else {
+                    next({ name: "login" });
+                }
+            },
         },
 
         {
             name: "404",
             path: "/404",
             component: pageNotFound,
+            beforeEnter: (to, from, next) => {
+                authGaurd();
+                next();
+            },
         },
         {
             name: "pageNotFound",

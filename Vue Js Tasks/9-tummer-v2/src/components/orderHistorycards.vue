@@ -54,7 +54,6 @@ export default {
             this.order.product.forEach((product) => {
                 totalPrice += product.price * product.quantity;
             });
-            console.log(this.order.product);
             return totalPrice;
         },
     },

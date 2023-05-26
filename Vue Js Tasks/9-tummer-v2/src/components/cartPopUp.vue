@@ -31,54 +31,58 @@ export default {
     components: {
         cartProductCard,
     },
+    created() {
+        this.$store.dispatch("loadCart");
+    },
     methods: {
         closePopUp() {
             this.$emit("closePopUp");
         },
         createOrder() {
-            let orderedProducts = [];
-            this.$store.state.cart.forEach((cartProduct) => {
-                getProducts().forEach((product) => {
-                    if (product.id === cartProduct.id) {
-                        console.log(product);
-                        orderedProducts.push({
-                            id: cartProduct.id,
-                            quantity: cartProduct.quantity,
-                            price: product.price,
-                        });
-                    }
+            const userID = JSON.parse(localStorage.getItem("user_at"))?.userId;
+            if (userID) {
+                let orderedProducts = [];
+                this.$store.state.cartStore.cart.forEach((cartProduct) => {
+                    getProducts().forEach((product) => {
+                        if (product.id === cartProduct.id) {
+                            orderedProducts.push({
+                                id: cartProduct.id,
+                                quantity: cartProduct.quantity,
+                                price: product.price,
+                            });
+                        }
+                    });
                 });
-            });
 
-            // order object to push
-            const order = {
-                id: new Date().getTime(),
-                date: new Date().toISOString(),
-                userId: JSON.parse(localStorage.getItem("user_at")).userId,
-                product: orderedProducts,
-            };
+                // order object to push
+                const order = {
+                    id: new Date().getTime(),
+                    date: new Date().toISOString(),
+                    userId: userID,
+                    product: orderedProducts,
+                };
 
-            let orders = JSON.parse(localStorage.getItem("orders")) ?? [];
-            orders.push(order);
+                let orders = JSON.parse(localStorage.getItem("orders")) ?? [];
+                orders.push(order);
 
-            let users = getUsers();
-            const loggedInUser = users.find(
-                (user) =>
-                    user.id ===
-                    JSON.parse(localStorage.getItem("user_at")).userId
-            );
-            loggedInUser.orderHistory.push(new Date().getTime());
+                let users = getUsers();
+                const loggedInUser = users.find((user) => user.id === userID);
+                loggedInUser.orderHistory.push(new Date().getTime());
 
-            localStorage.setItem("users", JSON.stringify(users));
+                localStorage.setItem("users", JSON.stringify(users));
 
-            localStorage.setItem("orders", JSON.stringify(orders));
-            this.$store.dispatch("clearCart");
+                localStorage.setItem("orders", JSON.stringify(orders));
+                this.$store.dispatch("clearCart");
+            } else {
+                this.closePopUp();
+                this.$router.push({ name: "login" });
+            }
         },
     },
     computed: {
         getCartProducts() {
             let cartProducts = [];
-            this.$store.state.cart.forEach((cartProduct) => {
+            this.$store.state.cartStore.cart.forEach((cartProduct) => {
                 getProducts().forEach((product) => {
                     if (cartProduct.id === product.id) {
                         cartProducts.push({

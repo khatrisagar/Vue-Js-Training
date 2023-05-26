@@ -162,6 +162,7 @@ export const products = [
         rating: [],
         price: 5,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -173,6 +174,7 @@ export const products = [
         rating: [],
         price: 50,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -184,6 +186,7 @@ export const products = [
         rating: [],
         price: 34,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -195,6 +198,7 @@ export const products = [
         rating: [],
         price: 17,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -206,6 +210,7 @@ export const products = [
         rating: [],
         price: 102,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -217,6 +222,7 @@ export const products = [
         rating: [],
         price: 12,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -228,6 +234,7 @@ export const products = [
         rating: [],
         price: 100,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -239,6 +246,7 @@ export const products = [
         rating: [],
         price: 100,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -250,6 +258,7 @@ export const products = [
         rating: [],
         price: 100,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -261,6 +270,7 @@ export const products = [
         rating: [],
         price: 100,
         isSale: false,
+        stock: 20,
         productDescription:
             "This item is for sell if you want to purchase it then click on order button.",
     },
@@ -268,12 +278,11 @@ export const products = [
 
 // purchase history common format
 
-const orderHistory = {
-    orderID: 111, // randm order id with uuid package,
-    productID: 1,
-    userId: 1,
-    orderDate: new Date().toISOString,
-    productPrice: "100", // created due to diffrent price in sell
-    quantity: 1,
-};
-console.log(orderHistory);
+// const orderHistory = {
+//     orderID: 111, // randm order id with uuid package,
+//     productID: 1,
+//     userId: 1,
+//     orderDate: new Date().toISOString,
+//     productPrice: "100", // created due to diffrent price in sell
+//     quantity: 1,
+// };

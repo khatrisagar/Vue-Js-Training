@@ -8,8 +8,10 @@
             />
         </div>
         <div>
-            <p>{{ product.name }}</p>
-            <p class="sale-text" v-if="product.isSale">
+            <p>
+                {{ product.name }}
+            </p>
+            <p class="sale-text" v-if="product.isSale && isSale">
                 This Product Is on Sale
             </p>
             <p v-if="product.price">Price-{{ product.price }} $</p>
@@ -19,10 +21,14 @@
 
 <script>
 export default {
-    data() {},
     props: {
         product: {
             type: Object,
+        },
+    },
+    computed: {
+        isSale() {
+            return this.$store.getters["saleStore/getSaleStatus"];
         },
     },
 };

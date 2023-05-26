@@ -1,12 +1,12 @@
 // import { users } from "@/constants/users";
 
 // const setUsers = () => {
-//   localStorage.setItem("users", JSON.stringify(users));
+//     localStorage.setItem("users", JSON.stringify(users));
 // };
 
 export const getUsers = () => {
-  //   setUsers();
-  return JSON.parse(localStorage.getItem("users"));
+    // setUsers();
+    return JSON.parse(localStorage.getItem("users"));
 };
 
 // getTrendingProducts() {
@@ -46,6 +46,15 @@ export const getUsers = () => {
 //     const sortedProducts = products.sort((a, b) => {
 //       return b.quantity - a.quantity;
 //     });
-//     console.log(sortedProducts);
 //     return sortedProducts;
 //   }
+
+// console.log(moment().format("hh:mm:ss"));
+// console.log(
+//     moment()
+//         .minute(moment().minute() + 2)
+//         .format("hh:mm:ss")
+// );
+
+// to get a current minutes +2
+// console.log(moment().minute() + 2);

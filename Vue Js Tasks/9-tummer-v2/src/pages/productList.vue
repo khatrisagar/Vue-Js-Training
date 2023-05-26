@@ -40,9 +40,14 @@ export default {
                 subcategory.name ===
                 this.$route.params.subcategory.replaceAll("-", " ")
         );
-        this.productsData = getProducts().filter(
-            (product) => product.subCategoryId === subcategory.id
-        );
+
+        if (subcategory) {
+            this.productsData = getProducts().filter(
+                (product) => product.subCategoryId === subcategory.id
+            );
+        } else {
+            this.$router.push({ name: "404" });
+        }
     },
     data() {
         return {

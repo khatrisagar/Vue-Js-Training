@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { users } from "@/constants/users.js";
+import { getUsers } from "@/utils/helpers/getUsers";
 export default {
     data() {
         return {
@@ -52,15 +52,39 @@ export default {
     },
     methods: {
         onLogin() {
+            const users = getUsers();
+
             for (let user of users) {
                 if (
                     user.email === this.userEmail &&
                     this.userPassword === this.userPassword
                 ) {
+                    const loggedInUser = users.find(
+                        (registerUser) => registerUser.id == user.id
+                    );
+                    this.$store.getters["getCartData"].forEach(
+                        (cartProduct) => {
+                            loggedInUser.cart.forEach(
+                                (loggedInUserCartProduct) => {
+                                    if (
+                                        cartProduct.id ===
+                                        loggedInUserCartProduct.id
+                                    ) {
+                                        loggedInUserCartProduct.quantity =
+                                            cartProduct.quantity;
+                                    } else {
+                                        loggedInUser.cart.push(cartProduct);
+                                    }
+                                }
+                            );
+                        }
+                    );
+                    localStorage.setItem("users", JSON.stringify(users));
                     localStorage.setItem(
                         "user_at",
                         JSON.stringify({ userId: user.id })
                     );
+                    this.$store.dispatch("auth/setLogin");
                     this.$router.push({ name: "home" });
                 }
             }

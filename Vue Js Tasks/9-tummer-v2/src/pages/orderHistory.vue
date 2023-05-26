@@ -22,7 +22,6 @@ export default {
             let history = [];
 
             const allOrders = JSON.parse(localStorage.getItem("orders")) ?? [];
-            console.log(allOrders);
             getLoggedInUserData().orderHistory.forEach((orderHistoryID) => {
                 allOrders?.forEach((order) => {
                     if (orderHistoryID === order.id) {
