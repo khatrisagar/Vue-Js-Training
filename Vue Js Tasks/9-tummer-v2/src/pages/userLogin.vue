@@ -43,6 +43,7 @@
 
 <script>
 import { getUsers } from "@/utils/helpers/getUsers";
+import { setLoggedInCart } from "@/utils/helpers/setLoggedInUserCart";
 export default {
     data() {
         return {
@@ -53,44 +54,20 @@ export default {
     methods: {
         onLogin() {
             const users = getUsers();
-            let isProductExist = false;
-            let loggedInUser;
             for (let user of users) {
                 if (
                     user.email === this.userEmail &&
                     this.userPassword === this.userPassword
                 ) {
-                    loggedInUser = users.find(
-                        (registerUser) => registerUser.id == user.id
-                    );
-
                     localStorage.setItem(
                         "user_at",
                         JSON.stringify({ userId: user.id })
                     );
-                    this.$store.dispatch("auth/setLogin");
                 }
             }
 
-            this.$store.getters["getCartData"].forEach((cartProduct) => {
-                if (loggedInUser.cart.length) {
-                    isProductExist = false;
-                    loggedInUser.cart.forEach((loggedInUserCartProduct) => {
-                        if (cartProduct.id === loggedInUserCartProduct.id) {
-                            isProductExist = true;
-                            loggedInUserCartProduct.quantity +=
-                                cartProduct.quantity;
-                        }
-                    });
-                    if (!isProductExist) {
-                        loggedInUser.cart.push(cartProduct);
-                        isProductExist = false;
-                    }
-                } else {
-                    loggedInUser.cart.push(cartProduct);
-                }
-            });
-            localStorage.setItem("users", JSON.stringify(users));
+            this.$store.dispatch("auth/setLogin");
+            setLoggedInCart();
             this.$router.push({ name: "home" });
         },
     },

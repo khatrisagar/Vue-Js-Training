@@ -40,7 +40,7 @@ export default {
             const userID = JSON.parse(localStorage.getItem("user_at"))?.userId;
             if (userID) {
                 let orderedProducts = [];
-                this.$store.state.cartStore.cart.forEach((cartProduct) => {
+                this.$store.getters["getCartData"].forEach((cartProduct) => {
                     getProducts().forEach((product) => {
                         if (product.id === cartProduct.id) {
                             orderedProducts.push({
@@ -65,10 +65,9 @@ export default {
 
                 let users = getUsers();
                 const loggedInUser = users.find((user) => user.id === userID);
-                loggedInUser.orderHistory.push(new Date().getTime());
+                loggedInUser.orderHistory.push(order.id);
 
                 localStorage.setItem("users", JSON.stringify(users));
-
                 localStorage.setItem("orders", JSON.stringify(orders));
                 this.$store.dispatch("onOrder");
             } else {
@@ -80,7 +79,7 @@ export default {
     computed: {
         getCartProducts() {
             let cartProducts = [];
-            this.$store.state.cartStore.cart.forEach((cartProduct) => {
+            this.$store.getters["getCartData"].forEach((cartProduct) => {
                 getProducts().forEach((product) => {
                     if (cartProduct.id === product.id) {
                         cartProducts.push({
