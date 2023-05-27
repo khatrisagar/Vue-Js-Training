@@ -53,50 +53,45 @@ export default {
     methods: {
         onLogin() {
             const users = getUsers();
-
+            let isProductExist = false;
+            let loggedInUser;
             for (let user of users) {
                 if (
                     user.email === this.userEmail &&
                     this.userPassword === this.userPassword
                 ) {
-                    const loggedInUser = users.find(
+                    loggedInUser = users.find(
                         (registerUser) => registerUser.id == user.id
                     );
-                    let isProductExist = false;
-                    this.$store.getters["getCartData"].forEach(
-                        (cartProduct) => {
-                            if (loggedInUser.cart.length) {
-                                isProductExist = false;
-                                loggedInUser.cart.forEach(
-                                    (loggedInUserCartProduct) => {
-                                        if (
-                                            cartProduct.id ===
-                                            loggedInUserCartProduct.id
-                                        ) {
-                                            isProductExist = true;
-                                            loggedInUserCartProduct.quantity +=
-                                                cartProduct.quantity;
-                                        }
-                                    }
-                                );
-                                if (!isProductExist) {
-                                    loggedInUser.cart.push(cartProduct);
-                                    isProductExist = false;
-                                }
-                            } else {
-                                loggedInUser.cart.push(cartProduct);
-                            }
-                        }
-                    );
-                    localStorage.setItem("users", JSON.stringify(users));
+
                     localStorage.setItem(
                         "user_at",
                         JSON.stringify({ userId: user.id })
                     );
                     this.$store.dispatch("auth/setLogin");
-                    this.$router.push({ name: "home" });
                 }
             }
+
+            this.$store.getters["getCartData"].forEach((cartProduct) => {
+                if (loggedInUser.cart.length) {
+                    isProductExist = false;
+                    loggedInUser.cart.forEach((loggedInUserCartProduct) => {
+                        if (cartProduct.id === loggedInUserCartProduct.id) {
+                            isProductExist = true;
+                            loggedInUserCartProduct.quantity +=
+                                cartProduct.quantity;
+                        }
+                    });
+                    if (!isProductExist) {
+                        loggedInUser.cart.push(cartProduct);
+                        isProductExist = false;
+                    }
+                } else {
+                    loggedInUser.cart.push(cartProduct);
+                }
+            });
+            localStorage.setItem("users", JSON.stringify(users));
+            this.$router.push({ name: "home" });
         },
     },
 };
