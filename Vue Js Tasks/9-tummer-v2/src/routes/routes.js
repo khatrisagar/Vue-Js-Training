@@ -10,6 +10,9 @@ import productDetails from "@/pages/productDetails";
 import orderHistory from "@/pages/orderHistory";
 // gaurds
 import { authGaurd } from "./routing-gaurds/auth.gaurd";
+
+// routing actions
+import { setCart } from "@/routes/routing-actions/setCart";
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -24,6 +27,7 @@ export const router = createRouter({
             component: homePage,
             beforeEnter: (to, from, next) => {
                 authGaurd();
+                setCart();
                 next();
             },
         },
@@ -33,6 +37,7 @@ export const router = createRouter({
             component: subCategory,
             beforeEnter: (to, from, next) => {
                 authGaurd();
+                setCart();
                 next();
             },
         },
@@ -43,6 +48,7 @@ export const router = createRouter({
             component: productList,
             beforeEnter: (to, from, next) => {
                 authGaurd();
+                setCart();
                 next();
             },
         },
@@ -52,6 +58,7 @@ export const router = createRouter({
             component: productDetails,
             beforeEnter: (to, from, next) => {
                 authGaurd();
+                setCart();
                 next();
             },
         },

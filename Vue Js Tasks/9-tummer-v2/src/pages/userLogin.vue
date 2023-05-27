@@ -62,21 +62,30 @@ export default {
                     const loggedInUser = users.find(
                         (registerUser) => registerUser.id == user.id
                     );
+                    let isProductExist = false;
                     this.$store.getters["getCartData"].forEach(
                         (cartProduct) => {
-                            loggedInUser.cart.forEach(
-                                (loggedInUserCartProduct) => {
-                                    if (
-                                        cartProduct.id ===
-                                        loggedInUserCartProduct.id
-                                    ) {
-                                        loggedInUserCartProduct.quantity =
-                                            cartProduct.quantity;
-                                    } else {
-                                        loggedInUser.cart.push(cartProduct);
+                            if (loggedInUser.cart.length) {
+                                isProductExist = false;
+                                loggedInUser.cart.forEach(
+                                    (loggedInUserCartProduct) => {
+                                        if (
+                                            cartProduct.id ===
+                                            loggedInUserCartProduct.id
+                                        ) {
+                                            isProductExist = true;
+                                            loggedInUserCartProduct.quantity +=
+                                                cartProduct.quantity;
+                                        }
                                     }
+                                );
+                                if (!isProductExist) {
+                                    loggedInUser.cart.push(cartProduct);
+                                    isProductExist = false;
                                 }
-                            );
+                            } else {
+                                loggedInUser.cart.push(cartProduct);
+                            }
                         }
                     );
                     localStorage.setItem("users", JSON.stringify(users));

@@ -31,9 +31,7 @@ export default {
     components: {
         cartProductCard,
     },
-    created() {
-        this.$store.dispatch("loadCart");
-    },
+    created() {},
     methods: {
         closePopUp() {
             this.$emit("closePopUp");
@@ -72,7 +70,7 @@ export default {
                 localStorage.setItem("users", JSON.stringify(users));
 
                 localStorage.setItem("orders", JSON.stringify(orders));
-                this.$store.dispatch("clearCart");
+                this.$store.dispatch("onOrder");
             } else {
                 this.closePopUp();
                 this.$router.push({ name: "login" });

@@ -15,17 +15,21 @@ export default {
                     (user) => user.id === store.getters["auth/getUserId"]
                 );
                 state.cart = loggedInUserData.cart;
+                localStorage.removeItem("cart");
             } else {
                 state.cart = JSON.parse(localStorage.getItem("cart"));
             }
         },
         addItemToCart(state, productId) {
+            console.log(state.cart);
             const isalredyExistInCart = state.cart.find(
                 (product) => product.id === productId
             );
             if (isalredyExistInCart) {
+                console.log("alredy exist");
                 isalredyExistInCart.quantity++;
             } else {
+                console.log("not exist");
                 state.cart.push({
                     id: productId,
                     quantity: 1,
@@ -48,9 +52,14 @@ export default {
                 1
             );
         },
+        // on logout clear cart
         clearCart(state) {
             state.cart = [];
             localStorage.setItem("cart", JSON.stringify(state.cart));
+        },
+        // on order clear cart
+        onOrder(state) {
+            state.cart = [];
         },
         setLocalStorageCart(state) {
             if (store.getters["auth/getIsUserLogin"]) {
@@ -83,7 +92,10 @@ export default {
         },
         clearCart(context) {
             context.commit("clearCart");
-            // context.commit("setLocalStorageCart");
+        },
+        onOrder(context) {
+            context.commit("onOrder");
+            context.commit("setLocalStorageCart");
         },
     },
     getters: {

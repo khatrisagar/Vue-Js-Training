@@ -39,6 +39,7 @@
                 </div>
             </div>
         </div>
+        {{ this.$store.getters["getCartData"] }}
     </header>
     <div class="cart" v-if="isCartPopUp">
         <cartPopUp @closePopUp="closePopUp" />
