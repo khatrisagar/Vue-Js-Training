@@ -30,11 +30,11 @@ export default {
     computed: {
         getTrendingProducts() {
             let products = [];
-            let isProductExist = false;
             const orders = JSON.parse(localStorage.getItem("orders")) ?? [];
             orders?.forEach((order) => {
                 order?.product?.forEach((product) => {
                     if (products.length) {
+                        let isProductExist = false;
                         products.forEach((productObject) => {
                             if (product.id === productObject.id) {
                                 isProductExist = true;
@@ -46,7 +46,6 @@ export default {
                                 id: product.id,
                                 quantity: product.quantity,
                             });
-                            isProductExist = false;
                         }
                     } else {
                         products.push({

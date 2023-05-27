@@ -96,7 +96,7 @@ export default {
     },
     computed: {
         isUserLogin() {
-            if (this.$store.state.auth.isUserLogin) {
+            if (this.$store.getters["auth/getIsUserLogin"]) {
                 return true;
             } else {
                 return false;

@@ -8,11 +8,13 @@ import subCategory from "@/pages/subCategoryPage";
 import productList from "@/pages/productList";
 import productDetails from "@/pages/productDetails";
 import orderHistory from "@/pages/orderHistory";
+
 // gaurds
 import { authGaurd } from "./routing-gaurds/auth.gaurd";
 
 // routing actions
 import { setCart } from "@/routes/routing-actions/setCart";
+
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -20,6 +22,13 @@ export const router = createRouter({
             name: "login",
             path: "/login",
             component: userLogin,
+            beforeEnter: (to, from, next) => {
+                if (authGaurd()) {
+                    next({ name: "home" });
+                } else {
+                    next();
+                }
+            },
         },
         {
             name: "home",

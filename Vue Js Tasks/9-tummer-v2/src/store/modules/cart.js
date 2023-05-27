@@ -20,16 +20,15 @@ export default {
                 state.cart = JSON.parse(localStorage.getItem("cart"));
             }
         },
+
         addItemToCart(state, productId) {
-            console.log(state.cart);
             const isalredyExistInCart = state.cart.find(
                 (product) => product.id === productId
             );
+
             if (isalredyExistInCart) {
-                console.log("alredy exist");
                 isalredyExistInCart.quantity++;
             } else {
-                console.log("not exist");
                 state.cart.push({
                     id: productId,
                     quantity: 1,

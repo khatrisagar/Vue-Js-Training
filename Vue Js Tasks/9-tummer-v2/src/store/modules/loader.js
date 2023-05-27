@@ -18,7 +18,6 @@ export default {
             context.commit("onLoad");
         },
         removeLoader(context) {
-            console.log("loaderRmove");
             context.commit("offLoad");
         },
     },

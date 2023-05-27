@@ -1,1 +1,1 @@
-<template>This is foooter</template>
+<template><div>This is foooter</div></template>

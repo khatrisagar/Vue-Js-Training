@@ -14,7 +14,6 @@ export default {
         startSale(state) {
             const saleData = JSON.parse(localStorage.getItem("sale")) ?? null;
             if (saleData) {
-                console.log("ifff");
                 state.isSaleRunning = saleData.isSaleRunning;
                 state.saleStartTime = saleData.saleStartTime;
                 state.saleEndTime = saleData.saleEndTime;

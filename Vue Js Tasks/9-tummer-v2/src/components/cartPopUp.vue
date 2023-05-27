@@ -37,7 +37,7 @@ export default {
             this.$emit("closePopUp");
         },
         createOrder() {
-            const userID = JSON.parse(localStorage.getItem("user_at"))?.userId;
+            const userID = this.$store.getters["auth/getUserId"];
             if (userID) {
                 let orderedProducts = [];
                 this.$store.getters["getCartData"].forEach((cartProduct) => {
