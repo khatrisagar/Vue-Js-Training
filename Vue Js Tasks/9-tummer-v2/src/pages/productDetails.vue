@@ -30,6 +30,7 @@
             <img class="image" :src="product.image" alt="" />
         </div>
         <div>
+            <p v-if="stockOutWarning" class="warning">Out Of Stock</p>
             <p>Product Name:- {{ product.name }}</p>
             <p>Product Information:- {{ product.productDescription }}</p>
             <p>Product Name:- {{ product.price }}$</p>
@@ -44,6 +45,7 @@
 <script>
 import appLoader from "@/components/UI/appLoader.vue";
 import { getProducts } from "@/utils/helpers/getProducts";
+import { isProductInStock } from "@/utils/helpers/isProductInStock";
 export default {
     components: {
         appLoader,
@@ -65,12 +67,22 @@ export default {
     data() {
         return {
             product: null,
+            stockOutWarning: false,
         };
     },
 
     methods: {
         addToCart(productId) {
-            this.$store.dispatch("addItemToCart", productId);
+            if (isProductInStock(productId)) {
+                this.stockOutWarning = false;
+                this.$store.dispatch("addItemToCart", productId);
+            } else {
+                console.log(isProductInStock(productId));
+                this.stockOutWarning = true;
+                setTimeout(() => {
+                    this.stockOutWarning = false;
+                }, 2000);
+            }
         },
     },
     computed: {

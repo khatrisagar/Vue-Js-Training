@@ -38,6 +38,10 @@ a{
     flex-direction: column;
 }
 
+.warning{
+    font-weight: 900;
+    color: red;
+}
 
 
 /* button */

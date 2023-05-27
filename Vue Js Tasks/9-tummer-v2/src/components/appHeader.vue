@@ -9,8 +9,7 @@
                     />
                 </router-link>
             </div>
-            <div v-if="saleTimer !== 0">Sale Ends In: {{ saleTimer }}</div>
-            <div v-if="saleTimer === 0">Sale Ended</div>
+
             <div class="header-right">
                 <div v-if="!isUserLogin">
                     <router-link :to="{ name: 'login' }">
@@ -21,6 +20,14 @@
                         />
                     </router-link>
                 </div>
+                <div v-if="isUserLogin" class="after-login">
+                    <button class="logout-button" @click="logoutUser">
+                        <i
+                            class="fa fa-sign-out fa-2xl"
+                            style="color: white"
+                        ></i>
+                    </button>
+                </div>
                 <div>
                     <img
                         class="header-images"
@@ -29,12 +36,9 @@
                         @click="isCartVisible"
                     />
                 </div>
-                <div v-if="isUserLogin" class="after-login">
-                    <button class="logout-button" @click="logoutUser">
-                        Logout
-                    </button>
+                <div v-if="isUserLogin" class="view-history after-login">
                     <router-link :to="{ name: 'orderHistory' }">
-                        <i class="fa fa-history"></i
+                        <i class="fa fa-history fa-lg" style="color: white"></i
                     ></router-link>
                 </div>
             </div>
@@ -47,8 +51,6 @@
 
 <script>
 import cartPopUp from "@/components/cartPopUp.vue";
-import moment from "moment";
-import { resetProductSale } from "@/utils/helpers/getProducts";
 
 export default {
     components: {
@@ -56,13 +58,10 @@ export default {
     },
     mounted() {
         this.$store.dispatch("saleStore/setStartSale");
-        this.setSaleTimer();
     },
     data() {
         return {
             isCartPopUp: false,
-
-            saleTimer: 0,
         };
     },
     methods: {
@@ -76,22 +75,6 @@ export default {
             localStorage.removeItem("user_at");
             this.$store.dispatch("clearCart");
             this.$store.dispatch("auth/setLogout");
-        },
-        setSaleTimer() {
-            const saleEndTime = this.$store.getters["saleStore/getSaleEndTime"];
-            const interval = setInterval(() => {
-                this.saleTimer = Math.floor(
-                    moment
-                        .duration(moment(saleEndTime).diff(moment()))
-                        .as("second")
-                );
-                if (this.saleTimer <= 0) {
-                    clearInterval(interval);
-                    resetProductSale();
-                    this.$store.dispatch("saleStore/setEndSale");
-                    localStorage.removeItem("sale");
-                }
-            }, 1000);
         },
     },
     computed: {
@@ -130,13 +113,20 @@ header {
     position: absolute;
     right: 2rem;
 }
-.logout-button {
-    box-shadow: var(--bg-shadow);
-    width: 80px;
-    height: 30px;
+.logout-button,
+.view-history {
+    border: 1px solid white;
+    padding: 0.5rem;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    font-size: 2;
+    background-color: transparent;
 }
 .after-login {
     display: flex;
     gap: 1rem;
+    align-items: center;
+    justify-content: center;
 }
 </style>

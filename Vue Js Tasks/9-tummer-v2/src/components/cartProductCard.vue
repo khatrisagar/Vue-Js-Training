@@ -1,42 +1,49 @@
 <template>
-    <div class="card-wrapper">
-        <div class="card-image-container">
-            <img :src="cartProduct.image" alt="" />
-        </div>
-        <div>
-            <p>{{ cartProduct.name }}</p>
-            <div class="quantity-container flex flex-row">
+    <div class="card-box">
+        <div class="card-wrapper">
+            <div class="card-image-container">
+                <img :src="cartProduct.image" alt="" />
+            </div>
+            <div>
+                <p>{{ cartProduct.name }}</p>
+                <div class="quantity-container flex flex-row">
+                    <button
+                        @click="increaseQuantity(cartProduct.id)"
+                        class="quantity-buttons"
+                    >
+                        +
+                    </button>
+                    <p>{{ cartProduct.quantity }}</p>
+                    <button
+                        @click="decreaseQuantity(cartProduct.id)"
+                        class="quantity-buttons"
+                    >
+                        -
+                    </button>
+                </div>
+            </div>
+            <div>
+                <p>price- {{ getProductPrice }}$</p>
+            </div>
+            <div>
                 <button
-                    @click="increaseQuantity(cartProduct.id)"
-                    class="quantity-buttons"
+                    class="delete-item-button"
+                    @click="deleteItem(cartProduct.id)"
                 >
-                    +
-                </button>
-                <p>{{ cartProduct.quantity }}</p>
-                <button
-                    @click="decreaseQuantity(cartProduct.id)"
-                    class="quantity-buttons"
-                >
-                    -
+                    <i class="fa fa-trash"></i>
                 </button>
             </div>
         </div>
-        <div>
-            <p>price- {{ getProductPrice }}$</p>
-        </div>
-        <div>
-            <button
-                class="delete-item-button"
-                @click="deleteItem(cartProduct.id)"
-            >
-                <i class="fa fa-trash"></i>
-            </button>
-        </div>
+        <div v-if="stockOutWarning"><p class="warning">Out Of Stock</p></div>
     </div>
 </template>
 
 <script>
+import { isProductInStock } from "@/utils/helpers/isProductInStock";
 export default {
+    data() {
+        return { stockOutWarning: false };
+    },
     props: {
         cartProduct: {
             type: Object,
@@ -44,7 +51,14 @@ export default {
     },
     methods: {
         increaseQuantity(cartProductId) {
-            this.$store.dispatch("addItemToCart", cartProductId);
+            if (isProductInStock(cartProductId)) {
+                this.$store.dispatch("addItemToCart", cartProductId);
+            } else {
+                this.stockOutWarning = true;
+                setTimeout(() => {
+                    this.stockOutWarning = false;
+                }, 2000);
+            }
         },
         decreaseQuantity(cartProductId) {
             this.$store.dispatch("removeItemFromCart", cartProductId);
@@ -62,10 +76,14 @@ export default {
 </script>
 
 <style scoped>
-.card-wrapper {
+.card-box {
     border: 1px solid black;
-    padding: 1rem;
     display: flex;
+    flex-direction: column;
+}
+.card-wrapper {
+    display: flex;
+    padding: 1rem;
     flex-direction: row;
     justify-content: flex-start;
     gap: 2rem;

@@ -40,14 +40,16 @@ export default {
             const userID = this.$store.getters["auth/getUserId"];
             if (userID) {
                 let orderedProducts = [];
+                const products = getProducts();
                 this.$store.getters["getCartData"].forEach((cartProduct) => {
-                    getProducts().forEach((product) => {
+                    products.forEach((product) => {
                         if (product.id === cartProduct.id) {
                             orderedProducts.push({
                                 id: cartProduct.id,
                                 quantity: cartProduct.quantity,
                                 price: product.price,
                             });
+                            product.stock -= cartProduct.quantity;
                         }
                     });
                 });
@@ -68,6 +70,7 @@ export default {
                 loggedInUser.orderHistory.push(order.id);
 
                 localStorage.setItem("users", JSON.stringify(users));
+                localStorage.setItem("products", JSON.stringify(products));
                 localStorage.setItem("orders", JSON.stringify(orders));
                 this.$store.dispatch("onOrder");
             } else {
@@ -109,6 +112,7 @@ export default {
 .cart-popup-wrapper {
     padding: 1rem;
     box-shadow: var(--bg-shadow);
+    background-color: var(--white);
 }
 
 .close-button {

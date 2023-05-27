@@ -20,7 +20,7 @@ export default {
             } else {
                 state.isSaleRunning = true;
                 state.saleStartTime = moment();
-                state.saleEndTime = moment().minute(moment().minute() + 1);
+                state.saleEndTime = moment().minute(moment().minute() + 2);
 
                 resetProductSale();
                 const randomValueArray = Array(5)

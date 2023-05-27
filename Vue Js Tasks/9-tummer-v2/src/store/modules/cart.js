@@ -1,4 +1,5 @@
 import { store } from "@/store/store";
+// import { getProducts } from "@/utils/helpers/getProducts";
 import { getUsers } from "@/utils/helpers/getUsers";
 
 export default {
@@ -22,12 +23,17 @@ export default {
         },
 
         addItemToCart(state, productId) {
-            const isalredyExistInCart = state.cart.find(
-                (product) => product.id === productId
+            const alreadyExitsProductInCart = state.cart.map(
+                (cartItem) => cartItem.id
             );
-
-            if (isalredyExistInCart) {
-                isalredyExistInCart.quantity++;
+            if (alreadyExitsProductInCart.includes(productId)) {
+                state.cart = state.cart.map((cartItem) => {
+                    if (cartItem.id == productId) {
+                        return { ...cartItem, quantity: cartItem.quantity + 1 };
+                    } else {
+                        return cartItem;
+                    }
+                });
             } else {
                 state.cart.push({
                     id: productId,
@@ -35,6 +41,33 @@ export default {
                 });
             }
         },
+
+        // addItemToCart(state, productId) {
+        //     const isalredyExistInCart = state.cart.find(
+        //         (product) => product.id === productId
+        //     );
+        //     let product = getProducts().find(
+        //         (product) => product.id === productId
+        //     );
+        //     // setTimeout(() => {
+        //     //     console.log(product, product.stock);
+
+        //     if (product.stock) {
+        //         if (
+        //             isalredyExistInCart &&
+        //             product.stock > isalredyExistInCart.quantity
+        //         ) {
+        //             isalredyExistInCart.quantity++;
+        //             product.stock -= isalredyExistInCart.quantity;
+        //         } else {
+        //             state.cart.push({
+        //                 id: productId,
+        //                 quantity: 1,
+        //             });
+        //         }
+        //     }
+        //     // }, 500);
+        // },
         removeItemFromCart(state, productId) {
             const itemIndex = state.cart.findIndex(
                 (product) => product.id === productId

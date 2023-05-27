@@ -11,7 +11,7 @@
         </div>
 
         <trendingProducts class="trending-products" />
-        <sellProducts class="sell-products" />
+        <sellProducts id="sell-products" class="sell-products" />
     </div>
 </template>
 
