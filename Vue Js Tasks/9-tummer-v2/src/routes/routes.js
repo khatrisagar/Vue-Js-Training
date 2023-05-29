@@ -23,11 +23,7 @@ export const router = createRouter({
             path: "/login",
             component: userLogin,
             beforeEnter: (to, from, next) => {
-                if (authGaurd()) {
-                    next({ name: "home" });
-                } else {
-                    next();
-                }
+                authGaurd() ? next({ name: "home" }) : next();
             },
         },
         {
@@ -76,11 +72,7 @@ export const router = createRouter({
             path: "/order-history",
             component: orderHistory,
             beforeEnter: (to, from, next) => {
-                if (authGaurd()) {
-                    next();
-                } else {
-                    next({ name: "login" });
-                }
+                authGaurd() ? next() : next({ name: "login" });
             },
         },
 

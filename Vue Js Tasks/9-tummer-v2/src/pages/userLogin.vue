@@ -27,6 +27,9 @@
                     />
                 </div>
                 <div class="form-element">
+                    <p class="warning" v-if="showLoginWarnings">
+                        Invalid Credentials
+                    </p>
                     <p class="">
                         Doesn't have account
                         <router-link to="/signup">SignUp</router-link>
@@ -49,6 +52,7 @@ export default {
         return {
             userEmail: null,
             userPassword: null,
+            showLoginWarnings: false,
         };
     },
     methods: {
@@ -57,18 +61,20 @@ export default {
             for (let user of users) {
                 if (
                     user.email === this.userEmail &&
-                    this.userPassword === this.userPassword
+                    user.password === this.userPassword
                 ) {
                     localStorage.setItem(
                         "user_at",
                         JSON.stringify({ userId: user.id })
                     );
+
+                    this.$store.dispatch("auth/setLogin");
+                    setLoggedInCart();
+                    this.$router.push({ name: "home" });
+                } else {
+                    this.showLoginWarnings = true;
                 }
             }
-
-            this.$store.dispatch("auth/setLogin");
-            setLoggedInCart();
-            this.$router.push({ name: "home" });
         },
     },
 };
