@@ -18,7 +18,7 @@ export default {
                 state.cart = loggedInUserData.cart;
                 localStorage.removeItem("cart");
             } else {
-                state.cart = JSON.parse(localStorage.getItem("cart"));
+                state.cart = JSON.parse(localStorage.getItem("cart")) ?? [];
             }
         },
 
@@ -29,7 +29,10 @@ export default {
             if (alreadyExitsProductInCart.includes(productId)) {
                 state.cart = state.cart.map((cartItem) => {
                     if (cartItem.id == productId) {
-                        return { ...cartItem, quantity: cartItem.quantity + 1 };
+                        return {
+                            ...cartItem,
+                            quantity: cartItem.quantity + 1,
+                        };
                     } else {
                         return cartItem;
                     }
