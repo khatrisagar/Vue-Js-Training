@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
     props: {
         product: {
@@ -27,8 +28,9 @@ export default {
         },
     },
     computed: {
+        ...mapGetters({ getSaleStatus: "saleStore/getSaleStatus" }),
         isSale() {
-            return this.$store.getters["saleStore/getSaleStatus"];
+            return this.getSaleStatus;
         },
     },
 };

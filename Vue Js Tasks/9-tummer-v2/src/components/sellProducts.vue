@@ -18,6 +18,7 @@ import { getProductDetails } from "@/utils/helpers/getProductDetails";
 
 import { getProducts } from "@/utils/helpers/getProducts";
 import productCard from "./productCard.vue";
+import { mapGetters } from "vuex";
 export default {
     components: {
         productCard,
@@ -28,9 +29,10 @@ export default {
         },
     },
     computed: {
+        ...mapGetters({ getSaleStatus: "saleStore/getSaleStatus" }),
         getSellProductsData() {
-            if (this.$store.getters["saleStore/getSaleStatus"]) {
-                return getProducts().filter(
+            if (this.getSaleStatus) {
+                return getProducts()?.filter(
                     (product) => product.isSale == true
                 );
             } else {

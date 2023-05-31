@@ -6,19 +6,19 @@ export default {
         };
     },
     mutations: {
-        onLoad(state) {
+        SET_LOADER(state) {
             state.isLoader = true;
         },
-        offLoad(state) {
+        REMOVE_LOADER(state) {
             state.isLoader = false;
         },
     },
     actions: {
-        setLoader(context) {
-            context.commit("onLoad");
+        setLoader({ commit }) {
+            commit("SET_LOADER");
         },
-        removeLoader(context) {
-            context.commit("offLoad");
+        removeLoader({ commit }) {
+            commit("REMOVE_LOADER");
         },
     },
     getters: {

@@ -26,22 +26,27 @@
 import { getProducts } from "@/utils/helpers/getProducts";
 import { getUsers } from "@/utils/helpers/getUsers";
 import cartProductCard from "@/components/cartProductCard";
+import { setCart } from "@/routes/routing-actions/setCart";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     components: {
         cartProductCard,
     },
-    created() {},
+    created() {
+        setCart();
+    },
     methods: {
+        ...mapActions({ onOrder: "onOrder" }),
         closePopUp() {
             this.$emit("closePopUp");
         },
         createOrder() {
-            const userID = this.$store.getters["auth/getUserId"];
+            const userID = this.getUserId;
             if (userID) {
                 let orderedProducts = [];
                 const products = getProducts();
-                this.$store.getters["getCartData"].forEach((cartProduct) => {
+                this.getCartData.forEach((cartProduct) => {
                     products.forEach((product) => {
                         if (product.id === cartProduct.id) {
                             orderedProducts.push({
@@ -72,7 +77,7 @@ export default {
                 localStorage.setItem("users", JSON.stringify(users));
                 localStorage.setItem("products", JSON.stringify(products));
                 localStorage.setItem("orders", JSON.stringify(orders));
-                this.$store.dispatch("onOrder");
+                this.onOrder();
             } else {
                 this.closePopUp();
                 this.$router.push({ name: "login" });
@@ -80,9 +85,13 @@ export default {
         },
     },
     computed: {
+        ...mapGetters({
+            getCartData: "getCartData",
+            getUserId: "auth/getUserId",
+        }),
         getCartProducts() {
             let cartProducts = [];
-            this.$store.getters["getCartData"].forEach((cartProduct) => {
+            this.getCartData.forEach((cartProduct) => {
                 getProducts().forEach((product) => {
                     if (cartProduct.id === product.id) {
                         cartProducts.push({

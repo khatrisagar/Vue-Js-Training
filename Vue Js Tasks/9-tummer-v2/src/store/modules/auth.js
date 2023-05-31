@@ -7,20 +7,21 @@ export default {
         };
     },
     mutations: {
-        onLogin(state) {
-            state.userId = JSON.parse(localStorage.getItem("user_at"))?.userId;
+        SET_LOGIN(state, userId) {
+            state.userId = userId;
             state.isUserLogin = true;
         },
-        onLogout(state) {
+        SET_LOGOUT(state) {
+            state.userId = null;
             state.isUserLogin = false;
         },
     },
     actions: {
-        setLogin(context) {
-            context.commit("onLogin");
+        setLogin({ commit }, userId) {
+            commit("SET_LOGIN", userId);
         },
-        setLogout(context) {
-            context.commit("onLogout");
+        setLogout({ commit }) {
+            commit("SET_LOGOUT");
         },
     },
     getters: {

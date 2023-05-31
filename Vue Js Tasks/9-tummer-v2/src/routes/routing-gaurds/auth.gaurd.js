@@ -1,11 +1,19 @@
 import { store } from "@/store/store";
 
-export const authGaurd = () => {
-    const userToken = JSON.parse(localStorage.getItem("user_at"));
-    if (userToken) {
-        store.dispatch("auth/setLogin");
-        return true;
+export const authGaurd = (to, from, next) => {
+    const isUserLoggedIn = store.getters["auth/getIsUserLogin"];
+    if (isUserLoggedIn) {
+        next();
     } else {
-        return false;
+        next({ name: "login" });
+    }
+};
+
+export const alreadyLoginAuth = (to, from, next) => {
+    const isUserLoggedIn = store.getters['auth/getIsUserLogin"'];
+    if (isUserLoggedIn) {
+        next({ name: "home" });
+    } else {
+        next();
     }
 };

@@ -51,13 +51,45 @@
 
 <script>
 import cartPopUp from "@/components/cartPopUp.vue";
+import moment from "moment";
+import { getProducts, resetProductSale } from "@/utils/helpers/getProducts";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     components: {
         cartPopUp,
     },
     mounted() {
-        this.$store.dispatch("saleStore/setStartSale");
+        const saleData = JSON.parse(localStorage.getItem("sale")) ?? null;
+        let saleDataObject = {};
+        if (saleData) {
+            saleDataObject = {
+                isSaleRunning: saleData.isSaleRunning,
+                saleStartTime: saleData.saleStartTime,
+                saleEndTime: saleData.saleEndTime,
+            };
+        } else {
+            saleDataObject = {
+                isSaleRunning: true,
+                saleStartTime: moment(),
+                saleEndTime: moment().minute(moment().minute() + 5),
+            };
+
+            resetProductSale();
+            const randomValueArray = Array(5)
+                .fill()
+                .map(() => Math.floor(Math.random() * getProducts().length));
+            const products = getProducts();
+            products.forEach((product) => {
+                if (randomValueArray.includes(product.id)) {
+                    product.isSale = true;
+                }
+            });
+            localStorage.setItem("products", JSON.stringify(products));
+        }
+
+        this.setStartSale(saleDataObject);
+        localStorage.setItem("sale", JSON.stringify(this.getSaleInformation));
     },
     data() {
         return {
@@ -65,6 +97,11 @@ export default {
         };
     },
     methods: {
+        ...mapActions({
+            setLogout: "auth/setLogout",
+            clearCart: "clearCart",
+            setStartSale: "saleStore/setStartSale",
+        }),
         isCartVisible() {
             this.isCartPopUp = !this.isCartPopUp;
         },
@@ -73,13 +110,17 @@ export default {
         },
         logoutUser() {
             localStorage.removeItem("user_at");
-            this.$store.dispatch("clearCart");
-            this.$store.dispatch("auth/setLogout");
+            this.clearCart();
+            this.setLogout();
         },
     },
     computed: {
+        ...mapGetters({
+            getSaleInformation: "saleStore/getSaleInformation",
+            getIsUserLogin: "auth/getIsUserLogin",
+        }),
         isUserLogin() {
-            if (this.$store.getters["auth/getIsUserLogin"]) {
+            if (this.getIsUserLogin) {
                 return true;
             } else {
                 return false;

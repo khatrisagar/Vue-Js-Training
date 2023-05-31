@@ -9,7 +9,7 @@ export default {
         };
     },
     mutations: {
-        onLoadCart(state) {
+        SET_CART(state) {
             if (store.getters["auth/getIsUserLogin"]) {
                 const users = getUsers();
                 const loggedInUserData = users.find(
@@ -22,7 +22,7 @@ export default {
             }
         },
 
-        addItemToCart(state, productId) {
+        ADD_ITEM_TO_CART(state, productId) {
             const alreadyExitsProductInCart = state.cart.map(
                 (cartItem) => cartItem.id
             );
@@ -45,33 +45,7 @@ export default {
             }
         },
 
-        // addItemToCart(state, productId) {
-        //     const isalredyExistInCart = state.cart.find(
-        //         (product) => product.id === productId
-        //     );
-        //     let product = getProducts().find(
-        //         (product) => product.id === productId
-        //     );
-        //     // setTimeout(() => {
-        //     //     console.log(product, product.stock);
-
-        //     if (product.stock) {
-        //         if (
-        //             isalredyExistInCart &&
-        //             product.stock > isalredyExistInCart.quantity
-        //         ) {
-        //             isalredyExistInCart.quantity++;
-        //             product.stock -= isalredyExistInCart.quantity;
-        //         } else {
-        //             state.cart.push({
-        //                 id: productId,
-        //                 quantity: 1,
-        //             });
-        //         }
-        //     }
-        //     // }, 500);
-        // },
-        removeItemFromCart(state, productId) {
+        REMOVE_ITEM_FROM_CART(state, productId) {
             const itemIndex = state.cart.findIndex(
                 (product) => product.id === productId
             );
@@ -81,22 +55,22 @@ export default {
                 state.cart.splice(itemIndex, 1);
             }
         },
-        deleteItemFromCart(state, productId) {
+        DELETE_ITEM_FROM_CART(state, productId) {
             state.cart.splice(
                 state.cart.findIndex((product) => product.id === productId),
                 1
             );
         },
         // on logout clear cart
-        clearCart(state) {
+        CELAR_CART(state) {
             state.cart = [];
             localStorage.setItem("cart", JSON.stringify(state.cart));
         },
         // on order clear cart
-        onOrder(state) {
+        ON_ORDER(state) {
             state.cart = [];
         },
-        setLocalStorageCart(state) {
+        SET_LOCAL_STORAGE_CART(state) {
             if (store.getters["auth/getIsUserLogin"]) {
                 const users = JSON.parse(localStorage.getItem("users"));
                 const loggedInUserData = users.find(
@@ -111,26 +85,26 @@ export default {
     },
     actions: {
         loadCart(context) {
-            context.commit("onLoadCart");
+            context.commit("SET_CART");
         },
-        addItemToCart(context, productId) {
-            context.commit("addItemToCart", productId);
-            context.commit("setLocalStorageCart");
+        addItemToCart({ commit }, productId) {
+            commit("ADD_ITEM_TO_CART", productId);
+            commit("SET_LOCAL_STORAGE_CART");
         },
-        removeItemFromCart(context, productId) {
-            context.commit("removeItemFromCart", productId);
-            context.commit("setLocalStorageCart");
+        removeItemFromCart({ commit }, productId) {
+            commit("REMOVE_ITEM_FROM_CART", productId);
+            commit("SET_LOCAL_STORAGE_CART");
         },
-        deleteItemFromCart(context, productId) {
-            context.commit("deleteItemFromCart", productId);
-            context.commit("setLocalStorageCart");
+        deleteItemFromCart({ commit }, productId) {
+            commit("DELETE_ITEM_FROM_CART", productId);
+            commit("SET_LOCAL_STORAGE_CART");
         },
-        clearCart(context) {
-            context.commit("clearCart");
+        clearCart({ commit }) {
+            commit("CELAR_CART");
         },
-        onOrder(context) {
-            context.commit("onOrder");
-            context.commit("setLocalStorageCart");
+        onOrder({ commit }) {
+            commit("ON_ORDER");
+            commit("SET_LOCAL_STORAGE_CART");
         },
     },
     getters: {

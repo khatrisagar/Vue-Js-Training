@@ -46,19 +46,20 @@
 import appLoader from "@/components/UI/appLoader.vue";
 import { getProducts } from "@/utils/helpers/getProducts";
 import { isProductInStock } from "@/utils/helpers/isProductInStock";
+import { mapActions, mapGetters } from "vuex";
 export default {
     components: {
         appLoader,
     },
     created() {
-        this.$store.dispatch("loader/setLoader");
+        this.setLoader();
         this.product = getProducts().find((product) => {
             return (
                 product.name === this.$route.params.product.replaceAll("-", " ")
             );
         });
         if (this.product) {
-            this.$store.dispatch("loader/removeLoader");
+            this.removeLoader();
         } else if (!this.product) {
             this.$router.push({ name: "404" });
         }
@@ -72,12 +73,16 @@ export default {
     },
 
     methods: {
+        ...mapActions({
+            addItemToCart: "addItemToCart",
+            setLoader: "loader/setLoader",
+            removeLoader: "loader/removeLoader",
+        }),
         addToCart(productId) {
             if (isProductInStock(productId)) {
                 this.stockOutWarning = false;
-                this.$store.dispatch("addItemToCart", productId);
+                this.addItemToCart(productId);
             } else {
-                console.log(isProductInStock(productId));
                 this.stockOutWarning = true;
                 setTimeout(() => {
                     this.stockOutWarning = false;
@@ -86,6 +91,7 @@ export default {
         },
     },
     computed: {
+        ...mapGetters({ isLoader: "loader/isLoader" }),
         getRating() {
             if (this.product?.rating.length > 0) {
                 const totalRatingValue = this.product.rating.reduce(
@@ -99,7 +105,7 @@ export default {
             }
         },
         getLoader() {
-            return this.$store.getters["loader/isLoader"];
+            return this.isLoader;
         },
     },
 };

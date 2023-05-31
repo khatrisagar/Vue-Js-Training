@@ -286,3 +286,10 @@ export const products = [
 //     productPrice: "100", // created due to diffrent price in sell
 //     quantity: 1,
 // };
+
+// rating common format
+
+// {
+// userID: 2
+// rating: 4
+// }

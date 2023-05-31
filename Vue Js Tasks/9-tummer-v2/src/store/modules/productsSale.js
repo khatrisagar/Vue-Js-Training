@@ -1,6 +1,3 @@
-import moment from "moment";
-import { getProducts, resetProductSale } from "@/utils/helpers/getProducts";
-
 export default {
     namespaced: true,
     state() {
@@ -11,44 +8,21 @@ export default {
         };
     },
     mutations: {
-        startSale(state) {
-            const saleData = JSON.parse(localStorage.getItem("sale")) ?? null;
-            if (saleData) {
-                state.isSaleRunning = saleData.isSaleRunning;
-                state.saleStartTime = saleData.saleStartTime;
-                state.saleEndTime = saleData.saleEndTime;
-            } else {
-                state.isSaleRunning = true;
-                state.saleStartTime = moment();
-                state.saleEndTime = moment().minute(moment().minute() + 5);
-
-                resetProductSale();
-                const randomValueArray = Array(5)
-                    .fill()
-                    .map(() =>
-                        Math.floor(Math.random() * getProducts().length)
-                    );
-                const products = getProducts();
-                products.forEach((product) => {
-                    if (randomValueArray.includes(product.id)) {
-                        product.isSale = true;
-                    }
-                });
-                localStorage.setItem("products", JSON.stringify(products));
-
-                localStorage.setItem("sale", JSON.stringify(state));
-            }
+        SET_SALE(state, saleDataObject) {
+            state.isSaleRunning = saleDataObject.isSaleRunning;
+            state.saleStartTime = saleDataObject.saleStartTime;
+            state.saleEndTime = saleDataObject.saleEndTime;
         },
-        endSale(state) {
+        REMOVE_SALE(state) {
             state.isSaleRunning = false;
         },
     },
     actions: {
-        setStartSale(context) {
-            context.commit("startSale");
+        setStartSale({ commit }, saleDataObject) {
+            commit("SET_SALE", saleDataObject);
         },
-        setEndSale(context) {
-            context.commit("endSale");
+        setEndSale({ commit }) {
+            commit("REMOVE_SALE");
         },
     },
     getters: {
@@ -57,6 +31,13 @@ export default {
         },
         getSaleStatus(state) {
             return state.isSaleRunning;
+        },
+        getSaleInformation(state) {
+            return {
+                isSaleRunning: state.isSaleRunning,
+                saleStartTime: state.saleStartTime,
+                saleEndTime: state.saleEndTime,
+            };
         },
     },
 };

@@ -47,6 +47,7 @@
 <script>
 import { getUsers } from "@/utils/helpers/getUsers";
 import { setLoggedInCart } from "@/utils/helpers/setLoggedInUserCart";
+import { mapActions } from "vuex";
 export default {
     data() {
         return {
@@ -56,6 +57,7 @@ export default {
         };
     },
     methods: {
+        ...mapActions({ setLogin: "auth/setLogin" }),
         onLogin() {
             const users = getUsers();
             for (let user of users) {
@@ -68,7 +70,7 @@ export default {
                         JSON.stringify({ userId: user.id })
                     );
 
-                    this.$store.dispatch("auth/setLogin");
+                    this.setLogin(user.id);
                     setLoggedInCart();
                     this.$router.push({ name: "home" });
                 } else {

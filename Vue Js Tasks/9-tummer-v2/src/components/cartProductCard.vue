@@ -40,6 +40,7 @@
 
 <script>
 import { isProductInStock } from "@/utils/helpers/isProductInStock";
+import { mapActions } from "vuex";
 export default {
     data() {
         return { stockOutWarning: false };
@@ -50,9 +51,14 @@ export default {
         },
     },
     methods: {
+        ...mapActions({
+            addItemToCart: "addItemToCart",
+            removeItemFromCart: "removeItemFromCart",
+            deleteItemFromCart: "deleteItemFromCart",
+        }),
         increaseQuantity(cartProductId) {
             if (isProductInStock(cartProductId)) {
-                this.$store.dispatch("addItemToCart", cartProductId);
+                this.addItemToCart(cartProductId);
             } else {
                 this.stockOutWarning = true;
                 setTimeout(() => {
@@ -61,10 +67,10 @@ export default {
             }
         },
         decreaseQuantity(cartProductId) {
-            this.$store.dispatch("removeItemFromCart", cartProductId);
+            this.removeItemFromCart(cartProductId);
         },
         deleteItem(cartProductId) {
-            this.$store.dispatch("deleteItemFromCart", cartProductId);
+            this.deleteItemFromCart(cartProductId);
         },
     },
     computed: {

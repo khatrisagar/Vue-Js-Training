@@ -1,3 +1,4 @@
+import { setCart } from "@/routes/routing-actions/setCart";
 import { store } from "@/store/store";
 import { getUsers } from "@/utils/helpers/getUsers";
 
@@ -24,5 +25,6 @@ export const setLoggedInCart = () => {
             loggedInUser.cart.push(cartProduct);
         }
     });
+    setCart();
     localStorage.setItem("users", JSON.stringify(users));
 };

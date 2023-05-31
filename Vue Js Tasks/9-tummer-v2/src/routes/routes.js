@@ -10,10 +10,7 @@ import productDetails from "@/pages/productDetails";
 import orderHistory from "@/pages/orderHistory";
 
 // gaurds
-import { authGaurd } from "./routing-gaurds/auth.gaurd";
-
-// routing actions
-import { setCart } from "@/routes/routing-actions/setCart";
+import { authGaurd, alreadyLoginAuth } from "./routing-gaurds/auth.gaurd";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -22,17 +19,13 @@ export const router = createRouter({
             name: "login",
             path: "/login",
             component: userLogin,
-            beforeEnter: (to, from, next) => {
-                authGaurd() ? next({ name: "home" }) : next();
-            },
+            beforeEnter: alreadyLoginAuth,
         },
         {
             name: "home",
             path: "/",
             component: homePage,
             beforeEnter: (to, from, next) => {
-                authGaurd();
-                setCart();
                 next();
             },
         },
@@ -41,8 +34,6 @@ export const router = createRouter({
             path: "/:category",
             component: subCategory,
             beforeEnter: (to, from, next) => {
-                authGaurd();
-                setCart();
                 next();
             },
         },
@@ -52,8 +43,6 @@ export const router = createRouter({
             path: "/:category/:subcategory",
             component: productList,
             beforeEnter: (to, from, next) => {
-                authGaurd();
-                setCart();
                 next();
             },
         },
@@ -62,8 +51,6 @@ export const router = createRouter({
             path: "/:category/:subcategory/:product",
             component: productDetails,
             beforeEnter: (to, from, next) => {
-                authGaurd();
-                setCart();
                 next();
             },
         },
@@ -71,9 +58,7 @@ export const router = createRouter({
             name: "orderHistory",
             path: "/order-history",
             component: orderHistory,
-            beforeEnter: (to, from, next) => {
-                authGaurd() ? next() : next({ name: "login" });
-            },
+            beforeEnter: authGaurd,
         },
 
         {
@@ -81,7 +66,6 @@ export const router = createRouter({
             path: "/404",
             component: pageNotFound,
             beforeEnter: (to, from, next) => {
-                authGaurd();
                 next();
             },
         },

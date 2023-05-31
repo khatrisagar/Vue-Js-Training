@@ -58,31 +58,6 @@ export default {
                 }
             });
 
-            //   orders?.forEach((order) => {
-            //     order?.product?.forEach((product) => {
-            //       console.log(product);
-            //       if (products.length) {
-            //         let isProductExist = false;
-            //         products.forEach((productObject) => {
-            //           if (product.id === productObject.id) {
-            //             isProductExist = true;
-            //             productObject.quantity += product.quantity;
-            //           }
-            //         });
-            //         if (!isProductExist) {
-            //           products.push({
-            //             id: product.id,
-            //             quantity: product.quantity,
-            //           });
-            //         }
-            //       } else {
-            //         products.push({
-            //           id: product.id,
-            //           quantity: product.quantity,
-            //         });
-            //       }
-            //     });
-            //   });
             const sortedProducts = products.sort((a, b) => {
                 return b.quantity - a.quantity;
             });

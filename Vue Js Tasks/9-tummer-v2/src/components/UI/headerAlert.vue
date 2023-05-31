@@ -21,6 +21,7 @@
 <script>
 import moment from "moment";
 import { resetProductSale } from "@/utils/helpers/getProducts";
+import { mapActions, mapGetters } from "vuex";
 export default {
     mounted() {
         this.setSaleTimer();
@@ -31,11 +32,12 @@ export default {
         };
     },
     methods: {
+        ...mapActions({ setEndSale: "setEndSale" }),
         closeHeaderAlert() {
             this.$emit("closeHeaderAlert");
         },
         setSaleTimer() {
-            const saleEndTime = this.$store.getters["saleStore/getSaleEndTime"];
+            const saleEndTime = this.getSaleEndTime;
             const interval = setInterval(() => {
                 this.saleTimer = Math.floor(
                     moment
@@ -45,7 +47,7 @@ export default {
                 if (this.saleTimer <= 0) {
                     clearInterval(interval);
                     resetProductSale();
-                    this.$store.dispatch("saleStore/setEndSale");
+                    this.setEndSale();
                     this.saleTimer = 0;
                     localStorage.removeItem("sale");
                 }
@@ -53,6 +55,7 @@ export default {
         },
     },
     computed: {
+        ...mapGetters({ getSaleEndTime: "saleStore/getSaleEndTime" }),
         getTimer() {
             const time =
                 Math.floor(this.saleTimer / 60) +
