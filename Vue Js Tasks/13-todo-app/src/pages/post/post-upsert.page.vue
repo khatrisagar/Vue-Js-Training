@@ -84,7 +84,10 @@ export default {
     },
 
     methods: {
-        ...mapActions({ setPosts: "post/setPosts" }),
+        ...mapActions({
+            setPosts: "post/setPosts",
+            setCurrentPost: "post/setCurrentPost",
+        }),
         async addPost() {
             try {
                 const dataObject = {
