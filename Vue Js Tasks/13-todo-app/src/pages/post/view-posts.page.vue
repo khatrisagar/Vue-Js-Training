@@ -60,7 +60,6 @@ export default {
         getPages() {
             let pages = [];
             const length = Math.ceil(this.getPosts.length / 10);
-            console.log(length);
             for (let i = 1; i <= length; i++) {
                 pages.push(i);
             }
