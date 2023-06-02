@@ -63,6 +63,12 @@ export default {
             this.body = post.body;
         }
     },
+    unmounted() {
+        this.setCurrentPost({
+            postData: {},
+            commnetsData: {},
+        });
+    },
     data() {
         return {
             userId: null,
