@@ -9,23 +9,16 @@
 import commonCard from "@/components/common/common-post-card.component.vue";
 
 // services
-import { getAllPosts } from "@/services/post/post.service";
 import { mapActions, mapGetters } from "vuex";
+import { setStore } from "@/utils";
 
 export default {
     components: {
         commonCard,
     },
 
-    async created() {
-        if (this.getPosts.length === 0) {
-            try {
-                const allPosts = await getAllPosts();
-                this.setPosts(allPosts.data);
-            } catch (error) {
-                this.$router.push({ name: 404 });
-            }
-        }
+    created() {
+        setStore();
     },
     data() {
         return {
@@ -33,10 +26,10 @@ export default {
         };
     },
     methods: {
-        ...mapActions({ setPosts: "setPosts" }),
+        ...mapActions({ setPosts: "post/setPosts" }),
     },
     computed: {
-        ...mapGetters({ getPosts: "getPosts" }),
+        ...mapGetters({ getPosts: "post/getPosts" }),
     },
 };
 </script>

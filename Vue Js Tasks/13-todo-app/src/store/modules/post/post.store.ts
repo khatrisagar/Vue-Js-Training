@@ -3,6 +3,7 @@ import { Commit } from "vuex";
 import { addPostInterface } from "@/interfaces";
 
 export default {
+    namespaced: true,
     state() {
         return {
             posts: [],

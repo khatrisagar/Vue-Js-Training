@@ -20,7 +20,7 @@ export default {
     },
 
     methods: {
-        ...mapActions({ setPosts: "setPosts" }),
+        ...mapActions({ setPosts: "post/setPosts" }),
 
         viewPost(postId) {
             this.$router.push({ name: "post", params: { postId: postId } });
@@ -46,7 +46,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters({ getPosts: "getPosts" }),
+        ...mapGetters({ getPosts: "post/getPosts" }),
     },
 };
 </script>
