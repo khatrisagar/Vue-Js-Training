@@ -1,29 +1,40 @@
 <template>
-    <div>
-        <h2>Add Post</h2>
+    <div class="d-flex flex-column align-center">
+        <v-card width="500px" class="pa-3 bg-primary">
+            <h2>Add Post</h2>
 
-        <form @submit.prevent="">
-            <div>
-                <div>
-                    <label for="">Title</label>
-                    <input type="text" v-model="title" />
-                </div>
-                <div>
-                    <label for="">Body</label>
-                    <input type="text" v-model="body" />
-                </div>
+            <form @submit.prevent="">
+                <v-Divider></v-Divider>
+                <div class="mt-3">
+                    <v-textarea
+                        class="overflow-hidden pt-2"
+                        no-resize
+                        rows="2"
+                        variant="outlined"
+                        label="Title"
+                        v-model="title"
+                    ></v-textarea>
 
-                <div v-if="!isFormEditMode">
-                    <button type="button" @click="addPost">Add Post</button>
-                </div>
-                <div v-if="isFormEditMode">
-                    <button type="button" @click="editPost(id)">
-                        Save Edited Post
-                    </button>
-                </div>
-            </div>
-        </form>
+                    <v-textarea
+                        class="overflow-hidden pt-2"
+                        no-resize
+                        rows="10"
+                        auto-grow
+                        variant="outlined"
+                        label="Description"
+                        v-model="body"
+                    ></v-textarea>
 
+                    <v-Divider></v-Divider>
+                    <div v-if="!isFormEditMode" class="d-flex justify-center">
+                        <v-Btn @click="addPost">Add Post</v-Btn>
+                    </div>
+                    <div v-if="isFormEditMode" class="d-flex justify-center">
+                        <v-Btn @click="editPost(id)"> Save Edited Post </v-Btn>
+                    </div>
+                </div>
+            </form>
+        </v-card>
         <div v-if="isShowPopup">
             <corePopUp>
                 <div class="post-alert-wrapper">
@@ -48,7 +59,7 @@ export default {
     components: {
         corePopUp,
     },
-    async created() {
+    async mounted() {
         await setStore();
         const postId = this.$route?.params?.postId;
         if (postId) {
@@ -56,13 +67,26 @@ export default {
             const post = this.getPosts.find((post) => {
                 return post.id == postId;
             });
-            console.log(post);
-            this.id = postId;
-            this.userId = post.userId;
-            this.title = post.title;
-            this.body = post.body;
+            if (post) {
+                this.id = postId;
+                this.userId = post.userId;
+                this.title = post.title;
+                this.body = post.body;
+            } else {
+                this.$router.push({ name: "404" });
+            }
         }
     },
+    // updated() {
+    //     const postId = this.$route?.params?.postId;
+    //     if (postId) {
+    //         console.log("aaaa");
+    //         this.$router.push({ name: "editPost", params: { postId: postId } });
+    //     } else {
+    //         console.log("bbbbb");
+    //         this.$router.push({ name: "addPost" });
+    //     }
+    // },
     unmounted() {
         this.setCurrentPost({
             postData: {},
@@ -175,7 +199,13 @@ export default {
 
 <style scoped>
 input {
-    width: 500px;
+    width: 100%;
+    border: 1px solid white;
+}
+textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
 }
 .post-alert-wrapper {
     box-shadow: 0px 0px 3px black;
@@ -186,5 +216,9 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.form-element {
+    gap: 0.3rem;
 }
 </style>

@@ -1,12 +1,19 @@
 <template>
-    <div class="card-wrapper">
+    <v-card width="600" elevation="2" class="pa-6 bg-primary">
         <p>Id- {{ post.id }}</p>
-        <p>Title- {{ post.title }}</p>
-        <p>Description- {{ post.body }}</p>
-        <button @click="viewPost(post.id)">View Post</button>
-        <button @click="deletePost(post.id)">Delete Post</button>
-        <button @click="editPost(post.id)">Edit Post</button>
-    </div>
+        <h3>
+            <strong> {{ post.title }}</strong>
+        </h3>
+        <p class="text-primaryText">{{ post.body }}</p>
+
+        <div class="d-flex flex-row justify-space-between bg-black rounded">
+            <v-Btn @click="viewPost(post.id)">View Post</v-Btn>
+            <V-BtnSecondary @click="deletePost(post.id)"
+                >Delete Post</V-BtnSecondary
+            >
+            <V-BtnTertiary @click="editPost(post.id)">Edit Post</V-BtnTertiary>
+        </div>
+    </v-card>
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template>
-    <div v-if="!isLoader">
+    <div v-if="!isLoader" class="d-flex flex-column align-center">
         <commonCard :post="getCurrentPost.postData" />
 
         <div>
-            <p>comments</p>
+            <p class="text-h5">Comments</p>
             <commentsCard
                 v-for="comment in getCurrentPost.commnetsData"
                 :key="comment.id"

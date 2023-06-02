@@ -1,19 +1,21 @@
 <template>
-    <div class="pages-container">
-        <div v-for="page in getPages" :key="page">
-            <router-link :to="{ name: 'home', query: { page: page } }">{{
-                page
-            }}</router-link>
+    <div class="d-flex flex-column align-center">
+        <v-card class="pages-container pa-2 bg-black d-flex flex-wrap">
+            <div v-for="page in getPages" :key="page">
+                <router-link :to="{ name: 'home', query: { page: page } }">
+                    <v-CommonButton class="pa-2 rounded">
+                        {{ page }}</v-CommonButton
+                    >
+                </router-link>
+            </div>
+        </v-card>
+        <div class="card-container">
+            <commonCard
+                v-for="post in getPostForPage"
+                :key="post.id"
+                :post="post"
+            />
         </div>
-    </div>
-    <h1>------All Posts------</h1>
-    <br />
-    <div class="card-container">
-        <commonCard
-            v-for="post in getPostForPage"
-            :key="post.id"
-            :post="post"
-        />
     </div>
 </template>
 
@@ -35,6 +37,7 @@ export default {
     data() {
         return {
             posts: null,
+            page: this.$route.query.page || 1,
         };
     },
     methods: {
@@ -82,7 +85,6 @@ export default {
     flex-direction: row;
 }
 .pages-container > div > a {
-    border: 1px solid black;
     padding: 0.5rem;
 }
 </style>
