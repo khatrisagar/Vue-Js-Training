@@ -40,12 +40,16 @@ export default {
             const postInfo = this.getPosts.find((post) => {
                 return post.id == this.$route.params.postId;
             });
-            this.setCurrentPost({
-                postData: postInfo,
-                commnetsData: postComments.data,
-            });
-
-            this.isLoader = false;
+            if (!postInfo) {
+                this.$router.push({ name: "404" });
+            } else {
+                this.setCurrentPost({
+                    postData: postInfo,
+                    commnetsData: postComments.data,
+                });
+                console.log("getCurr", this.getCurrentPost);
+                this.isLoader = false;
+            }
         } catch (error) {
             console.log(error);
             this.$router.push({ name: "404" });
