@@ -1,6 +1,6 @@
 <template>
     <appHeader />
-    <div class="content-wrapper"><router-view :key="$route.fullPath" /></div>
+    <div class="content-wrapper"><router-view /></div>
 </template>
 
 <script lang="ts">

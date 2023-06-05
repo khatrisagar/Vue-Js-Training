@@ -48,13 +48,9 @@ export default {
         getPostForPage() {
             let posts = [];
             for (let postIndex in this.getPosts) {
-                const page = parseInt(this.$route.query.page);
-                if (page) {
-                    if (postIndex >= (page - 1) * 10 && postIndex < page * 10) {
-                        posts.push(this.getPosts[postIndex]);
-                    }
-                } else {
-                    posts = this.getPosts;
+                const page = parseInt(this.$route.query.page) || 1;
+                if (postIndex >= (page - 1) * 10 && postIndex < page * 10) {
+                    posts.push(this.getPosts[postIndex]);
                 }
             }
 

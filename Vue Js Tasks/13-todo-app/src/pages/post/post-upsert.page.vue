@@ -59,34 +59,10 @@ export default {
     components: {
         corePopUp,
     },
-    async mounted() {
-        await setStore();
-        const postId = this.$route?.params?.postId;
-        if (postId) {
-            this.isFormEditMode = true;
-            const post = this.getPosts.find((post) => {
-                return post.id == postId;
-            });
-            if (post) {
-                this.id = postId;
-                this.userId = post.userId;
-                this.title = post.title;
-                this.body = post.body;
-            } else {
-                this.$router.push({ name: "404" });
-            }
-        }
+    created() {
+        this.setComponent(this.$route);
     },
-    // updated() {
-    //     const postId = this.$route?.params?.postId;
-    //     if (postId) {
-    //         console.log("aaaa");
-    //         this.$router.push({ name: "editPost", params: { postId: postId } });
-    //     } else {
-    //         console.log("bbbbb");
-    //         this.$router.push({ name: "addPost" });
-    //     }
-    // },
+
     unmounted() {
         this.setCurrentPost({
             postData: {},
@@ -190,9 +166,41 @@ export default {
                 }, 3000);
             }
         },
+
+        async setComponent(route) {
+            await setStore();
+            const postId = route?.params?.postId;
+            console.log(postId);
+            if (postId) {
+                this.isFormEditMode = true;
+                const post = this.getPosts.find((post) => {
+                    return post.id == postId;
+                });
+                if (post) {
+                    this.id = postId;
+                    this.userId = post.userId;
+                    this.title = post.title;
+                    this.body = post.body;
+                } else {
+                    this.$router.push({ name: "404" });
+                }
+            } else {
+                this.userId = null;
+                this.id = null;
+                this.title = null;
+                this.body = null;
+                this.isFormEditMode = false;
+            }
+        },
     },
     computed: {
         ...mapGetters({ getPosts: "post/getPosts" }),
+    },
+    watch: {
+        $route(newRoute) {
+            console.log(newRoute);
+            this.setComponent(newRoute);
+        },
     },
 };
 </script>
