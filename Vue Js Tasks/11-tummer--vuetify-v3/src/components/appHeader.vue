@@ -36,6 +36,14 @@
                         <HeaderBtn border icon="fa fa-history"></HeaderBtn>
                     </router-link>
                 </div>
+                <div>
+                    <v-switch
+                        inset
+                        color="info"
+                        v-model="darkMode"
+                        @change="toggleTheme()"
+                    ></v-switch>
+                </div>
             </div>
         </div>
     </header>
@@ -49,12 +57,14 @@ import cartPopUp from "@/components/cartPopUp.vue";
 import moment from "moment";
 import { getProducts, resetProductSale } from "@/utils/helpers/getProducts";
 import { mapActions, mapGetters } from "vuex";
+// import { vuetify } from "@/plugins/vuetify";
 
 export default {
     components: {
         cartPopUp,
     },
     mounted() {
+        localStorage.setItem("theme", JSON.stringify("dark"));
         const saleData = JSON.parse(localStorage.getItem("sale")) ?? null;
         let saleDataObject = {};
         if (saleData) {
@@ -96,6 +106,7 @@ export default {
             setLogout: "auth/setLogout",
             clearCart: "clearCart",
             setStartSale: "saleStore/setStartSale",
+            setTheme: "theme/setTheme",
         }),
         isCartVisible() {
             this.isCartPopUp = !this.isCartPopUp;
@@ -108,11 +119,23 @@ export default {
             this.clearCart();
             this.setLogout();
         },
+        toggleTheme() {
+            console.log(this.$vuetify);
+            const theme = JSON.parse(localStorage.getItem("theme"));
+            if (theme === "dark") {
+                localStorage.setItem("theme", JSON.stringify("light"));
+                this.$vuetify.theme.global.name = "light";
+            } else {
+                localStorage.setItem("theme", JSON.stringify("dark"));
+                this.$vuetify.theme.global.name = "dark";
+            }
+        },
     },
     computed: {
         ...mapGetters({
             getSaleInformation: "saleStore/getSaleInformation",
             getIsUserLogin: "auth/getIsUserLogin",
+            getTheme: "theme/getTheme",
         }),
         isUserLogin() {
             if (this.getIsUserLogin) {

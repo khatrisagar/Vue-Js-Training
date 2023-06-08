@@ -47,37 +47,40 @@
 <script>
 import { getUsers } from "@/utils/helpers/getUsers";
 import { setLoggedInCart } from "@/utils/helpers/setLoggedInUserCart";
-import { mapActions } from "vuex";
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
-    data() {
-        return {
-            userEmail: null,
-            userPassword: null,
-            showLoginWarnings: false,
-        };
-    },
-    methods: {
-        ...mapActions({ setLogin: "auth/setLogin" }),
-        onLogin() {
+    setup() {
+        const router = useRouter();
+        const store = useStore();
+
+        const userEmail = ref(null);
+        const userPassword = ref(null);
+        const showLoginWarnings = ref(null);
+
+        // login method
+        const onLogin = () => {
             const users = getUsers();
             for (let user of users) {
                 if (
-                    user.email === this.userEmail &&
-                    user.password === this.userPassword
+                    user.email === userEmail.value &&
+                    user.password === userPassword.value
                 ) {
                     localStorage.setItem(
                         "user_at",
                         JSON.stringify({ userId: user.id })
                     );
 
-                    this.setLogin(user.id);
+                    store.dispatch("auth/setLogin", user.id);
                     setLoggedInCart();
-                    this.$router.push({ name: "home" });
+                    router.push({ name: "home" });
                 } else {
-                    this.showLoginWarnings = true;
+                    showLoginWarnings.value = true;
                 }
             }
-        },
+        };
+        return { userEmail, userPassword, showLoginWarnings, onLogin };
     },
 };
 </script>

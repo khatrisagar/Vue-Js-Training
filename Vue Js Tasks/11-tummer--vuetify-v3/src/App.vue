@@ -16,6 +16,8 @@
 import appHeader from "@/components/appHeader.vue";
 import appFooter from "@/components/appFooter.vue";
 import headerAlert from "@/components/UI/headerAlert.vue";
+
+import { ref } from "vue";
 export default {
     name: "App",
     components: {
@@ -23,15 +25,12 @@ export default {
         appFooter,
         headerAlert,
     },
-    data() {
-        return {
-            isShowHeaderAlert: true,
+    setup() {
+        const isShowHeaderAlert = ref(true);
+
+        const closeHeaderAlert = () => {
+            isShowHeaderAlert.value = false;
         };
-    },
-    methods: {
-        closeHeaderAlert() {
-            this.isShowHeaderAlert = false;
-        },
     },
 };
 </script>
