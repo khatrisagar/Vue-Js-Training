@@ -184,6 +184,7 @@ export default {
         }),
         toggleSeachContainer() {
             this.isSearchContainer = !this.isSearchContainer;
+            this.searchBy = "none";
         },
         getFieldColor(name) {
             const colorObj = this.colors.find((colorObj) => {
