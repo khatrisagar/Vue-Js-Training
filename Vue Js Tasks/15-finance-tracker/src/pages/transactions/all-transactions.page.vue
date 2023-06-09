@@ -249,7 +249,7 @@ export default {
                 }, {});
             };
             const groupedObject = groupByObject(
-                this.getTransactionsState,
+                this.getSearchTransaction,
                 this.groupBy
             );
             return groupedObject;
