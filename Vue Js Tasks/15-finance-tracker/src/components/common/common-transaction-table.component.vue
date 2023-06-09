@@ -55,7 +55,12 @@
                         </v-chip>
                     </td>
                     <td>
-                        {{ Intl.NumberFormat().format(transaction.amount) }} $
+                        {{
+                            Intl.NumberFormat("en-in", {
+                                style: "currency",
+                                currency: "INR",
+                            }).format(transaction.amount)
+                        }}
                     </td>
 
                     <td>

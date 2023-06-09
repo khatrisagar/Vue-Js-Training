@@ -46,9 +46,6 @@
 import { mapActions, mapGetters } from "vuex";
 import { getThemefromLocalStorage, setThemeToLocalStorage } from "@/services";
 export default {
-    // mounted() {
-    //     this.currentTheme = false;
-    // },
     data() {
         return {
             currentTheme: null,

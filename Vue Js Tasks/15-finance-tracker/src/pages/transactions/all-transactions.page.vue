@@ -1,10 +1,6 @@
 <template>
     <div v-if="isTransactionData">
-        <div
-            v-if="isLoader"
-            class="d-flex align-items-center"
-            style="align-items: center"
-        >
+        <div class="d-flex align-items-center" style="align-items: center">
             <p style="height: fit-content">GroupBy:</p>
             <div style="height: fit-content">
                 <v-select
@@ -21,7 +17,6 @@
             </div>
         </div>
         <div
-            v-if="isLoader"
             class="d-flex align-items-center gap-2"
             style="align-items: center"
         >
@@ -69,7 +64,6 @@
                 />
             </div>
         </div>
-        {{ Object.keys(getGroupByTransactions) }}
     </div>
     <v-container class="d-flex justify-center" v-if="!isTransactionData">
         <v-sheet w-100>
@@ -97,7 +91,6 @@ export default {
     data() {
         return {
             isTransactionData: true,
-            isLoader: true,
             searchValue: null,
 
             searchBy: "none",
