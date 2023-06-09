@@ -19,7 +19,9 @@
                 @click:append="togglePasswordVisisble = !togglePasswordVisisble"
             ></v-text-field>
 
-            <p v-if="showLoginError">Invalid Email Or Password</p>
+            <p v-if="showLoginError" class="text-red">
+                Invalid Email Or Password
+            </p>
             <v-btn type="submit" @click="onFormSubmit" block class="mt-2"
                 >Login User</v-btn
             >

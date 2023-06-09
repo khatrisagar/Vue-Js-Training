@@ -5,8 +5,9 @@ import store from "@/store";
 export const setUserTransactionState = () => {
     const userTransactions = getTransactionFromLocalStorage().filter(
         (transaction: transactionInterface) =>
-            transaction.userId ===
-            store.getters["user/getLoggedInUserState"].loggedInUserId
+            transaction?.users.includes(
+                store.getters["user/getLoggedInUserState"]?.loggedInUserId
+            )
     );
     store.dispatch("transaction/setTransactionsState", userTransactions);
 };

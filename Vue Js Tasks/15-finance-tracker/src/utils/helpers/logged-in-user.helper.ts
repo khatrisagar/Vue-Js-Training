@@ -7,7 +7,7 @@ import {
 import { userInterface } from "@/interfaces";
 
 export const setLoggedInUserToStore = () => {
-    if (getLoggedInUserFromLocalStorage().id) {
+    if (getLoggedInUserFromLocalStorage()?.id) {
         const user = getUsersFromLocalStorage().find(
             (user: userInterface) =>
                 user.id === getLoggedInUserFromLocalStorage().id

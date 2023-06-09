@@ -87,7 +87,7 @@
             </tbody>
         </v-table>
         <v-select
-            class="d-flex"
+            class="d-flex mt-2"
             style="max-width: 100px"
             :items="pagesSelections"
             v-model="transactionsPerPage"
@@ -185,7 +185,7 @@ export default {
                     return colorObj;
                 }
             });
-            return colorObj.color;
+            return colorObj?.color;
         },
     },
     computed: {

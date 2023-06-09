@@ -308,7 +308,7 @@ export default {
                         amount: parseInt(this.amount),
                         receipt: receiptObject,
                         notes: this.notes,
-                        userId: this.getLoggedInUserState.loggedInUserId,
+                        users: [this.getLoggedInUserState.loggedInUserId],
                     });
                     const users = getUsersFromLocalStorage();
                     const user = users.find((user) => {

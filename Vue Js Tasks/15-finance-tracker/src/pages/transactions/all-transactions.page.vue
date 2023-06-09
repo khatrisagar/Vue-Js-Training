@@ -1,46 +1,54 @@
 <template>
     <div v-if="isTransactionData">
-        <div class="d-flex align-items-center" style="align-items: center">
-            <p style="height: fit-content">GroupBy:</p>
-            <div style="height: fit-content">
-                <v-select
-                    class="d-inline-block"
-                    style="width: fit-content"
-                    variant="solo-filled"
-                    hide-details="auto"
-                    v-model="groupBy"
-                    :items="groupBySelections"
-                    :item-title="(item) => item.name"
-                    :item-value="(item) => item.key"
-                >
-                </v-select>
+        <div class="d-flex align-center">
+            <div class="d-flex align-items-center" style="align-items: center">
+                <p style="height: fit-content">GroupBy:</p>
+                <div style="height: fit-content">
+                    <v-select
+                        class="d-inline-block"
+                        style="width: fit-content"
+                        variant="solo-filled"
+                        hide-details="auto"
+                        v-model="groupBy"
+                        :items="groupBySelections"
+                        :item-title="(item) => item.name"
+                        :item-value="(item) => item.key"
+                    >
+                    </v-select>
+                </div>
             </div>
-        </div>
-        <div
-            class="d-flex align-items-center gap-2"
-            style="align-items: center"
-        >
-            <v-sheet :width="200" class="d-flex">
-                <v-select
-                    variant="solo-filled"
-                    v-model="searchBy"
-                    hide-details="auto"
-                    :items="searchSelections"
-                    :item-title="(item) => item.name"
-                    :item-value="(item) => item.key"
-                >
-                </v-select>
-            </v-sheet>
+            <v-spacer></v-spacer>
+            <div
+                class="d-flex align-items-center -2 gap-2"
+                style="align-items: center"
+                v-if="isSearchContainer"
+            >
+                <v-sheet :width="200" class="d-flex">
+                    <v-select
+                        variant="solo-filled"
+                        v-model="searchBy"
+                        hide-details="auto"
+                        :items="searchSelections"
+                        :item-title="(item) => item.name"
+                        :item-value="(item) => item.key"
+                    >
+                    </v-select>
+                </v-sheet>
 
-            <v-sheet :width="500" class="ml-4">
-                <v-text-field
-                    label="Search"
-                    hide-details="auto"
-                    v-model="searchValue"
-                    @input="searchTransaction"
-                >
-                </v-text-field>
-            </v-sheet>
+                <v-sheet :width="500" class="ml-4">
+                    <v-text-field
+                        label="Search"
+                        hide-details="auto"
+                        v-model="searchValue"
+                        @input="searchTransaction"
+                    >
+                    </v-text-field>
+                </v-sheet>
+            </div>
+            <v-Btn class="ml-2" @click="toggleSeachContainer" icon>
+                <v-icon v-if="!isSearchContainer">fa fa-search</v-icon>
+                <v-icon v-if="isSearchContainer">fa-solid fa-xmark </v-icon>
+            </v-Btn>
         </div>
         <commonTransactionTable
             class="mt-4"
@@ -91,6 +99,7 @@ export default {
     data() {
         return {
             isTransactionData: true,
+            isSearchContainer: false,
             searchValue: null,
 
             searchBy: "none",
@@ -147,7 +156,7 @@ export default {
                     color: "#33691E",
                 },
                 {
-                    fieldName: ["Aug 2023"],
+                    fieldName: ["Aug 2023", "Income"],
                     color: "#1DE9B6",
                 },
                 {
@@ -173,6 +182,9 @@ export default {
         ...mapActions({
             setTransactionsState: "transaction/setTransactionsState",
         }),
+        toggleSeachContainer() {
+            this.isSearchContainer = !this.isSearchContainer;
+        },
         getFieldColor(name) {
             const colorObj = this.colors.find((colorObj) => {
                 if (colorObj.fieldName.includes(name)) {

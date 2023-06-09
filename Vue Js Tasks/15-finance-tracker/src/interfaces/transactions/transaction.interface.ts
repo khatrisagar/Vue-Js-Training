@@ -8,7 +8,7 @@ export interface transactionInterface {
     amount: number;
     receipt: string;
     notes: string;
-    userId: number;
+    users: number[];
 }
 export interface transactionStateInterFace {
     transactions: Array<transactionInterface>;
