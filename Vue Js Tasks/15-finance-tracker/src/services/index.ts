@@ -6,7 +6,7 @@ export {
 export {
     getLoggedInUserFromLocalStorage,
     setLoggedInUserToLocalStorage,
-} from "@/services/user/loggedInUser.service";
+} from "@/services/user/logged-in-user.service";
 
 export {
     getUsersFromLocalStorage,

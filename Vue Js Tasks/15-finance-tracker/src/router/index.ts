@@ -16,7 +16,7 @@ import pageNotFound from "@/pages/common/page-not-found.page.vue";
 import {
     authenticateUser,
     onUserAuthentication,
-} from "@/router/route-gaurds/authenticateUser.route";
+} from "@/router/route-gaurds/authenticate-user.route";
 
 const routes: Array<RouteRecordRaw> = [
     {
