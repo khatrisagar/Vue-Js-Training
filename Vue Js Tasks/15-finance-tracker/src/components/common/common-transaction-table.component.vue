@@ -242,20 +242,23 @@ export default {
             }
         },
         getPaginationOnSortedTransactions() {
-            const transactions = [];
-            for (let transactionIndex in this.getSortadeTransactions) {
-                if (
-                    transactionIndex >=
-                        (this.page - 1) * this.transactionsPerPage &&
-                    transactionIndex < this.page * this.transactionsPerPage
-                ) {
-                    transactions.push(
-                        this.getSortadeTransactions[transactionIndex]
-                    );
+            if (this.getSortadeTransactions.length > this.transactionsPerPage) {
+                const transactions = [];
+                for (let transactionIndex in this.getSortadeTransactions) {
+                    if (
+                        transactionIndex >=
+                            (this.page - 1) * this.transactionsPerPage &&
+                        transactionIndex < this.page * this.transactionsPerPage
+                    ) {
+                        transactions.push(
+                            this.getSortadeTransactions[transactionIndex]
+                        );
+                    }
                 }
+                return transactions;
+            } else {
+                return this.getSortadeTransactions;
             }
-
-            return transactions;
         },
         getPages() {
             const length = Math.ceil(
