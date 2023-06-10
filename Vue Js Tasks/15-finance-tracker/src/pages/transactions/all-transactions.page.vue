@@ -23,18 +23,6 @@
                 style="align-items: center"
                 v-if="isSearchContainer"
             >
-                <v-sheet :width="200" class="d-flex">
-                    <v-select
-                        variant="solo-filled"
-                        v-model="searchBy"
-                        hide-details="auto"
-                        :items="searchSelections"
-                        :item-title="(item) => item.name"
-                        :item-value="(item) => item.key"
-                    >
-                    </v-select>
-                </v-sheet>
-
                 <v-sheet :width="500" class="ml-4">
                     <v-text-field
                         label="Search"
@@ -101,17 +89,6 @@ export default {
             isTransactionData: true,
             isSearchContainer: false,
             searchValue: null,
-
-            searchBy: "none",
-            searchSelections: [
-                { name: "none", key: "none" },
-                { name: "Month Year", key: "monthYear" },
-                { name: "Transaction Type", key: "transactionType" },
-                { name: "From Account", key: "fromAccount" },
-                { name: "To Account", key: "toAccount" },
-                { name: "Amount", key: "amount" },
-                { name: "Transaction Date", key: "transactionDate" },
-            ],
 
             groupBy: "none",
             groupBySelections: [
@@ -184,7 +161,6 @@ export default {
         }),
         toggleSeachContainer() {
             this.isSearchContainer = !this.isSearchContainer;
-            this.searchBy = "none";
             this.searchValue = null;
         },
         getFieldColor(name) {
@@ -203,11 +179,26 @@ export default {
         }),
 
         getSearchTransaction() {
-            let searchTransaction = [];
-            if (this.searchBy != "none" && this.searchValue) {
+            if (this.searchValue) {
+                let searchTransaction = [];
+
                 this.getTransactionsState.forEach((transaction) => {
-                    if (transaction[this.searchBy] == this.searchValue.trim()) {
-                        searchTransaction.push(transaction);
+                    const transactionKeys = Object.keys(transaction);
+
+                    for (let key of transactionKeys) {
+                        const transactionIds = searchTransaction.map(
+                            (transaction) => transaction.id
+                        );
+                        if (
+                            transaction[key]
+                                ?.toLowerCase?.()
+                                ?.includes?.(
+                                    this.searchValue.trim().toLowerCase()
+                                ) &&
+                            !transactionIds?.includes?.(transaction.id)
+                        ) {
+                            searchTransaction.push(transaction);
+                        }
                     }
                 });
                 return searchTransaction;
@@ -215,29 +206,8 @@ export default {
                 return this.getTransactionsState;
             }
         },
-        // getGroupList() {
-        //     const groupList = this.getTransactionsState.map(
-        //         (transaction) => transaction[this.groupBy]
-        //     );
-        //     return [...new Set(groupList)];
-        // },
-        getGroupByTransactions() {
-            // const groupList = this.getTransactionsState.map(
-            //     (transaction) => transaction[this.groupBy]
-            // );
-            // const list = [...new Set(groupList)];
-            // const groupedObject = {};
-            // list.forEach((group) => {
-            //     groupedObject[group] = [];
-            // });
-            // this.getTransactionsState.forEach((transaction) => {
-            //     list.forEach((group) => {
-            //         if (group === transaction[this.groupBy]) {
-            //             groupedObject[group].push(transaction);
-            //         }
-            //     });
-            // });
 
+        getGroupByTransactions() {
             const groupByObject = (transactions, groupBy) => {
                 return transactions.reduce((groupedData, currentValue) => {
                     let groupKey = currentValue[groupBy];
