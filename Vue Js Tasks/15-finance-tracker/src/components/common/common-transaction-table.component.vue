@@ -242,23 +242,12 @@ export default {
             }
         },
         getPaginationOnSortedTransactions() {
-            if (this.getSortadeTransactions.length > this.transactionsPerPage) {
-                const transactions = [];
-                for (let transactionIndex in this.getSortadeTransactions) {
-                    if (
-                        transactionIndex >=
-                            (this.page - 1) * this.transactionsPerPage &&
-                        transactionIndex < this.page * this.transactionsPerPage
-                    ) {
-                        transactions.push(
-                            this.getSortadeTransactions[transactionIndex]
-                        );
-                    }
-                }
-                return transactions;
-            } else {
-                return this.getSortadeTransactions;
-            }
+            return this.getSortadeTransactions.filter((transaction, index) => {
+                return (
+                    index >= (this.page - 1) * this.transactionsPerPage &&
+                    index < this.page * this.transactionsPerPage
+                );
+            });
         },
         getPages() {
             const length = Math.ceil(
