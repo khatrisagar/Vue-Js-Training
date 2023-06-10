@@ -49,7 +49,14 @@
                 </tr>
                 <tr>
                     <td>Amount</td>
-                    <td>{{ transaction.amount }}</td>
+                    <td>
+                        {{
+                            Intl.NumberFormat("en-in", {
+                                style: "currency",
+                                currency: "INR",
+                            }).format(transaction.amount)
+                        }}
+                    </td>
                 </tr>
                 <tr>
                     <td>Receipt</td>
@@ -69,13 +76,25 @@
             </tbody>
         </v-table>
         <router-link
+            v-if="isOwnerOfTransaction"
             :to="{
                 name: 'editTransaction',
                 params: { transactionId: transaction.id },
             }"
             ><v-Btn>Edit</v-Btn></router-link
         >
-        <v-Btn @click="showCollaboratorContainer" class="ml-2">Share</v-Btn>
+        <v-Btn
+            v-if="isOwnerOfTransaction"
+            @click="showCollaboratorContainer"
+            class="ml-2"
+            >Share</v-Btn
+        >
+        <v-Btn
+            v-if="isOwnerOfTransaction"
+            @click="deleteTransaction(transaction.id)"
+            class="ml-2"
+            >Delete</v-Btn
+        >
     </v-sheet>
 </template>
 
@@ -85,12 +104,14 @@ import {
     setTransactionsToLocalStorage,
     getUsersFromLocalStorage,
 } from "@/services";
+import { mapGetters } from "vuex";
 export default {
     data() {
         return {
             collaboratorEmail: null,
             isCollaboratorContainer: false,
             collaboratorWarning: null,
+            onDeleteWarning: null,
         };
     },
     props: {
@@ -103,7 +124,6 @@ export default {
             this.isCollaboratorContainer = true;
         },
         addCollaborator() {
-            console.log("addCollaborator", this.collaboratorEmail);
             const transactions = getTransactionFromLocalStorage();
             const transaction = transactions.find(
                 (transaction) => transaction.id === this.transaction.id
@@ -124,6 +144,32 @@ export default {
             } else {
                 console.log("sasdas");
                 this.collaboratorWarning = "User Doesn't Exist";
+            }
+        },
+        deleteTransaction(transactionId) {
+            const transactions = getTransactionFromLocalStorage();
+            const transactionIndex = transactions.findIndex(
+                (transaction) => transaction.id == transactionId
+            );
+
+            transactions.splice(transactionIndex, 1);
+            console.log(transactionIndex);
+            setTransactionsToLocalStorage(transactions);
+            this.$router.push({ name: "transactions" });
+        },
+    },
+    computed: {
+        ...mapGetters({
+            getLoggedInUserState: "user/getLoggedInUserState",
+        }),
+        isOwnerOfTransaction() {
+            const user = getUsersFromLocalStorage().find(
+                (user) => user.id == this.getLoggedInUserState?.loggedInUserId
+            );
+            if (user?.transactions?.includes?.(this.transaction?.id)) {
+                return true;
+            } else {
+                return false;
             }
         },
     },
