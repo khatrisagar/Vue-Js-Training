@@ -97,7 +97,17 @@ export default {
             JSON.stringify(this.transaction)
         );
         setUserTransactionState();
-        this.setFormTransactionData(this.$route);
+        const transactionId = parseInt(this.$route.params?.transactionId);
+        if (transactionId) {
+            const user = getUsersFromLocalStorage().find(
+                (user) => user.id == this.getLoggedInUserState?.loggedInUserId
+            );
+            if (user?.transactions?.includes?.(transactionId)) {
+                this.setFormTransactionData(this.$route);
+            } else {
+                this.$router.push({ name: "transactions" });
+            }
+        }
     },
     data() {
         return {
