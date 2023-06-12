@@ -112,7 +112,7 @@ export default {
           color: "#FF3D00",
         },
         {
-          fieldName: ["Full Circle", "Arp 2023"],
+          fieldName: ["Full Circle", "Apr 2023"],
           color: "#FFC400",
         },
         {

@@ -201,6 +201,24 @@ export default {
             } else {
               return b[sortBy] - a[sortBy];
             }
+          } else if (sortBy === "monthYear") {
+            if (this.getSortingOrder) {
+              if (new Date(a[sortBy]) > new Date(b[sortBy])) {
+                return 1;
+              }
+              if (new Date(b[sortBy]) > new Date(a[sortBy])) {
+                return -1;
+              }
+              return 0;
+            } else {
+              if (new Date(a[sortBy]) > new Date(b[sortBy])) {
+                return -1;
+              }
+              if (new Date(b[sortBy]) > new Date(a[sortBy])) {
+                return 1;
+              }
+              return 0;
+            }
           } else {
             if (this.getSortingOrder) {
               if (a[sortBy] > b[sortBy]) {
