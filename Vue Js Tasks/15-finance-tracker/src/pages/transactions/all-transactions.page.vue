@@ -183,6 +183,7 @@ export default {
 
           return transactionValues.some((transactionValue) =>
             transactionValue
+              .toString?.()
               .toLowerCase?.()
               .includes(this.searchValue.trim().toLowerCase())
           );
