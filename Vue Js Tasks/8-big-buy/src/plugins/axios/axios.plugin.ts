@@ -24,7 +24,7 @@ axios.interceptors.response.use(
     if (error?.response?.status === 401) {
       localStorage.removeItem("big_buy_at");
       localStorage.removeItem("user");
-      // location.href = "/auth/login";
+      location.href = "/auth/login";
     }
     return Promise.reject(error);
   }

@@ -1,5 +1,5 @@
 import { Commit } from "vuex";
-
+import { sellerItemInterface, sellerItemStateInterface } from "@/interfaces";
 export default {
   namespaced: true,
   state() {
@@ -8,21 +8,37 @@ export default {
     };
   },
   mutations: {
-    SET_SELLER_ITEMS(state: any, items: any) {
+    // all items
+
+    // seller's items
+    SET_SELLER_ITEMS(
+      state: sellerItemStateInterface,
+      items: Array<sellerItemInterface>
+    ) {
       state.sellerItems = items;
     },
-    ADD_SELLER_ITEM(state: any, item: any) {
+    ADD_SELLER_ITEM(
+      state: sellerItemStateInterface,
+      item: sellerItemInterface
+    ) {
       state.sellerItems.push(item);
     },
-    REMOVE_SELLER_ITEM(state: any, itemIndex: number) {
+    REMOVE_SELLER_ITEM(state: sellerItemStateInterface, itemIndex: number) {
       state.sellerItems.splice(itemIndex, 1);
     },
   },
   actions: {
-    setSellerItemToState({ commit }: { commit: Commit }, items: any) {
+    // seller's items
+    setSellerItemToState(
+      { commit }: { commit: Commit },
+      items: Array<sellerItemInterface>
+    ) {
       commit("SET_SELLER_ITEMS", items);
     },
-    addSellerItemToState({ commit }: { commit: Commit }, item: any) {
+    addSellerItemToState(
+      { commit }: { commit: Commit },
+      item: Array<sellerItemInterface>
+    ) {
       commit("ADD_SELLER_ITEM", item);
     },
     removeSellerItemFromState(
@@ -33,7 +49,7 @@ export default {
     },
   },
   getters: {
-    getSellerItemState(state: any) {
+    getSellerItemState(state: sellerItemStateInterface) {
       return state.sellerItems;
     },
   },

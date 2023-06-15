@@ -10,9 +10,9 @@ export const setLoggedInUserToState = () => {
 
   if (user?.length !== 0 && authToken) {
     store.dispatch("user/setLoggedInUserState", {
-      authToken,
-      id: user?.id,
-      name: user?.name,
+      userAuthToken: authToken,
+      loggedInUserId: user?.id,
+      loggedInUserName: user?.name,
     });
   }
 };

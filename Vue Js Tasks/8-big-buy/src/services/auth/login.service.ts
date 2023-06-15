@@ -1,5 +1,6 @@
-import { axiosGet, axiosPost } from "@/plugins";
+import { axiosPost } from "@/plugins";
+import { loginUserInterface } from "@/interfaces";
 
-export const loginService = (data: any) => {
+export const loginService = (data: loginUserInterface) => {
   return axiosPost(`auth/login/`, data);
 };

@@ -1,37 +1,37 @@
 export const userRegisterValidation = {
   userNameRules: [
-    (value: any) => {
+    (value: string) => {
       if (value) return true;
 
       return "User Name Should Not be Empty.";
     },
   ],
   userSurnameRules: [
-    (value: any) => {
+    (value: string) => {
       if (value) return true;
 
       return "User Name Should Not be Empty.";
     },
   ],
   userEmailRules: [
-    (value: any) => {
+    (value: string) => {
       if (value) return true;
 
       return "Email Should Not be Empty.";
     },
-    (value: any) => {
+    (value: string) => {
       if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
 
       return "Must be a valid e-mail.";
     },
   ],
   userPasswordRules: [
-    (value: any) => {
+    (value: string) => {
       if (value) return true;
 
       return "Password Should Not be Empty.";
     },
-    (value: any) => {
+    (value: string) => {
       if (value?.length > 8) return true;
 
       return "Password Should be greater than 8 Digits";

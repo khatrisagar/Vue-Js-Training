@@ -17,6 +17,8 @@ export default {
   },
   setup() {
     setLoggedInUserToState();
+
+    return {};
   },
 };
 </script>

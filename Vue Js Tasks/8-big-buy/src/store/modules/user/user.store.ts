@@ -1,5 +1,7 @@
 import { Commit } from "vuex";
-// import { userStateInterFace, userInterface } from "@/interfaces";
+import { userStateInterface } from "@/interfaces";
+// userStateInterFace,
+// userInterface,
 
 export default {
   namespaced: true,
@@ -12,13 +14,13 @@ export default {
     };
   },
   mutations: {
-    SET_LOGGED_IN_USER(state: any, user: any) {
-      state.userAuthToken = user.authToken;
+    SET_LOGGED_IN_USER(state: userStateInterface, user: userStateInterface) {
+      state.userAuthToken = user.userAuthToken;
       state.isUserLoggedIn = true;
-      state.loggedInUserId = user.id;
-      state.loggedInUserName = user.name;
+      state.loggedInUserId = user.loggedInUserId;
+      state.loggedInUserName = user.loggedInUserName;
     },
-    SET_LOGOUT_IN_USER(state: any) {
+    SET_LOGOUT_IN_USER(state: userStateInterface) {
       state.userAuthToken = null;
       state.loggedInUserId = null;
       state.loggedInUserName = null;
@@ -26,7 +28,10 @@ export default {
     },
   },
   actions: {
-    setLoggedInUserState({ commit }: { commit: Commit }, user: any) {
+    setLoggedInUserState(
+      { commit }: { commit: Commit },
+      user: userStateInterface
+    ) {
       commit("SET_LOGGED_IN_USER", user);
     },
     setLogoutUserState({ commit }: { commit: Commit }) {
@@ -34,7 +39,7 @@ export default {
     },
   },
   getters: {
-    getLoggedInUserState(state: any) {
+    getLoggedInUserState(state: userStateInterface) {
       return {
         isUserLoggedIn: state.isUserLoggedIn,
         userAuthToken: state.userAuthToken,
