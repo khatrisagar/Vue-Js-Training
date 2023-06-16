@@ -16,7 +16,9 @@ export default {
     appHeader,
   },
   setup() {
-    setLoggedInUserToState();
+    (async () => {
+      setLoggedInUserToState();
+    })();
 
     return {};
   },

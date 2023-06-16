@@ -1,8 +1,8 @@
 <template>
   <div v-if="!isLoaderVisible">
-    <commonTable :items="purchasedItems" />
+    <commonTable :items="purchasedItems" pageMode="purchaseHistory" />
   </div>
-  <div style="height: 100vh" class="d-flex justify-center align-center">
+  <div class="d-flex justify-center align-center">
     <v-progress-circular
       indeterminate
       :size="95"
@@ -16,8 +16,7 @@
 import commonTable from "@/components/common/common-tabel.component.vue";
 import { computed, ref, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import { getPurchaseItemHistoryService } from "@/services";
-
+import { getPurchaseItemHistoryService, getAllItemService } from "@/services";
 export default {
   components: {
     commonTable,
@@ -26,15 +25,28 @@ export default {
     const purchasedItems = ref(null);
     const store = useStore();
 
-    const getPurchasedItems = async () => {
-      const purhchaseHistory = await getPurchaseItemHistoryService();
-      console.log(purhchaseHistory.data.data);
-      return purhchaseHistory.data.data;
-    };
     onBeforeMount(async () => {
       store.dispatch("loader/addLoaderState");
-      purchasedItems.value = await getPurchasedItems();
-      await store.dispatch("loader/removeLoaderState");
+
+      const itemsData = await Promise.all([
+        getPurchaseItemHistoryService(),
+        getAllItemService(),
+      ]);
+
+      purchasedItems.value = itemsData[0].data.data.map((purchaseItem) => {
+        return JSON.parse(
+          JSON.stringify(
+            itemsData[1].data.data.find((item) => {
+              if (item.id === purchaseItem.item) {
+                item.details.price = purchaseItem.purchasePrice;
+                item.createdAt = purchaseItem.createdAt;
+                return item;
+              }
+            })
+          )
+        );
+      });
+      store.dispatch("loader/removeLoaderState");
     });
 
     const isLoaderVisible = computed(() => {

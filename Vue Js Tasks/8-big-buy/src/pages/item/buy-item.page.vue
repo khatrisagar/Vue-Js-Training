@@ -21,7 +21,7 @@
       </v-snackbar>
     </v-container>
   </div>
-  <div style="height: 100vh" class="d-flex justify-center align-center">
+  <div class="d-flex justify-center align-center">
     <v-progress-circular
       indeterminate
       :size="95"
@@ -37,6 +37,8 @@ import { onBeforeMount, computed, ref } from "vue";
 import { useStore } from "vuex";
 // services
 import { getAllItemService } from "@/services";
+// helpers
+import { setSellerItem } from "@/utils";
 
 export default {
   components: {
@@ -49,10 +51,12 @@ export default {
 
     onBeforeMount(async () => {
       store.dispatch("loader/addLoaderState");
-      const items = await getAllItemService();
-      allItems.value = items.data.data;
-      await store.dispatch("loader/removeLoaderState");
+      const items = await Promise.all([getAllItemService(), setSellerItem()]);
+      allItems.value = items[0].data.data;
+      store.dispatch("loader/removeLoaderState");
     });
+
+    // methods
     const toggleAlert = () => {
       isWarning.value = true;
 

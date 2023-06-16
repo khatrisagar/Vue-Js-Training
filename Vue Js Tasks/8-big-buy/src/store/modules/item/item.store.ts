@@ -17,12 +17,7 @@ export default {
     ) {
       state.sellerItems = items;
     },
-    ADD_SELLER_ITEM(
-      state: sellerItemStateInterface,
-      item: sellerItemInterface
-    ) {
-      state.sellerItems.push(item);
-    },
+
     REMOVE_SELLER_ITEM(state: sellerItemStateInterface, itemIndex: number) {
       state.sellerItems.splice(itemIndex, 1);
     },

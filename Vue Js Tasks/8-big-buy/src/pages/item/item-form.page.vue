@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLoaderVisible">
+  <div v-if="!isLoaderVisible && isDataExist">
     <v-sheet width="300" class="mx-auto">
       <v-form @submit.prevent ref="form">
         <!-- <v-text-field v-model="" :rules="" label="Email"></v-text-field> -->
@@ -41,7 +41,8 @@
       </v-form>
     </v-sheet>
   </div>
-  <div style="height: 100vh" class="d-flex justify-center align-center">
+  <div v-if="!isDataExist">No data Found</div>
+  <div class="d-flex justify-center align-center">
     <v-progress-circular
       indeterminate
       :size="95"
@@ -52,17 +53,21 @@
 </template>
 
 <script>
-import { ref, watch, computed, onBeforeMount } from "vue";
+import { ref, watch, computed } from "vue";
+import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
 
 // services
 import { createItemService, editItemService } from "@/services";
-import { useRouter, useRoute } from "vue-router";
-import { useStore } from "vuex";
+// helpers
+import { setSellerItem } from "@/utils";
+
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const isDataExist = ref(false);
 
     let item = ref({
       name: null,
@@ -81,27 +86,34 @@ export default {
     initialState.value = JSON.parse(JSON.stringify(item.value));
     // on load
 
-    const setInitialLoad = () => {
+    const setInitialLoad = async () => {
       const itemId = route.params.itemId;
       if (itemId) {
         isEditMode.value = true;
       } else {
         isEditMode.value = false;
+        isDataExist.value = true;
       }
 
       if (isEditMode.value) {
+        await setSellerItem();
         const allSellerItems = store.getters["item/getSellerItemState"];
         const sellerItem = allSellerItems.find((item) => item._id === itemId);
-        item.value = JSON.parse(JSON.stringify(sellerItem));
+        if (sellerItem) {
+          isDataExist.value = true;
+          item.value = JSON.parse(JSON.stringify(sellerItem));
+        } else {
+          isDataExist.value = false;
+        }
       } else {
         item.value = JSON.parse(JSON.stringify(initialState.value));
       }
     };
-    onBeforeMount(async () => {
+    (async () => {
       store.dispatch("loader/addLoaderState");
-      setInitialLoad(route);
-      await store.dispatch("loader/removeLoaderState");
-    });
+      await setInitialLoad(route);
+      store.dispatch("loader/removeLoaderState");
+    })();
 
     // methods
     const onCreateItem = async () => {
@@ -115,9 +127,12 @@ export default {
             maxPrice: parseInt(item.value.details.maxPrice),
           },
         };
-        await createItemService(createItemData);
+        const createdItem = await createItemService(createItemData);
+        const sellerItems = store.getters["item/getSellerItemState"];
+        sellerItems.push(createdItem.data.data);
         item.value = JSON.parse(JSON.stringify(initialState.value));
-        router.push();
+
+        router.push({ name: "createItem" });
       } catch (error) {
         console.log(error);
       }
@@ -133,6 +148,12 @@ export default {
           maxPrice: parseInt(item.value.details.maxPrice),
         },
       });
+      const sellerItems = store.getters["item/getSellerItemState"];
+      const editedItemIndex = sellerItems.findIndex(
+        (editedItem) => editedItem.id === route.params.itemId
+      );
+      sellerItems.splice(editedItemIndex, 1, item.value);
+
       item.value = JSON.parse(JSON.stringify(initialState.value));
       router.push({ name: "viewItem" });
     };
@@ -151,6 +172,7 @@ export default {
       item,
       initialState,
       isEditMode,
+      isDataExist,
       onCreateItem,
       onEditItem,
       setInitialLoad,

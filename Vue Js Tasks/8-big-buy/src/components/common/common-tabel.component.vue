@@ -43,22 +43,43 @@
           <th>Price</th>
           <th>Minimum Price</th>
           <th>Maximum Price</th>
-          <th>Created Date</th>
-          <th>Edit</th>
+          <th v-if="pageMode === 'viewItems'">Created Date</th>
+          <th v-if="pageMode === 'viewItems'">Edit</th>
+          <th v-if="pageMode === 'purchaseHistory'">Purchased Date</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in items" :key="item._id">
-          {{
-            item.item
-          }}
-          <!-- <td>{{ item.name }}</td>
+          <td>{{ item.name }}</td>
           <td>{{ item.details.description }}</td>
-          <td>{{ item.details.price }}</td>
-          <td>{{ item.details.minPrice }}</td>
-          <td>{{ item.details.maxPrice }}</td>
-          <td>{{ new Date(item.createdAt).toLocaleDateString() }}</td>
-          <td><V-btn @click="onEditItem(item._id)">Edit</V-btn></td> -->
+          <td>
+            {{
+              Intl.NumberFormat("en-in", {
+                style: "currency",
+                currency: "INR",
+              }).format(item.details.price)
+            }}
+          </td>
+          <td>
+            {{
+              Intl.NumberFormat("en-in", {
+                style: "currency",
+                currency: "INR",
+              }).format(item.details.minPrice)
+            }}
+          </td>
+          <td>
+            {{
+              Intl.NumberFormat("en-in", {
+                style: "currency",
+                currency: "INR",
+              }).format(item.details.maxPrice)
+            }}
+          </td>
+          <td>{{ new Date(item.createdAt).toLocaleString() }}</td>
+          <td v-if="pageMode === 'viewItems'">
+            <V-btn @click="onEditItem(item._id)">Edit</V-btn>
+          </td>
         </tr>
       </tbody>
     </v-table>
@@ -67,13 +88,11 @@
 
 <script>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 export default {
   props: {
-    tableHeader: {
-      type: Array,
-    },
-    itemInfo: {
-      type: Array,
+    pageMode: {
+      type: String,
     },
     items: {
       type: Array,
@@ -81,15 +100,23 @@ export default {
   },
 
   setup() {
+    const router = useRouter();
     const itemDetail = () => {
       return 1;
     };
     const getItemDetail = computed(() => {
       return itemDetail();
     });
+
+    // methods
+    const onEditItem = (itemId) => {
+      router.push({ name: "editItem", params: { itemId: itemId } });
+    };
     return {
       itemDetail,
       getItemDetail,
+
+      onEditItem,
     };
   },
 };

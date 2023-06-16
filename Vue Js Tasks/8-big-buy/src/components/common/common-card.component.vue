@@ -43,7 +43,6 @@ export default {
     const router = useRouter();
 
     // created
-    // props.item.id;
     const sellerItemIds = store.getters["item/getSellerItemState"].map(
       (item) => item.id
     );
