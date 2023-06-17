@@ -132,7 +132,7 @@ export default {
         sellerItems.push(createdItem.data.data);
         item.value = JSON.parse(JSON.stringify(initialState.value));
 
-        router.push({ name: "createItem" });
+        router.push({ name: "viewItem" });
       } catch (error) {
         console.log(error);
       }

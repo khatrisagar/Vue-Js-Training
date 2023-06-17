@@ -15,8 +15,8 @@ export const getSellerItemsService = () => {
 
 // all items
 
-export const getAllItemService = () => {
-  return axiosGet(`items`);
+export const getAllItemService = (options?: object) => {
+  return axiosGet(`items`, options);
 };
 export const getPurchaseItemHistoryService = () => {
   return axiosGet(`purchase-history/my-purchase`);

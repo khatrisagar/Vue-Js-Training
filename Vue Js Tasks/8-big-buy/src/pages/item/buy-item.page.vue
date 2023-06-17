@@ -1,5 +1,40 @@
 <template>
+  {{ searchBy }}
   <div v-if="!isLoaderVisible">
+    <v-sheet class="d-flex">
+      <v-select
+        class="d-flex mt-2"
+        style="min-width: 500px"
+        label="SortBy"
+        :items="sortBySelection"
+        :item-title="(item) => item.name"
+        :item-value="(item) => item.key"
+        v-model="sortBy"
+        @update:modelValue="getItemsByOptions(1)"
+      ></v-select>
+      <v-sheet :width="200" class="d-flex">
+        <v-select
+          variant="solo-filled"
+          label="SearchBy"
+          v-model="searchBy"
+          hide-details="auto"
+          :items="sortBySelection"
+          :item-title="(item) => item.name"
+          :item-value="(item) => item.key"
+        >
+        </v-select>
+      </v-sheet>
+
+      <v-sheet :width="500" class="ml-4">
+        <v-text-field
+          label="Search"
+          hide-details="auto"
+          v-model="searchValue"
+          @blur="searchItem"
+        >
+        </v-text-field>
+      </v-sheet>
+    </v-sheet>
     <v-sheet class="d-flex pa-6 w-100 flex-wrap">
       <commonCard
         class="ml-4 mt-4"
@@ -9,6 +44,23 @@
         @toggleAlert="toggleAlert"
       />
     </v-sheet>
+    <v-container>
+      <v-select
+        class="d-flex mt-2"
+        style="max-width: 100px"
+        :items="itemsPerPageSelection"
+        v-model="itemsPerPage"
+        @update:modelValue="getItemsByOptions(1)"
+      ></v-select>
+      <v-pagination
+        class="justify-self-center"
+        v-model="page"
+        width="10"
+        :length="pagesLength"
+        @update:modelValue="getItemsByOptions(page)"
+      ></v-pagination>
+    </v-container>
+
     <v-overlay v-model="isWarning"></v-overlay>
     <v-container>
       <v-snackbar v-model="isWarning">
@@ -48,11 +100,24 @@ export default {
     const isWarning = ref(false);
     const store = useStore();
     const allItems = ref([]);
+    const page = ref(1);
+    const pagesLength = ref(1);
+    const itemsPerPage = ref(5);
+    const itemsPerPageSelection = ref([5, 10, 15, 20, 25]);
+    const sortBy = ref("name");
+    const searchBy = ref("name");
+    const searchValue = ref(null);
+    const sortBySelection = ref([
+      { name: "Name", key: "name" },
+      { name: "Description", key: "details.description" },
+      { name: "Price", key: "details.price" },
+      { name: "Min Price", key: "details.minPrice" },
+      { name: "Max Price", key: "details.maxPrice" },
+    ]);
 
     onBeforeMount(async () => {
       store.dispatch("loader/addLoaderState");
-      const items = await Promise.all([getAllItemService(), setSellerItem()]);
-      allItems.value = items[0].data.data;
+      await Promise.all([getItemsByOptions(), setSellerItem()]);
       store.dispatch("loader/removeLoaderState");
     });
 
@@ -64,16 +129,68 @@ export default {
         isWarning.value = false;
       }, 3000);
     };
+    //
+    const getItemsByOptions = async (pageNo) => {
+      console.log("aa");
+      // const options =
+      //   'sort={"details.price": 1}&where={"details.price":4343}&page=1&limit=3';
+      page.value = pageNo;
 
+      const response = await getAllItemService({
+        params: {
+          sort: `{ "${sortBy.value}": 1 }`,
+          where: `{ "${searchBy.value}":  ${
+            isNaN(searchValue.value) ? "searchValue.value" : searchValue.value
+          }`,
+          page: page.value,
+          limit: itemsPerPage.value,
+        },
+      });
+      console.log("Aaa", response);
+      pagesLength.value = Math.ceil(
+        response.data.pagination.count / itemsPerPage.value
+      );
+      allItems.value = response.data.data;
+    };
+
+    const searchItem = () => {
+      getItemsByOptions(1);
+      // debounceSearch(() => {
+      //   console.log("Aaa", searchValue.value);
+      // }, 2000);
+    };
+    function debounceSearch(fn, delay) {
+      let timer;
+      return (...args) => {
+        console.log("aa");
+        if (timer) clearTimeout(timer);
+        timer = setTimeout((value) => {
+          console.log("aaa", value);
+          fn(args);
+        }, delay);
+      };
+    }
     // computed
     const isLoaderVisible = computed(() => {
       return store.getters["loader/getLoaderState"];
     });
     return {
+      // data
+      page,
+      pagesLength,
+      itemsPerPage,
+      itemsPerPageSelection,
+      sortBy,
+      searchBy,
+      searchValue,
+      sortBySelection,
       allItems,
       isWarning,
+      searchItem,
       toggleAlert,
+      getItemsByOptions,
       isLoaderVisible,
+      debounceSearch,
     };
   },
 };

@@ -1,4 +1,5 @@
 import { Commit } from "vuex";
+import { loaderStateInterface } from "@/interfaces";
 
 export default {
   namespaced: true,
@@ -8,10 +9,10 @@ export default {
     };
   },
   mutations: {
-    SET_LOADER(state: any) {
+    SET_LOADER(state: loaderStateInterface) {
       state.isLoaderVisible = true;
     },
-    REMOVE_LOADER(state: any) {
+    REMOVE_LOADER(state: loaderStateInterface) {
       state.isLoaderVisible = false;
     },
   },
@@ -24,7 +25,7 @@ export default {
     },
   },
   getters: {
-    getLoaderState(state: any) {
+    getLoaderState(state: loaderStateInterface) {
       return state.isLoaderVisible;
     },
   },

@@ -42,7 +42,7 @@ export default {
                 item.createdAt = purchaseItem.createdAt;
                 return item;
               }
-            })
+            }) || {}
           )
         );
       });

@@ -6,6 +6,8 @@
         {{ item.details.description }}
       </div>
       <p class="mt-3">Price- {{ item.details.price }}</p>
+      <p class="mt-3">Min Price- {{ item.details.minPrice }}</p>
+      <p class="mt-3">Max Price- {{ item.details.maxPrice }}</p>
     </v-card-text>
     <v-card-actions>
       <v-btn

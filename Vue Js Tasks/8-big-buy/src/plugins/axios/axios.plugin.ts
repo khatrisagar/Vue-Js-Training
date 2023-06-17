@@ -41,12 +41,8 @@ export const axiosPatch = (url: string, payload: object, option = {}) => {
   return axios.patch(`${process.env.VUE_APP_URL}/${url}`, payload, option);
 };
 export const axiosPut = (url: string, payload: object, option = {}) => {
-  return axios.put(
-    `https://jsonplaceholder.typicode.com/${url}`,
-    payload,
-    option
-  );
+  return axios.put(`${process.env.VUE_APP_URL}/${url}`, payload, option);
 };
 export const axiosDelete = (url: string, option = {}) => {
-  return axios.delete(`https://jsonplaceholder.typicode.com/${url}`, option);
+  return axios.delete(`${process.env.VUE_APP_URL}/${url}`, option);
 };
