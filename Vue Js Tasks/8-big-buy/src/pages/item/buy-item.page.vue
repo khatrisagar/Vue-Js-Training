@@ -1,9 +1,8 @@
 <template>
-  {{ searchBy }}
   <div v-if="!isLoaderVisible">
-    <v-sheet class="d-flex">
+    <v-sheet class="d-flex mt-2 mx-2">
       <v-select
-        class="d-flex mt-2"
+        class="d-flex"
         style="min-width: 500px"
         label="SortBy"
         :items="sortBySelection"
@@ -30,14 +29,14 @@
           label="Search"
           hide-details="auto"
           v-model="searchValue"
-          @blur="searchItem"
+          @input="searchItem"
         >
         </v-text-field>
       </v-sheet>
     </v-sheet>
-    <v-sheet class="d-flex pa-6 w-100 flex-wrap">
+    <v-sheet class="d-flex pa-6 w-100 flex-wrap justify-space-evenly">
       <commonCard
-        class="ml-4 mt-4"
+        class="mt-4"
         v-for="item in allItems"
         :key="item._id"
         :item="item"
@@ -81,12 +80,15 @@
       v-if="isLoaderVisible"
     ></v-progress-circular>
   </div>
+  <sortSearchItem />
 </template>
 
 <script>
-import commonCard from "@/components/common/common-card.component.vue";
 import { onBeforeMount, computed, ref } from "vue";
 import { useStore } from "vuex";
+// componentns
+import commonCard from "@/components/common/common-card.component.vue";
+import sortSearchItem from "@/components/item/sort-search-item.component.vue";
 // services
 import { getAllItemService } from "@/services";
 // helpers
@@ -95,6 +97,7 @@ import { setSellerItem } from "@/utils";
 export default {
   components: {
     commonCard,
+    sortSearchItem,
   },
   setup() {
     const isWarning = ref(false);
@@ -132,7 +135,7 @@ export default {
     //
     const getItemsByOptions = async (pageNo) => {
       console.log("aa");
-      // const options =
+      // const options =()
       //   'sort={"details.price": 1}&where={"details.price":4343}&page=1&limit=3';
       page.value = pageNo;
 
@@ -140,8 +143,10 @@ export default {
         params: {
           sort: `{ "${sortBy.value}": 1 }`,
           where: `{ "${searchBy.value}":  ${
-            isNaN(searchValue.value) ? "searchValue.value" : searchValue.value
-          }`,
+            isNaN(searchValue.value)
+              ? '"' + searchValue.value + '"'
+              : parseInt(searchValue.value)
+          }}`,
           page: page.value,
           limit: itemsPerPage.value,
         },
@@ -153,23 +158,26 @@ export default {
       allItems.value = response.data.data;
     };
 
-    const searchItem = () => {
-      getItemsByOptions(1);
-      // debounceSearch(() => {
-      //   console.log("Aaa", searchValue.value);
-      // }, 2000);
-    };
-    function debounceSearch(fn, delay) {
-      let timer;
+    function debounce(fnToDebounce, delay = 1000) {
+      console.log("aa");
+      let timeout;
+
       return (...args) => {
-        console.log("aa");
-        if (timer) clearTimeout(timer);
-        timer = setTimeout((value) => {
-          console.log("aaa", value);
-          fn(args);
+        clearTimeout(timeout);
+        timeout = setTimeout(async () => {
+          store.dispatch("loader/addLoaderState");
+          await fnToDebounce(...args);
+          store.dispatch("loader/removeLoaderState");
         }, delay);
       };
     }
+    const updateItemBySearching = debounce(() => {
+      getItemsByOptions(1);
+    }, 1000);
+
+    const searchItem = () => {
+      updateItemBySearching();
+    };
     // computed
     const isLoaderVisible = computed(() => {
       return store.getters["loader/getLoaderState"];
@@ -190,7 +198,6 @@ export default {
       toggleAlert,
       getItemsByOptions,
       isLoaderVisible,
-      debounceSearch,
     };
   },
 };
