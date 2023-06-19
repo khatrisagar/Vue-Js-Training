@@ -1,39 +1,4 @@
 <template>
-  <!-- <div class="table-wrapper">
-    <v-table class="table">
-      <thead>
-        <tr>
-          <th
-            class="text-center"
-            v-for="header in tableHeader"
-            :key="header.key"
-          >
-            {{ header.title }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in items" :key="item._id">
-          <td class="text-center" v-for="info in itemInfo" :key="info.key">
-            <p v-if="info.type === 'string'">
-              {{ item[info.key] }}
-            </p>
-            <p v-if="info.type === 'currency'">
-              {{
-                Intl.NumberFormat("en-in", {
-                  style: "currency",
-                  currency: "INR",
-                }).format(item[info.key])
-              }}
-            </p>
-            <p v-if="info.type === 'date'">
-              {{ new Date(item[info.key]).toLocaleDateString() }}
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
-  </div> -->
   <div class="table-wrapper">
     <v-table class="table">
       <thead>
@@ -51,13 +16,13 @@
       <tbody>
         <tr v-for="item in items" :key="item._id">
           <td>{{ item.name }}</td>
-          <td>{{ item.details.description }}</td>
+          <td>{{ item.details?.description }}</td>
           <td>
             {{
               Intl.NumberFormat("en-in", {
                 style: "currency",
                 currency: "INR",
-              }).format(item.details.price)
+              }).format(item.details?.price)
             }}
           </td>
           <td>
@@ -87,7 +52,6 @@
 </template>
 
 <script>
-import { computed } from "vue";
 import { useRouter } from "vue-router";
 export default {
   props: {
@@ -101,21 +65,12 @@ export default {
 
   setup() {
     const router = useRouter();
-    const itemDetail = () => {
-      return 1;
-    };
-    const getItemDetail = computed(() => {
-      return itemDetail();
-    });
 
     // methods
     const onEditItem = (itemId) => {
       router.push({ name: "editItem", params: { itemId: itemId } });
     };
     return {
-      itemDetail,
-      getItemDetail,
-
       onEditItem,
     };
   },

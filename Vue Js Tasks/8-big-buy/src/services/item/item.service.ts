@@ -1,6 +1,9 @@
 import { axiosGet, axiosPost, axiosPatch } from "@/plugins";
 
-import { sellerItemInterface } from "@/interfaces";
+import {
+  sellerItemInterface,
+  purchaseItemPayloadInterface,
+} from "@/interfaces";
 // sellers item
 
 export const createItemService = (data: sellerItemInterface) => {
@@ -22,6 +25,6 @@ export const getPurchaseItemHistoryService = () => {
   return axiosGet(`purchase-history/my-purchase`);
 };
 
-export const purchaseItemService = (data: any) => {
+export const purchaseItemService = (data: purchaseItemPayloadInterface) => {
   return axiosPost(`purchase-history/purchase`, data);
 };

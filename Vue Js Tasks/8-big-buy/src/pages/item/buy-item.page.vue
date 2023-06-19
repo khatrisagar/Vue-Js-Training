@@ -1,39 +1,51 @@
 <template>
-  <div v-if="!isLoaderVisible">
-    <v-sheet class="d-flex mt-2 mx-2">
+  <!-- <v-sheet class="d-flex mt-2 mx-2"> -->
+  <!-- sorting -->
+  <v-sheet class="d-flex mx-4 mt-4">
+    <v-select
+      class="d-flex"
+      style="min-width: 500px"
+      label="SortBy"
+      :items="sortBySelection"
+      :item-title="(item) => item.name"
+      :item-value="(item) => item.key"
+      v-model="sortBy"
+      @update:modelValue="getItemsByOptions(1)"
+    ></v-select>
+    <!-- search selection -->
+    <v-sheet width="330px" class="d-flex">
       <v-select
-        class="d-flex"
-        style="min-width: 500px"
-        label="SortBy"
-        :items="sortBySelection"
+        variant="solo-filled"
+        label="SearchBy"
+        multiple
+        v-model="searchValue"
+        return-object
+        hide-details="auto"
+        :items="searchBySelection"
         :item-title="(item) => item.name"
         :item-value="(item) => item.key"
-        v-model="sortBy"
-        @update:modelValue="getItemsByOptions(1)"
-      ></v-select>
-      <v-sheet :width="200" class="d-flex">
-        <v-select
-          variant="solo-filled"
-          label="SearchBy"
-          v-model="searchBy"
-          hide-details="auto"
-          :items="sortBySelection"
-          :item-title="(item) => item.name"
-          :item-value="(item) => item.key"
-        >
-        </v-select>
-      </v-sheet>
-
-      <v-sheet :width="500" class="ml-4">
+        @update:modelValue="onSearchBySelection($event)"
+      >
+      </v-select>
+    </v-sheet>
+  </v-sheet>
+  <!-- search input -->
+  <v-sheet class="w-100 ml-4 mt-4 d-flex align-center flex-row">
+    <div v-for="searchField of searchValue" :key="searchField.key">
+      <v-sheet width="300" class="d-flex align-center">
+        <v-chip class="mr-4" label>{{ searchField.name }}</v-chip>
         <v-text-field
           label="Search"
           hide-details="auto"
-          v-model="searchValue"
-          @input="searchItem"
+          v-model="searchField.value"
+          @keyup="searchItem"
+          class="mr-4"
         >
         </v-text-field>
       </v-sheet>
-    </v-sheet>
+    </div>
+  </v-sheet>
+  <div v-if="!isLoaderVisible && isDataExist">
     <v-sheet class="d-flex pa-6 w-100 flex-wrap justify-space-evenly">
       <commonCard
         class="mt-4"
@@ -72,6 +84,13 @@
       </v-snackbar>
     </v-container>
   </div>
+  <div
+    v-if="!isLoaderVisible && !isDataExist"
+    style="min-height: 300px"
+    class="d-flex justify-center align-center"
+  >
+    <p class="text-h3 font-weight-bold">No Items Available</p>
+  </div>
   <div class="d-flex justify-center align-center">
     <v-progress-circular
       indeterminate
@@ -80,15 +99,13 @@
       v-if="isLoaderVisible"
     ></v-progress-circular>
   </div>
-  <sortSearchItem />
 </template>
 
 <script>
-import { onBeforeMount, computed, ref } from "vue";
+import { onBeforeMount, computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 // componentns
 import commonCard from "@/components/common/common-card.component.vue";
-import sortSearchItem from "@/components/item/sort-search-item.component.vue";
 // services
 import { getAllItemService } from "@/services";
 // helpers
@@ -97,10 +114,10 @@ import { setSellerItem } from "@/utils";
 export default {
   components: {
     commonCard,
-    sortSearchItem,
   },
   setup() {
     const isWarning = ref(false);
+    const isDataExist = ref(false);
     const store = useStore();
     const allItems = ref([]);
     const page = ref(1);
@@ -109,7 +126,7 @@ export default {
     const itemsPerPageSelection = ref([5, 10, 15, 20, 25]);
     const sortBy = ref("name");
     const searchBy = ref("name");
-    const searchValue = ref(null);
+    const searchValue = ref([]);
     const sortBySelection = ref([
       { name: "Name", key: "name" },
       { name: "Description", key: "details.description" },
@@ -117,6 +134,12 @@ export default {
       { name: "Min Price", key: "details.minPrice" },
       { name: "Max Price", key: "details.maxPrice" },
     ]);
+    const searchBySelection = [
+      { name: "Name", key: "name" },
+      { name: "Price", key: "details.price" },
+      { name: "Min Price", key: "details.minPrice" },
+      { name: "Max Price", key: "details.maxPrice" },
+    ];
 
     onBeforeMount(async () => {
       store.dispatch("loader/addLoaderState");
@@ -133,33 +156,39 @@ export default {
       }, 3000);
     };
     //
+    const onSearchBySelection = () => {
+      getItemsByOptions(1);
+    };
     const getItemsByOptions = async (pageNo) => {
-      console.log("aa");
-      // const options =()
-      //   'sort={"details.price": 1}&where={"details.price":4343}&page=1&limit=3';
-      page.value = pageNo;
-
-      const response = await getAllItemService({
-        params: {
-          sort: `{ "${sortBy.value}": 1 }`,
-          where: `{ "${searchBy.value}":  ${
-            isNaN(searchValue.value)
-              ? '"' + searchValue.value + '"'
-              : parseInt(searchValue.value)
-          }}`,
-          page: page.value,
-          limit: itemsPerPage.value,
-        },
-      });
-      console.log("Aaa", response);
-      pagesLength.value = Math.ceil(
-        response.data.pagination.count / itemsPerPage.value
-      );
-      allItems.value = response.data.data;
+      try {
+        page.value = pageNo;
+        const searchCondition = {};
+        for (let condition of searchValue.value) {
+          searchCondition[condition?.key] = condition?.value;
+        }
+        const response = await getAllItemService({
+          params: {
+            sort: `{ "${sortBy.value}": 1 }`,
+            where: JSON.stringify(searchCondition),
+            page: page.value,
+            limit: itemsPerPage.value,
+          },
+        });
+        if (response.data.data.length) {
+          isDataExist.value = true;
+        } else {
+          isDataExist.value = false;
+        }
+        pagesLength.value = Math.ceil(
+          response.data.pagination.count / itemsPerPage.value
+        );
+        allItems.value = response.data.data;
+      } catch (error) {
+        console.log("error");
+      }
     };
 
-    function debounce(fnToDebounce, delay = 1000) {
-      console.log("aa");
+    const debounce = (fnToDebounce, delay = 1000) => {
       let timeout;
 
       return (...args) => {
@@ -170,7 +199,7 @@ export default {
           store.dispatch("loader/removeLoaderState");
         }, delay);
       };
-    }
+    };
     const updateItemBySearching = debounce(() => {
       getItemsByOptions(1);
     }, 1000);
@@ -182,6 +211,12 @@ export default {
     const isLoaderVisible = computed(() => {
       return store.getters["loader/getLoaderState"];
     });
+    // watch
+    watch(searchValue, (newSearchValue, searchValue) => {
+      if (searchValue.length < newSearchValue.length) {
+        newSearchValue[newSearchValue.length - 1].value = "";
+      }
+    });
     return {
       // data
       page,
@@ -192,11 +227,16 @@ export default {
       searchBy,
       searchValue,
       sortBySelection,
+      searchBySelection,
       allItems,
       isWarning,
+      isDataExist,
+      // methods
       searchItem,
       toggleAlert,
       getItemsByOptions,
+      onSearchBySelection,
+      // computed
       isLoaderVisible,
     };
   },

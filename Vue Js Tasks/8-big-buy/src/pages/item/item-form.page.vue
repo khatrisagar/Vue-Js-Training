@@ -129,6 +129,9 @@ export default {
         };
         const createdItem = await createItemService(createItemData);
         const sellerItems = store.getters["item/getSellerItemState"];
+        if (!sellerItems.length) {
+          await setSellerItem();
+        }
         sellerItems.push(createdItem.data.data);
         item.value = JSON.parse(JSON.stringify(initialState.value));
 

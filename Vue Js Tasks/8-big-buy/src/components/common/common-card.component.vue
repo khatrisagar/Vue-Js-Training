@@ -1,5 +1,5 @@
 <template>
-  <v-card width="300">
+  <v-card width="300" class="pa-2">
     <v-card-text>
       <p class="text-h5 text--primary">{{ item.name }}</p>
       <div class="text--primary mt-3">
@@ -9,21 +9,13 @@
       <p class="mt-3">Min Price- {{ item.details.minPrice }}</p>
       <p class="mt-3">Max Price- {{ item.details.maxPrice }}</p>
     </v-card-text>
-    <v-card-actions>
-      <v-btn
-        @click="onBuyItem(item._id)"
-        variant="text"
-        color="deep-purple-accent-4"
+
+    <v-contianer>
+      <v-btn @click="onBuyItem(item._id)" :loading="buttonLoading" class="mx-4"
         >Buy
       </v-btn>
-      <v-btn
-        v-if="isEditable"
-        @click="onEditItem(item._id)"
-        variant="text"
-        color="deep-purple-accent-4"
-        >Edit
-      </v-btn>
-    </v-card-actions>
+      <v-btn v-if="isEditable" @click="onEditItem(item._id)">Edit </v-btn>
+    </v-contianer>
   </v-card>
 </template>
 
@@ -41,6 +33,7 @@ export default {
 
   setup(props, context) {
     const isEditable = ref(false);
+    const buttonLoading = ref(false);
     const store = useStore();
     const router = useRouter();
 
@@ -58,11 +51,15 @@ export default {
 
     const onBuyItem = async (itemId) => {
       try {
-        isAlert();
+        buttonLoading.value = true;
         await purchaseItemService({
           item: itemId,
           purchasePrice: props.item.details.price,
         });
+        setTimeout(() => {
+          buttonLoading.value = false;
+          isAlert();
+        }, 500);
       } catch (error) {
         console.log(error);
       }
@@ -75,6 +72,7 @@ export default {
       onEditItem,
       isAlert,
       isEditable,
+      buttonLoading,
     };
   },
 };

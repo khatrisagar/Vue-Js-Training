@@ -1,6 +1,13 @@
 <template>
-  <div v-if="!isLoaderVisible">
+  <div v-if="!isLoaderVisible && isDataExist">
     <commonTable :items="purchasedItems" pageMode="purchaseHistory" />
+  </div>
+  <div
+    v-if="!isLoaderVisible && !isDataExist"
+    style="min-height: 300px"
+    class="d-flex justify-center align-center"
+  >
+    <p class="text-h3 font-weight-bold">No Items Available</p>
   </div>
   <div class="d-flex justify-center align-center">
     <v-progress-circular
@@ -16,36 +23,29 @@
 import commonTable from "@/components/common/common-tabel.component.vue";
 import { computed, ref, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import { getPurchaseItemHistoryService, getAllItemService } from "@/services";
+import { getPurchaseItemHistoryService } from "@/services";
 export default {
   components: {
     commonTable,
   },
   setup() {
     const purchasedItems = ref(null);
+    const isDataExist = ref(false);
     const store = useStore();
 
     onBeforeMount(async () => {
       store.dispatch("loader/addLoaderState");
 
-      const itemsData = await Promise.all([
-        getPurchaseItemHistoryService(),
-        getAllItemService(),
-      ]);
-
-      purchasedItems.value = itemsData[0].data.data.map((purchaseItem) => {
-        return JSON.parse(
-          JSON.stringify(
-            itemsData[1].data.data.find((item) => {
-              if (item.id === purchaseItem.item) {
-                item.details.price = purchaseItem.purchasePrice;
-                item.createdAt = purchaseItem.createdAt;
-                return item;
-              }
-            }) || {}
-          )
-        );
+      const purhaseItems = await getPurchaseItemHistoryService();
+      purchasedItems.value = purhaseItems.data.data.map((purchaseItem) => {
+        purchaseItem.item.createdAt = purchaseItem.createdAt;
+        return purchaseItem.item;
       });
+      if (purchasedItems.value.length) {
+        isDataExist.value = true;
+      } else {
+        isDataExist.value = false;
+      }
       store.dispatch("loader/removeLoaderState");
     });
 
@@ -53,6 +53,7 @@ export default {
       return store.getters["loader/getLoaderState"];
     });
     return {
+      isDataExist,
       purchasedItems,
       isLoaderVisible,
     };

@@ -1,7 +1,11 @@
 <template>
   <v-toolbar color="primary d-flex flex-column" app>
     <v-toolbar-title class="head font-weight-black text-h5"
-      >Big Buy</v-toolbar-title
+      ><router-link
+        :to="{ name: 'viewItem' }"
+        class="text-decoration-none text-primary-text"
+        >Big Buy</router-link
+      ></v-toolbar-title
     >
     <v-toolbar-items class="hidden-xs-only">
       <router-link

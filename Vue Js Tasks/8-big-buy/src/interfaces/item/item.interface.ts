@@ -25,3 +25,8 @@ export interface sellerItemInterface {
 export interface sellerItemStateInterface {
   sellerItems: Array<sellerItemInterface>;
 }
+
+export interface purchaseItemPayloadInterface {
+  item: string;
+  purchasePrice: number;
+}

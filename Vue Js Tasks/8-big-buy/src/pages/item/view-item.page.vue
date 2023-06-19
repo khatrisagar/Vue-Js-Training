@@ -1,6 +1,13 @@
 <template>
-  <div v-if="!isLoaderVisible">
+  <div v-if="!isLoaderVisible && getSellerItems.length">
     <commonTable :items="getSellerItems" pageMode="viewItems" />
+  </div>
+  <div
+    v-if="!isLoaderVisible && !getSellerItems.length"
+    style="min-height: 300px"
+    class="d-flex justify-center align-center"
+  >
+    <p class="text-h3 font-weight-bold">No Items Available</p>
   </div>
   <div class="d-flex justify-center align-center">
     <v-progress-circular
