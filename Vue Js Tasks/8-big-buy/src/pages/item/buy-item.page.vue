@@ -141,9 +141,13 @@ export default {
     ];
 
     onBeforeMount(async () => {
-      store.dispatch("loader/addLoaderState");
-      await Promise.all([getItemsByOptions(), setSellerItem()]);
-      store.dispatch("loader/removeLoaderState");
+      try {
+        store.dispatch("loader/addLoaderState");
+        await Promise.all([getItemsByOptions(), setSellerItem()]);
+        store.dispatch("loader/removeLoaderState");
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     // methods

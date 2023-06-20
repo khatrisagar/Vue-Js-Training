@@ -34,19 +34,23 @@ export default {
     const store = useStore();
 
     onBeforeMount(async () => {
-      store.dispatch("loader/addLoaderState");
+      try {
+        store.dispatch("loader/addLoaderState");
 
-      const purhaseItems = await getPurchaseItemHistoryService();
-      purchasedItems.value = purhaseItems.data.data.map((purchaseItem) => {
-        purchaseItem.item.createdAt = purchaseItem.createdAt;
-        return purchaseItem.item;
-      });
-      if (purchasedItems.value.length) {
-        isDataExist.value = true;
-      } else {
-        isDataExist.value = false;
+        const purhaseItems = await getPurchaseItemHistoryService();
+        purchasedItems.value = purhaseItems.data.data.map((purchaseItem) => {
+          purchaseItem.item.createdAt = purchaseItem.createdAt;
+          return purchaseItem.item;
+        });
+        if (purchasedItems.value.length) {
+          isDataExist.value = true;
+        } else {
+          isDataExist.value = false;
+        }
+        store.dispatch("loader/removeLoaderState");
+      } catch (error) {
+        console.log(error);
       }
-      store.dispatch("loader/removeLoaderState");
     });
 
     const isLoaderVisible = computed(() => {

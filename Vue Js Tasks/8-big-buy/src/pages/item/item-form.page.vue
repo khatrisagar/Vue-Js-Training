@@ -122,9 +122,13 @@ export default {
       }
     };
     (async () => {
-      store.dispatch("loader/addLoaderState");
-      await setInitialLoad(route);
-      store.dispatch("loader/removeLoaderState");
+      try {
+        store.dispatch("loader/addLoaderState");
+        await setInitialLoad(route);
+        store.dispatch("loader/removeLoaderState");
+      } catch (error) {
+        console.log(error);
+      }
     })();
 
     // methods

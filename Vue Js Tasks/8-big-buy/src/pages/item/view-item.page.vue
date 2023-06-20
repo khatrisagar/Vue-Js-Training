@@ -36,9 +36,13 @@ export default {
     const store = useStore();
 
     (async () => {
-      store.dispatch("loader/addLoaderState");
-      await setSellerItem();
-      store.dispatch("loader/removeLoaderState");
+      try {
+        store.dispatch("loader/addLoaderState");
+        await setSellerItem();
+        store.dispatch("loader/removeLoaderState");
+      } catch (error) {
+        console.log(error);
+      }
     })();
 
     const getSellerItems = computed(() => {

@@ -17,7 +17,11 @@ export default {
   },
   setup() {
     (async () => {
-      setLoggedInUserToState();
+      try {
+        await setLoggedInUserToState();
+      } catch (error) {
+        console.log(error);
+      }
     })();
 
     return {};
