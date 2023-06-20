@@ -24,7 +24,6 @@
         :items="searchBySelection"
         :item-title="(item) => item.name"
         :item-value="(item) => item.key"
-        @update:modelValue="onSearchBySelection($event)"
       >
       </v-select>
     </v-sheet>
@@ -156,15 +155,13 @@ export default {
       }, 3000);
     };
     //
-    const onSearchBySelection = () => {
-      getItemsByOptions(1);
-    };
+
     const getItemsByOptions = async (pageNo) => {
       try {
         page.value = pageNo;
         const searchCondition = {};
         for (let condition of searchValue.value) {
-          searchCondition[condition?.key] = condition?.value;
+          searchCondition[condition?.key] = condition?.value.trim();
         }
         const response = await getAllItemService({
           params: {
@@ -216,6 +213,7 @@ export default {
       if (searchValue.length < newSearchValue.length) {
         newSearchValue[newSearchValue.length - 1].value = "";
       }
+      getItemsByOptions(1);
     });
     return {
       // data
@@ -235,7 +233,6 @@ export default {
       searchItem,
       toggleAlert,
       getItemsByOptions,
-      onSearchBySelection,
       // computed
       isLoaderVisible,
     };

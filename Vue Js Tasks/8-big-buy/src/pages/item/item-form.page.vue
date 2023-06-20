@@ -3,22 +3,30 @@
     <v-sheet width="300" class="mx-auto">
       <v-form @submit.prevent ref="form">
         <!-- <v-text-field v-model="" :rules="" label="Email"></v-text-field> -->
-        <v-text-field label="Item Name" v-model="item.name"></v-text-field>
+        <v-text-field
+          label="Item Name"
+          v-model="item.name"
+          :rules="getItemFormValidation.itemNameRules"
+        ></v-text-field>
         <v-text-field
           label="Item Description"
           v-model="item.details.description"
+          :rules="getItemFormValidation.itemDescriptionRules"
         ></v-text-field>
         <v-text-field
           label="Item Price"
           v-model="item.details.price"
+          :rules="getItemFormValidation.itemPriceRules"
         ></v-text-field>
         <v-text-field
           label="Item Minimum Price"
           v-model="item.details.minPrice"
+          :rules="getItemFormValidation.itemMinPriceRules"
         ></v-text-field>
         <v-text-field
           label="Item Maximum Price"
           v-model="item.details.maxPrice"
+          :rules="getItemFormValidation.itemMaxPriceRules"
         ></v-text-field>
 
         <p v-if="showLoginError" class="text-red">Invalid Email Or Password</p>
@@ -61,12 +69,16 @@ import { useRouter, useRoute } from "vue-router";
 import { createItemService, editItemService } from "@/services";
 // helpers
 import { setSellerItem } from "@/utils";
+// validation
+import { itemFormValidation } from "@/validations";
 
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const form = ref(null);
+
     const isDataExist = ref(false);
 
     let item = ref({
@@ -118,52 +130,65 @@ export default {
     // methods
     const onCreateItem = async () => {
       try {
-        const createItemData = {
-          name: item.value.name,
-          details: {
-            description: item.value.details.description,
-            price: parseInt(item.value.details.price),
-            minPrice: parseInt(item.value.details.minPrice),
-            maxPrice: parseInt(item.value.details.maxPrice),
-          },
-        };
-        const createdItem = await createItemService(createItemData);
-        const sellerItems = store.getters["item/getSellerItemState"];
-        if (!sellerItems.length) {
-          await setSellerItem();
-        }
-        sellerItems.push(createdItem.data.data);
-        item.value = JSON.parse(JSON.stringify(initialState.value));
+        const { valid } = await form.value.validate();
+        if (valid) {
+          const createItemData = {
+            name: item.value.name.trim(),
+            details: {
+              description: item.value.details.description.trim(),
+              price: parseInt(item.value.details.price.trim()),
+              minPrice: parseInt(item.value.details.minPrice.trim()),
+              maxPrice: parseInt(item.value.details.maxPrice.trim()),
+            },
+          };
+          const createdItem = await createItemService(createItemData);
+          const sellerItems = store.getters["item/getSellerItemState"];
+          if (!sellerItems.length) {
+            await setSellerItem();
+          }
+          sellerItems.push(createdItem.data.data);
+          item.value = JSON.parse(JSON.stringify(initialState.value));
 
-        router.push({ name: "viewItem" });
+          router.push({ name: "viewItem" });
+        }
       } catch (error) {
         console.log(error);
       }
     };
 
     const onEditItem = async () => {
-      await editItemService(route.params.itemId, {
-        name: item.value.name,
-        details: {
-          description: item.value.details.description,
-          price: parseInt(item.value.details.price),
-          minPrice: parseInt(item.value.details.minPrice),
-          maxPrice: parseInt(item.value.details.maxPrice),
-        },
-      });
-      const sellerItems = store.getters["item/getSellerItemState"];
-      const editedItemIndex = sellerItems.findIndex(
-        (editedItem) => editedItem.id === route.params.itemId
-      );
-      sellerItems.splice(editedItemIndex, 1, item.value);
+      try {
+        const { valid } = await form.value.validate();
+        if (valid) {
+          await editItemService(route.params.itemId, {
+            name: item.value.name.trim(),
+            details: {
+              description: item.value.details.description.trim(),
+              price: parseInt(item.value.details.price.trim()),
+              minPrice: parseInt(item.value.details.minPrice.trim()),
+              maxPrice: parseInt(item.value.details.maxPrice.trim()),
+            },
+          });
+          const sellerItems = store.getters["item/getSellerItemState"];
+          const editedItemIndex = sellerItems.findIndex(
+            (editedItem) => editedItem.id === route.params.itemId
+          );
+          sellerItems.splice(editedItemIndex, 1, item.value);
 
-      item.value = JSON.parse(JSON.stringify(initialState.value));
-      router.push({ name: "viewItem" });
+          item.value = JSON.parse(JSON.stringify(initialState.value));
+          router.push({ name: "viewItem" });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     // computed
     const isLoaderVisible = computed(() => {
       return store.getters["loader/getLoaderState"];
+    });
+    const getItemFormValidation = computed(() => {
+      return itemFormValidation;
     });
 
     // watcher
@@ -173,6 +198,7 @@ export default {
 
     return {
       item,
+      form,
       initialState,
       isEditMode,
       isDataExist,
@@ -180,6 +206,7 @@ export default {
       onEditItem,
       setInitialLoad,
       isLoaderVisible,
+      getItemFormValidation,
     };
   },
 };
