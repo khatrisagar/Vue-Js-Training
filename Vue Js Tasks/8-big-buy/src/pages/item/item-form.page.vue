@@ -5,27 +5,27 @@
         <!-- <v-text-field v-model="" :rules="" label="Email"></v-text-field> -->
         <v-text-field
           label="Item Name"
-          v-model="item.name"
+          v-model.trim="item.name"
           :rules="getItemFormValidation.itemNameRules"
         ></v-text-field>
         <v-text-field
           label="Item Description"
-          v-model="item.details.description"
+          v-model.trim="item.details.description"
           :rules="getItemFormValidation.itemDescriptionRules"
         ></v-text-field>
         <v-text-field
           label="Item Price"
-          v-model="item.details.price"
+          v-model.number="item.details.price"
           :rules="getItemFormValidation.itemPriceRules"
         ></v-text-field>
         <v-text-field
           label="Item Minimum Price"
-          v-model="item.details.minPrice"
+          v-model.number="item.details.minPrice"
           :rules="getItemFormValidation.itemMinPriceRules"
         ></v-text-field>
         <v-text-field
           label="Item Maximum Price"
-          v-model="item.details.maxPrice"
+          v-model.number="item.details.maxPrice"
           :rules="getItemFormValidation.itemMaxPriceRules"
         ></v-text-field>
 
@@ -136,16 +136,7 @@ export default {
       try {
         const { valid } = await form.value.validate();
         if (valid) {
-          const createItemData = {
-            name: item.value.name.trim(),
-            details: {
-              description: item.value.details.description.trim(),
-              price: parseInt(item.value.details.price.trim()),
-              minPrice: parseInt(item.value.details.minPrice.trim()),
-              maxPrice: parseInt(item.value.details.maxPrice.trim()),
-            },
-          };
-          const createdItem = await createItemService(createItemData);
+          const createdItem = await createItemService(item.value);
           const sellerItems = store.getters["item/getSellerItemState"];
           if (!sellerItems.length) {
             await setSellerItem();
@@ -164,15 +155,8 @@ export default {
       try {
         const { valid } = await form.value.validate();
         if (valid) {
-          await editItemService(route.params.itemId, {
-            name: item.value.name.trim(),
-            details: {
-              description: item.value.details.description.trim(),
-              price: parseInt(item.value.details.price.trim()),
-              minPrice: parseInt(item.value.details.minPrice.trim()),
-              maxPrice: parseInt(item.value.details.maxPrice.trim()),
-            },
-          });
+          console.log(item.value.details.description);
+          await editItemService(route.params.itemId, item.value);
           const sellerItems = store.getters["item/getSellerItemState"];
           const editedItemIndex = sellerItems.findIndex(
             (editedItem) => editedItem.id === route.params.itemId
