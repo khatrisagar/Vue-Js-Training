@@ -57,6 +57,7 @@
       v-model="itemsPerPage"
       @update:modelValue="getOrders()"
     ></v-select>
+
     <v-pagination
       class="justify-self-center"
       v-model="page"
@@ -79,6 +80,7 @@ export default {
     const searchValue = ref("");
     const sortBy = ref("id");
     const sort = ref("DESC");
+
     const getOrders = async () => {
       try {
         const response = await fetch(
@@ -89,7 +91,7 @@ export default {
           }`
         );
         const data = await response.json();
-        console.log(data.count);
+        console.log(data.data);
         orders.value = data.data;
         pagesLength.value = Math.ceil(data.count / itemsPerPage.value);
       } catch (error) {
@@ -112,14 +114,17 @@ export default {
       getOrders();
     }, 1000);
 
-    const onClickSorting = async () => {
+    const onClickSorting = async (sortByValue) => {
       try {
-        if (sort.value === "DESC") {
-          sort.value = "ASC";
-        }
-        if (sort.value === "ASC") {
-          sort.value = "DESC";
-        }
+        // if (sort.value === "DESC") {
+        //   sort.value = "ASC";
+        // }
+        // if (sort.value == "ASC") {
+        //   sort.value = "DESC";
+        // }
+        sortBy.value = sortByValue;
+        sort.value = sort.value === "DESC" ? "ASC" : "DESC";
+
         await getOrders();
       } catch (e) {
         console.log("sss", e);
